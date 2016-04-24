@@ -1,0 +1,19 @@
+.summoner_icon
+{
+	max-width: 100%;
+	max-height: 100%;
+	border: solid 1px gray;
+}
+
+.verify_text
+{
+	font-weight: bold;
+}
+
+.error
+{
+	background: #EEAAAA;
+	color: #000;
+	border-radius: 5px;
+	padding: 5px 5px 5px 10px;
+}

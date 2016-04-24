@@ -66,7 +66,7 @@ if(!function_exists("reinterpret_cast"))
 	
 	function RunSQL($location)
 	{
-		global $wpdb;
+		global $settings;
 		//load file
 		$commands = file_get_contents($location);
 
@@ -75,7 +75,8 @@ if(!function_exists("reinterpret_cast"))
 		$commands = '';
 		foreach($lines as $line){
 			$line = trim($line);
-			if( $line && !startsWith($line,'--') ){
+			if( $line && !startsWith($line,'--') )
+			{
 				$commands .= $line . "\n";
 			}
 		}
@@ -85,9 +86,11 @@ if(!function_exists("reinterpret_cast"))
 
 		//run commands
 		$total = $success = 0;
-		foreach($commands as $command){
-			if(trim($command)){
-				$success += ($wpdb->query(str_replace("PREFIXGOESHERE", $wpdb->prefix, $command))==false ? 0 : 1);
+		foreach($commands as $command)
+		{
+			if(trim($command))
+			{
+				$success += ($settings["mysql_connection"]->query(str_replace("PREFIXGOESHERE", $settings["mysql_prefix"], $command))==false ? 0 : 1);
 				$total += 1;
 			}
 		}

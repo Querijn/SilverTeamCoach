@@ -1,4 +1,5 @@
 <?php 
+global $g_Error;
 if(!defined("INCLUDED")) 
 	die();
 ?>
@@ -15,16 +16,13 @@ if(!defined("INCLUDED"))
 
 	<link rel="stylesheet" href="css/normalize.css">
 	<link rel="stylesheet" href="css/skeleton.css">
+	<link rel="stylesheet" href="css/custom.css">
 	<link rel="icon" type="image/png" href="images/favicon.png">
 
 </head>
 <body>
 	<div class="container">
-		<div class="row">
-			<div class="twelve columns" style="margin-top: 5%; margin-bottom: 2%;">
-				<h3>Silver Team Coach</h3>
-			</div>
-		</div>
+		<?php include("header.php"); ?>
 		
 		<div class="row">
 		
@@ -51,9 +49,14 @@ if(!defined("INCLUDED"))
 							Region:
 						</label>
 						<select name="region">
-							<option value="euw">
-								Europe West
-							</option>
+							<?php 
+							foreach($settings["regions"] as $t_Name => $t_Region)
+							{
+								echo "<option value=\"$t_Region\">
+										$t_Name
+									</option>";
+							}
+							?>
 						</select>
 					</form>
 				</p>

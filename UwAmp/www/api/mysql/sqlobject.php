@@ -34,10 +34,10 @@ if(!class_exists("SQLEntry"))
 		
 		public static function CleanString($a_String)
 		{
-			global $g_EleConnection;
+			global $settings;
 			if(empty($a_String))
 				return false;
-			return $g_EleConnection->real_escape_string($a_String);
+			return $settings["mysql_connection"]->real_escape_string($a_String);
 		}
 		
 		public function Save($a_Reload = true)
@@ -46,7 +46,7 @@ if(!class_exists("SQLEntry"))
 			if(!$this->m_Exists)
 			{
 				$t_Table = FindTable($this->Tablename)->CleanName;
-				global $g_EleConnection;
+				global $settings;
 				$t_Array = $this->SQLTableTranslate; // Translation array
 				
 				$t_Query = Array("INSERT INTO ".ELEFORM_SQL_QUOTE.$t_Table.ELEFORM_SQL_QUOTE." (", ") VALUES (", ");");
@@ -57,16 +57,24 @@ if(!class_exists("SQLEntry"))
 				{
 					if(isset($t_Array[$t_Var])) // If there's a translation
 					{
+						if($t_Array[$t_Var] == 'id' && (is_null($this->{$t_Var}) || empty($this->{$t_Var})))
+							continue;
+						
 						$t_Variables .= ELEFORM_SQL_QUOTE.$this->CleanString($t_Array[$t_Var]).ELEFORM_SQL_QUOTE.",";
-						if(empty($this->{$t_Var}) || is_null($this->{$t_Var}) || is_string($this->{$t_Var}) || is_numeric($this->{$t_Var}) )
+
+						if(is_numeric($this->{$t_Var}))
+							$t_Values .= $this->{$t_Var}.",";
+						else if(empty($this->{$t_Var}) || is_null($this->{$t_Var}) || is_string($this->{$t_Var}))
 							$t_Values .= "'".$this->CleanString($this->{$t_Var})."',";
-						else $t_Values .= "'".$this->CleanString(serialize($this->{$t_Var}))."',";
+				
+						else 
+							$t_Values .= "'".$this->CleanString(serialize($this->{$t_Var}))."',";
 					}
 				}
 				$t_Query = $t_Query[0].substr($t_Variables, 0, -1).$t_Query[1].substr($t_Values, 0, -1).$t_Query[2];
 				//die($t_Query);
 				
-				if($g_EleConnection->query($t_Query, true)===false) 
+				if($settings["mysql_connection"]->query($t_Query, true)===false) 
 				{
 					$this->OnError($t_Query);
 					return false;
@@ -81,7 +89,7 @@ if(!class_exists("SQLEntry"))
 			else
 			{
 				$t_Table = FindTable($this->Tablename)->CleanName;
-				global $g_EleConnection;
+				global $settings;
 				$t_Array = $this->SQLTableTranslate; // Translation array
 				
 				$t_Query = Array("UPDATE ".ELEFORM_SQL_QUOTE.$t_Table.ELEFORM_SQL_QUOTE." SET ", " WHERE ", ";");
@@ -108,9 +116,9 @@ if(!class_exists("SQLEntry"))
 										" = '".$this->CleanString($this->{$t_Var})."'";
 						break;
 					}
-				$t_Query = $t_Query[0].substr($t_Variables, 0, -1).$t_Query[1].$t_IDCheck.$t_Query[2];
+				$t_Query = $t_Query[0] . substr($t_Variables, 0, -1) . $t_Query[1] . $t_IDCheck . $t_Query[2];
 	
-				if($g_EleConnection->query($t_Query, true)===false) 
+				if($settings["mysql_connection"]->query($t_Query, true)===false) 
 				{
 					$this->OnError($t_Query);	
 					return false;
@@ -135,7 +143,7 @@ if(!class_exists("SQLEntry"))
 		{
 			if(!$this->m_Exists)
 				return false;
-			global $g_EleConnection;
+			global $settings;
 			$t_IDCheck = "";
 			
 			foreach(array_keys(get_class_vars(get_class($this))) as $t_Var) // For each column
@@ -149,12 +157,17 @@ if(!class_exists("SQLEntry"))
 			}
 			
 
-			if($g_EleConnection->query("delete from ".FindTable($this->Tablename)->CleanName." WHERE ".$t_IDCheck)===false) 
+			if($settings["mysql_connection"]->query("delete from ".FindTable($this->Tablename)->CleanName." WHERE ".$t_IDCheck)===false) 
 				$this->OnError();
 		}
 		
 		
-		private function OnError($a_Arg) { global $g_EleConnection; printf("<br>(%s) Errormessage: <br>(arg = %s)<br>", get_class($this), $a_Arg); $g_EleConnection->print_error(); }
+		private function OnError($a_Arg) 
+		{ 
+			global $settings; 
+			printf("<br>(%s) Errormessage: <br>(arg = %s)<br>", get_class($this), $a_Arg); 
+			echo $settings["mysql_connection"]->error; 
+		}
 		
 		
 		public function __load($a_Search)

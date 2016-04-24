@@ -82,6 +82,7 @@ class riotapi {
 	{
 		$this->REGION = $region;
 
+		$this->m_Key = $api_key;
 		$this->shortLimitQueue = new SplQueue();
 		$this->longLimitQueue = new SplQueue();
 
@@ -178,7 +179,8 @@ class riotapi {
 	}
 
 	//Returns a summoner's stats given summoner id.
-	public function getStats($id,$option='summary'){
+	public function getStats($id, $option='summary')
+	{
 		$call = 'stats/by-summoner/' . $id . '/' . $option;
 
 		//add API URL to the call
@@ -303,7 +305,8 @@ class riotapi {
 				$this->updateLimitQueue($this->shortLimitQueue, self::SHORT_LIMIT_INTERVAL, self::RATE_LIMIT_SHORT);
 			}
 
-			echo $url;
+			//echo $url;
+			
 			//call the API and return the result
 			$ch = curl_init($url);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);

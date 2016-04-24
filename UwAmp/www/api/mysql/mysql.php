@@ -9,10 +9,17 @@ if(!isset($settings["mysql_connection"]))
 {
 	$database = $settings['mysql_database'];
 	$t_Environment = "Database";
+	
+	$t_OldErrorLevel = error_reporting(0);
 	$settings["mysql_connection"] = new mysqli($settings['mysql_server'], $settings['mysql_username'], 
-											   $settings['mysql_password'], $database);
-								  
-	if ($settings["mysql_connection"]->connect_errno) die("Cannot connect");
+											   $settings['mysql_password']);
+
+	if ($settings["mysql_connection"]->connect_errno) 
+		return;
+	
+	error_reporting($t_OldErrorLevel);
+	if(!$settings["mysql_connection"]->select_db($database))
+		return;
 
 	require_once(MYSQL_FOLDER."table.php");
 	require_once(MYSQL_FOLDER."sqlobject.php");
@@ -43,6 +50,7 @@ if(!isset($settings["mysql_connection"]))
 			$columns = array();
 			$t_Translate = "\n";
 			$code[$i] .= "\tprotected \$m_Tablename = \"".$t_Table[$i]->CleanName."\";\n";
+			$code[$i] .= "const Table = \"".$t_Table[$i]->CleanName."\";\n";
 			
 		
 			while($t_Row = $t_Result->fetch_array(MYSQLI_NUM)) // For each table column

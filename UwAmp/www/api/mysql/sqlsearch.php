@@ -14,14 +14,14 @@ if(!class_exists("SQLSearch"))
 		
 		public static function GetConnection()
 		{
-			global $g_EleConnection;
-			return $g_EleConnection;
+			global $settings;
+			return $settings["mysql_connection"];
 		}
 				
 		public static function In($a_Table)
 		{
-			global $g_EleConnection;
-			$t_DB = $g_EleConnection;
+			global $settings;
+			$t_DB = $settings["mysql_connection"];
 			$instance = new self();
 			
 			$instance->TablePrefix = "";
@@ -32,8 +32,8 @@ if(!class_exists("SQLSearch"))
 		
 		public static function Query($a_Query)
 		{			
-			global $g_EleConnection;
-			$t_DB = $g_EleConnection;
+			global $settings;
+			$t_DB = $settings["mysql_connection"];
 			$instance = new self();
 			
 			$instance->TablePrefix = "";
@@ -43,24 +43,23 @@ if(!class_exists("SQLSearch"))
 		
 		public function isLastID()
 		{
-			global $g_EleConnection;
-			//$g_EleConnection = new WordpressDB($wpdb);
+			global $settings;
 				
 			$t_Query = "SELECT LAST_INSERT_ID();";
 			
-			if($t_Result = $g_EleConnection->query($t_Query))
+			if($t_Result = $settings["mysql_connection"]->query($t_Query))
 			{
 				$t_Result = $t_Result->fetch_array(MYSQLI_ASSOC);
 				return $this->is($t_Result['LAST_INSERT_ID()']);
 			}
-			else printf("Errormessage: %s\n", $g_EleConnection->error);
+			else printf("Errormessage: %s\n", $settings["mysql_connection"]->error);
 			return false;
 		}
 		
 		public function Where($a_Column)
 		{
-			global $g_EleConnection;
-			$this->m_Query .= " WHERE (".ELEFORM_SQL_QUOTE.$g_EleConnection->real_escape_string($a_Column).ELEFORM_SQL_QUOTE."";
+			global $settings;
+			$this->m_Query .= " WHERE (".ELEFORM_SQL_QUOTE.$settings["mysql_connection"]->real_escape_string($a_Column).ELEFORM_SQL_QUOTE."";
 			$this->m_LastColumn = $a_Column;
 			$this->m_Opened = true;
 			return $this;
@@ -68,20 +67,20 @@ if(!class_exists("SQLSearch"))
 		
 		public function also($a_Column) 
 		{ 
-			global $g_EleConnection;
+			global $settings;
 			$t_Table = FindTable($this->m_Table);
 			if($t_Table)
 			{
 				if($t_Table->IsColumn($a_Column))
 				{
 					if($this->m_Opened) $this->m_Query .= ")";
-					$this->m_Query .= " AND (".ELEFORM_SQL_QUOTE.$g_EleConnection->real_escape_string($a_Column).ELEFORM_SQL_QUOTE."";
+					$this->m_Query .= " AND (".ELEFORM_SQL_QUOTE.$settings["mysql_connection"]->real_escape_string($a_Column).ELEFORM_SQL_QUOTE."";
 					$this->m_Opened = true;
 					$this->m_LastColumn = $a_Column;
 				}
 				else
 				{
-					$this->m_Query .= " OR ".ELEFORM_SQL_QUOTE.$g_EleConnection->real_escape_string($this->m_LastColumn).ELEFORM_SQL_QUOTE." = '".$g_EleConnection->real_escape_string($a_Column)."'";
+					$this->m_Query .= " OR ".ELEFORM_SQL_QUOTE.$settings["mysql_connection"]->real_escape_string($this->m_LastColumn).ELEFORM_SQL_QUOTE." = '".$settings["mysql_connection"]->real_escape_string($a_Column)."'";
 				}
 			}
 			return $this; 
@@ -91,42 +90,42 @@ if(!class_exists("SQLSearch"))
 		
 		public function is($a_Value) 
 		{ 
-			global $g_EleConnection;
-			$this->m_Query .= " = '".$g_EleConnection->real_escape_string($a_Value)."'";
+			global $settings;
+			$this->m_Query .= " = '".$settings["mysql_connection"]->real_escape_string($a_Value)."'";
 			return $this;
 		}
 		public function isNot($a_Value) 
 		{ 
-			global $g_EleConnection;
-			$this->m_Query .= " != '".$g_EleConnection->real_escape_string($a_Value)."'";
+			global $settings;
+			$this->m_Query .= " != '".$settings["mysql_connection"]->real_escape_string($a_Value)."'";
 			return $this;
 		}
 		
 		public function isLessThan($a_Value) 
 		{ 
-			global $g_EleConnection;
-			$this->m_Query .= " < '".$g_EleConnection->real_escape_string($a_Value)."'";
+			global $settings;
+			$this->m_Query .= " < '".$settings["mysql_connection"]->real_escape_string($a_Value)."'";
 			return $this;
 		}
 		
 		public function isLessThanOrEqualTo($a_Value) 
 		{ 
-			global $g_EleConnection;
-			$this->m_Query .= " <= '".$g_EleConnection->real_escape_string($a_Value)."'";
+			global $settings;
+			$this->m_Query .= " <= '".$settings["mysql_connection"]->real_escape_string($a_Value)."'";
 			return $this;
 		}
 		
 		public function isGreaterThan($a_Value) 
 		{ 
-			global $g_EleConnection;
-			$this->m_Query .= " > '".$g_EleConnection->real_escape_string($a_Value)."'";
+			global $settings;
+			$this->m_Query .= " > '".$settings["mysql_connection"]->real_escape_string($a_Value)."'";
 			return $this;
 		}
 		
 		public function isGreaterThanOrEqualTo($a_Value) 
 		{ 
-			global $g_EleConnection;
-			$this->m_Query .= " >= '".$g_EleConnection->real_escape_string($a_Value)."'";
+			global $settings;
+			$this->m_Query .= " >= '".$settings["mysql_connection"]->real_escape_string($a_Value)."'";
 			return $this;
 		}
 		
@@ -146,7 +145,7 @@ if(!class_exists("SQLSearch"))
 		
 		public function Get($a_Limit = -1)
 		{
-			global $g_EleConnection;
+			global $settings;
 			if(is_int($a_Limit) && $a_Limit>0)
 				$this->m_Limit = $a_Limit;
 				
@@ -154,14 +153,14 @@ if(!class_exists("SQLSearch"))
 			{
 				if($this->m_Opened) $this->m_Query .= ")";
 				
-				$this->m_Query .= " LIMIT ".$g_EleConnection->real_escape_string($this->m_Limit).";";
+				$this->m_Query .= " LIMIT ".$settings["mysql_connection"]->real_escape_string($this->m_Limit).";";
 			}
 			else if($this->m_Opened) $this->m_Query .= ");";
 				
 			//echo $this->m_Query."<br>";
-			if($t_Result = $g_EleConnection->query($this->m_Query))
+			if($t_Result = $settings["mysql_connection"]->query($this->m_Query))
 				return $t_Result;
-			else printf("Errormessage: %s\n", $g_EleConnection->error);
+			else printf("Errormessage: %s\n", $settings["mysql_connection"]->error);
 			return false;
 		}
 	}
