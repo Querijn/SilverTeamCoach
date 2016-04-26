@@ -31,6 +31,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 class riotapi {
+	const API_URL_NEW = 'https://{region}.api.pvp.net/';
 	const API_URL_1_1 = 'https://{region}.api.pvp.net/api/lol/{region}/v1.1/';
 	const API_URL_1_2 = 'https://{region}.api.pvp.net/api/lol/{region}/v1.2/';
 	const API_URL_1_3 = 'https://{region}.api.pvp.net/api/lol/{region}/v1.3/';
@@ -178,9 +179,56 @@ class riotapi {
 		return $this->request($call, true);
 	}
 
+	public function getPlatformByRegion($a_Region)
+	{
+		switch($a_Region)
+		{
+		case strtolower('BR'):
+			return 'BR1';
+		case strtolower('EUNE'):
+			return 'EUN1';
+		case strtolower('EUW'):
+			return 'EUW1';
+		case strtolower('JP'):
+			return 'JP1';
+		case strtolower('KR'):
+			return 'KR';
+		case strtolower('LAN'):
+			return 'LA1';
+		case strtolower('LAS'):
+			return 'LA2';
+		case strtolower('OCE'):
+			return 'OC1';
+		case strtolower('TR'):
+			return 'TR1';
+		case strtolower('RU'):
+			return 'RU';
+		case strtolower('PBE'):
+			return 'PBE1';
+			
+		default:
+			// TODO Should probably be an error
+		case strtolower('NA'):
+			return 'NA1';
+		}
+	}
+	
+	public function getPlatform()
+	{
+		return $this->getPlatformByRegion($this->REGION);
+	}
+	
+	public function getChampionMastery($id)
+	{
+		$call = self::API_URL_NEW . 'championmastery/location/' . $this->getPlatform() . '/player/' . $id . '/champions';
+		
+		return $this->request($call);
+	}
+	
 	//Returns a summoner's stats given summoner id.
 	public function getStats($id, $option='summary')
 	{
+
 		$call = 'stats/by-summoner/' . $id . '/' . $option;
 
 		//add API URL to the call
@@ -291,7 +339,7 @@ class riotapi {
 		$queue->enqueue(time());
 	}
 
-	private function request($call, $otherQueries=false, $static = false) {
+	public function request($call, $otherQueries=false, $static = false) {
 				//format the full URL
 		$url = $this->format_url($call, $otherQueries);
 
@@ -305,7 +353,7 @@ class riotapi {
 				$this->updateLimitQueue($this->shortLimitQueue, self::SHORT_LIMIT_INTERVAL, self::RATE_LIMIT_SHORT);
 			}
 
-			//echo $url;
+			echo $url;
 			
 			//call the API and return the result
 			$ch = curl_init($url);
