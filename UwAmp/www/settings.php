@@ -10,7 +10,7 @@ $settings["mysql_password"]	= "root";
 $settings["mysql_prefix"]	= "";
 
 // MySQL settings
-$settings["riot_key"]		= "missingkey";
+$settings["riot_key"]		= file_get_contents(KEY_FOLDER . "key_file");
 
 // Region settings
 $settings["regions"]		= array
@@ -22,5 +22,10 @@ $settings["regions"]		= array
 // Testing settings
 $settings["testing"] = true;
 $settings["testing_account"] = 22929336;
+$settings["testing_region"] = 'euw';
+
+// Balance settings
+$settings["cash_per_champion_point"] = 0.1;
+
 
 ?>

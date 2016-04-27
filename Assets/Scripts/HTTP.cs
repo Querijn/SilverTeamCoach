@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using SimpleJSON;
-
 
 public class HTTP : MonoBehaviour
 {
@@ -24,21 +22,6 @@ public class HTTP : MonoBehaviour
     public static void Request(string a_URL, HTTPCallback a_Callback)
     {
         m_Requests.Add(new RequestWithCB(new WWW(a_URL), a_Callback));
-    }
-
-    void Start()
-    {
-        Request("http://localhost/ajax/init.php", delegate (WWW a_Request)
-        {
-            print(a_Request.text);
-            var t_JSON = JSON.Parse(a_Request.text);
-
-            if (t_JSON["error"] == "")
-            {
-
-            }
-            else Debug.LogError(t_JSON["error"]);
-        });
     }
 
     void Update ()

@@ -2,15 +2,6 @@
 <?php
 $g_Error = "";
 
-if(isset($_GET["reset"]) || isset($_POST["reset"]))
-{
-	if(isset($_SESSION["region"])) unset($_SESSION["region"]);
-	if(isset($_SESSION["user"])) unset($_SESSION["user"]);
-	if(isset($_SESSION["summoner"])) unset($_SESSION["summoner"]);
-	
-	header("Location: http://localhost");
-}
-
 // Check to make sure the right files are opened
 define("INCLUDED", true);
 
@@ -23,6 +14,17 @@ if(!class_exists("DatabasePlayer"))
 	echo "<!--";
 	print_r(RunSQL("sql/database.sql"));
 	echo "-->";
+}
+
+var_dump($_SESSION);
+if(isset($_GET["reset"]) || isset($_POST["reset"]))
+{
+	echo "Resetting..";
+	if(isset($_SESSION["region"])) unset($_SESSION["region"]);
+	if(isset($_SESSION["user"])) unset($_SESSION["user"]);
+	if(isset($_SESSION["summoner"])) unset($_SESSION["summoner"]);
+	
+	header("Location: http://localhost");
 }
 
 // If we haven't logged in
