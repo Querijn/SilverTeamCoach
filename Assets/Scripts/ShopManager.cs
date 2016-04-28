@@ -9,7 +9,7 @@ public class ShopManager : MonoBehaviour
     {
         if(ChampionArray == null)
         {
-            ChampionArray = Champion.All;
+            ChampionArray = Champion.GetSortedBy(SortValue.Name);
         }
 
         GameObject Prefab = Resources.Load("Prefabs/Champion") as GameObject;
