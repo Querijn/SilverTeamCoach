@@ -48,10 +48,11 @@ public class Champion
         return t_Array;
     }
 
-    public Champion(int a_ID, string a_Name, string a_Title, double a_Price, MasteryInfo a_MasteryInfo, ViabilityInfo a_Viability)
+    public Champion(int a_ID, string a_Key, string a_Name, string a_Title, double a_Price, MasteryInfo a_MasteryInfo, ViabilityInfo a_Viability)
     {
         ID = a_ID;
         Name = a_Name;
+        Key = a_Key;
         Title = a_Title;
         Price = a_Price;
         Mastery = a_MasteryInfo;
@@ -65,6 +66,7 @@ public class Champion
     public int ID { get; private set; }
     public Sprite Image { get; private set; }
     public string Name { get; private set; }
+    public string Key { get; private set; }
     public string Title { get; private set; }
     public double Price { get; private set; }
 
@@ -156,11 +158,12 @@ public class Champion
             }
             else t_Mastery = MasteryInfo.NoMastery;
 
-            Debug.Log("You are level " + t_Mastery.Level + " with " + a_Champion["name"] + ".");
+            //Debug.Log("You are level " + t_Mastery.Level + " with " + a_Champion["name"] + ".");
 
             Champion t_Champion = new Champion
             (
                 a_Champion["id"].AsInt, // ID
+                a_Champion["key"].Value, // ID
                 a_Champion["name"].Value, // Name
                 a_Champion["title"].Value, // Title
                 a_Champion["price"].AsDouble, // Price
