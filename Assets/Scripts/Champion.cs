@@ -119,7 +119,7 @@ public class Champion
 
     static Dictionary<string, Texture2D> m_Textures = new Dictionary<string, Texture2D>();
 
-    private void UpdateShopImage()
+    public void UpdateShopImage()
     {
         GameObject t_ShopContent = GameObject.FindGameObjectWithTag("ShopContent");
         if (t_ShopContent == null)

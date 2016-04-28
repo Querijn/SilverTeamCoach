@@ -54,5 +54,4 @@ public class ShopManager : MonoBehaviour
 	}
 }
 
-//add OnClick Champion, open buy screen popup, closes buy screen popup
 //buy screen corresponds with champion clicked
