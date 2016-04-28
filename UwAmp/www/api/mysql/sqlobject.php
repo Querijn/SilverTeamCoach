@@ -55,13 +55,10 @@ if(!class_exists("SQLEntry"))
 				
 				foreach(array_keys(get_class_vars(get_class($this))) as $t_Var) // For each column
 				{
-					if(isset($t_Array[$t_Var])) // If there's a translation
-					{
-						if($t_Array[$t_Var] == 'id' && (is_null($this->{$t_Var}) || empty($this->{$t_Var})))
-							continue;
-						
+					if(isset($t_Array[$t_Var]) && $t_Array[$t_Var]!=$this->__getidcolumnname()) // If there's a translation
+					{						
 						$t_Variables .= ELEFORM_SQL_QUOTE.$this->CleanString($t_Array[$t_Var]).ELEFORM_SQL_QUOTE.",";
-
+						
 						if(is_numeric($this->{$t_Var}))
 							$t_Values .= $this->{$t_Var}.",";
 						else if(empty($this->{$t_Var}) || is_null($this->{$t_Var}) || is_string($this->{$t_Var}))
@@ -101,7 +98,10 @@ if(!class_exists("SQLEntry"))
 					if(isset($t_Array[$t_Var]) && $t_Array[$t_Var]!=$this->__getidcolumnname()) // If there's a translation
 					{
 						$t_Variables .= ELEFORM_SQL_QUOTE.$this->CleanString($this->SQLTableTranslate[$t_Var]).ELEFORM_SQL_QUOTE;
-						if(empty($this->{$t_Var}) || is_null($this->{$t_Var}) || is_string($this->{$t_Var}) || is_numeric($this->{$t_Var}))
+						
+						if(is_numeric($this->{$t_Var}))
+							$t_Variables .= " = ".$this->{$t_Var}.", ";
+						else if(empty($this->{$t_Var}) || is_null($this->{$t_Var}) || is_string($this->{$t_Var}))
 							$t_Variables .= " = '".$this->CleanString($this->{$t_Var})."', ";
 						else 
 							$t_Variables .= " = '".$this->CleanString(serialize($this->{$t_Var}))."', ";
@@ -112,12 +112,19 @@ if(!class_exists("SQLEntry"))
 				foreach(array_keys(get_class_vars(get_class($this))) as $t_Var) // For each column
 					if(isset($this->SQLTableTranslate[$t_Var]) && $this->SQLTableTranslate[$t_Var]==$this->__getidcolumnname()) // If there's a translation
 					{
-						$t_IDCheck .= ELEFORM_SQL_QUOTE.$this->CleanString($this->SQLTableTranslate[$t_Var]).ELEFORM_SQL_QUOTE.
+						if(is_numeric($this->{$t_Var}))
+						{
+							$t_IDCheck .= ELEFORM_SQL_QUOTE.$this->CleanString($this->SQLTableTranslate[$t_Var]).ELEFORM_SQL_QUOTE.
+										" = ".$this->{$t_Var}."";
+						}	
+						else $t_IDCheck .= ELEFORM_SQL_QUOTE.$this->CleanString($this->SQLTableTranslate[$t_Var]).ELEFORM_SQL_QUOTE.
 										" = '".$this->CleanString($this->{$t_Var})."'";
 						break;
 					}
-				$t_Query = $t_Query[0] . substr($t_Variables, 0, -1) . $t_Query[1] . $t_IDCheck . $t_Query[2];
+					
+				$t_Query = $t_Query[0] . " \n " . substr($t_Variables, 0, -1) . " \n " . $t_Query[1] . " \n " . $t_IDCheck . " \n " . $t_Query[2];
 	
+				
 				if($settings["mysql_connection"]->query($t_Query, true)===false) 
 				{
 					$this->OnError($t_Query);	

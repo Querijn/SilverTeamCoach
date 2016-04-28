@@ -9,7 +9,7 @@ public class ShopManager : MonoBehaviour
     {
         if(ChampionArray == null)
         {
-            ChampionArray = Champion.GetSortedBy(Champion.SortValue.Name, Champion.SortType.ASC);
+            ChampionArray = Champion.Filter(Champion.FilterType.NotOwned, Champion.GetSortedBy(Champion.SortValue.Name, Champion.SortType.ASC));
         }
 
         GameObject Prefab = Resources.Load("Prefabs/Champion") as GameObject;
@@ -52,6 +52,17 @@ public class ShopManager : MonoBehaviour
             Done = true;
         }
 	}
+
+    public void OnBuy()
+    {
+        GameObject BuyWindow = GameObject.FindGameObjectWithTag("BuyWindow");
+
+        string ChampionName = BuyWindow.transform.Find("Content/ChampionName").GetComponent<Text>().text;
+        Info.Player.Buy(Champion.Get(ChampionName));
+
+        // Close window
+        BuyWindow.transform.Find("Content/Cancel").GetComponent<CloseBuyWindow>().OnClick();
+    }
 }
 
 //buy screen corresponds with champion clicked

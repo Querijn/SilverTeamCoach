@@ -70,13 +70,14 @@ public class Champion
         return a_ChampionList;
     }
 
-    public Champion(int a_ID, string a_Key, string a_Name, string a_Title, double a_Price, MasteryInfo a_MasteryInfo, ViabilityInfo a_Viability)
+    public Champion(int a_ID, string a_Key, string a_Name, string a_Title, double a_Price, bool a_Owned, MasteryInfo a_MasteryInfo, ViabilityInfo a_Viability)
     {
         ID = a_ID;
         Name = a_Name;
         Key = a_Key;
         Title = a_Title;
         Price = a_Price;
+        Owned = a_Owned;
         Mastery = a_MasteryInfo;
 
         if(Champions.ContainsKey(a_ID) == false)
@@ -89,6 +90,7 @@ public class Champion
     public Sprite Image { get; private set; }
     public string Name { get; private set; }
     public string Key { get; private set; }
+    public bool Owned { get; private set; }
     public string Title { get; private set; }
     public double Price { get; private set; }
 
@@ -148,10 +150,12 @@ public class Champion
             return;
 
         Transform t_Image = t_ShopContent.transform.Find(Name + "/Image");
-        if (t_ShopContent == null)
+        if (t_Image == null)
             return;
-        
-        t_Image.GetComponent<Image>().sprite = Image;
+
+        Image t_Sprite = t_Image.GetComponent<Image>();
+        if(t_Sprite != null)
+            t_Sprite.sprite = Image;
     }
     
 
@@ -185,10 +189,11 @@ public class Champion
             Champion t_Champion = new Champion
             (
                 a_Champion["id"].AsInt, // ID
-                a_Champion["key"].Value, // ID
+                a_Champion["key"].Value, // Key name
                 a_Champion["name"].Value, // Name
                 a_Champion["title"].Value, // Title
                 a_Champion["price"].AsDouble, // Price
+                a_Champion["owned"].AsBool, // Owned
                 t_Mastery,
                 // TODO setup viability
                 new ViabilityInfo(1.0, 1.0, 1.0, 1.0, 1.0, 1.0)

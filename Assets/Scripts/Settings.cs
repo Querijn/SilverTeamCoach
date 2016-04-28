@@ -19,21 +19,33 @@ public class Settings : MonoBehaviour
     public static char CashSign { get { return Singleton.m_CashSign; } }
 
     [Header("Network")]
+    // Where is our network?
+    // This is the base root where the ajax, api and sql folder is.
+    public string m_Host = "http://localhost/";
+    public static string Host { get { return Singleton.m_Host; } }
+
+    // API folder
+    public string m_APIFolder = "api/";
+    public static string APIFolder { get { return Singleton.m_APIFolder; } }
+
+    // AJAX folder
+    public string m_AjaxFolder = "ajax/";
+    public static string AjaxFolder { get { return Singleton.m_AjaxFolder; } }
+
     // Where do I find the champion images?
     public string m_ChampionImageDirectory = "http://ddragon.leagueoflegends.com/cdn/6.8.1/img/sprite/";
     public static string ChampionImageDirectory { get { return Singleton.m_ChampionImageDirectory; } }
 
-    public  static Settings Singleton { get; private set; }
+    public static string FormAjaxURL(string a_API)
+    {
+        return Host + AjaxFolder + a_API;
+    }
 
+    public static Settings Singleton { get; private set; }
 
     void Start ()
 	{
 	    if(Singleton == null)
             Singleton = this;
-	}
-	
-	void Update () 
-	{
-	
 	}
 }

@@ -353,7 +353,7 @@ class riotapi {
 				$this->updateLimitQueue($this->shortLimitQueue, self::SHORT_LIMIT_INTERVAL, self::RATE_LIMIT_SHORT);
 			}
 
-			echo $url;
+			//echo $url;
 			
 			//call the API and return the result
 			$ch = curl_init($url);

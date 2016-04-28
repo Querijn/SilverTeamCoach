@@ -105,8 +105,9 @@ public class ChampionUI : MonoBehaviour
     void SetChampionList(bool a_ShowAllChampions)
     {
         List<string> t_Options = new List<string>();
-    
-        foreach (Champion t_Champion in Champion.GetSortedBy(Champion.SortValue.Name))
+
+        Champion[] t_OwnedChampions = Champion.Filter(Champion.FilterType.Owned, Champion.GetSortedBy(Champion.SortValue.Name));
+        foreach (Champion t_Champion in t_OwnedChampions)
         {
             // No duplicate champion per team.
             if (IsInOtherList(t_Champion.Name))

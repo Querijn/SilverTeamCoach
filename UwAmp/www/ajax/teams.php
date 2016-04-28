@@ -13,8 +13,9 @@ if(isset($_GET["id"]) && is_numeric($_GET["id"]))
 
 try
 {
-	$t_Teams = DatabaseTeam::Load(SQLSearch::In(DatabaseTeam::Table)->Where("player")->Is($t_GetID));
 	$t_API = new riotapi($settings["riot_key"], $_SESSION["region"], new FileSystemCache(BASE_FOLDER . "cache"));
+	
+	$t_Teams = DatabaseTeam::Load(SQLSearch::In(DatabaseTeam::Table)->Where("player")->Is($t_GetID));
 
 	$t_Info = array();
 	if(is_array($t_Teams))

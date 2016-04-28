@@ -17,9 +17,42 @@ public static class Info
 
         public string Name { get; private set; }
         public double Cash { get; private set; }
+        public Champion[] OwnedChampions
+        {
+            get
+            {
+                return Champion.Filter(Champion.FilterType.Owned);
+            }
+        }
+
+        public bool Buy(Champion a_Champion)
+        {
+            if(a_Champion.Price > Cash)
+                return false;
+            
+            HTTP.Request(Settings.FormAjaxURL("buy.php?champion="+a_Champion.ID), delegate(WWW a_Request)
+            {
+                if (a_Request.text == "true")
+                {
+                    // TODO refresh user
+                    Info.Reset();
+                }
+                else Error.Show(a_Request.text);
+            }, true);
+
+            return true;
+        }
     };
 
     public static PlayerInfo Player { get; private set; }
+
+    public static bool Reset()
+    {
+        Debug.Log("Resetting..");
+        m_Setup = false;
+        m_InProgress = false;
+        return Setup();
+    }
 
     public static bool Setup()
 	{
