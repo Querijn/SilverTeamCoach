@@ -12,7 +12,7 @@ public class Stats : MonoBehaviour
 	
 	void Update ()
     {
-        if (Info.Setup())
+        if (Info.Setup() && m_Setup == false)
         {
             foreach(Transform t_Transform in gameObject.transform)
             {

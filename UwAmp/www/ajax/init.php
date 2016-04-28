@@ -4,12 +4,11 @@ require_once("include.php");
 if(!isset($_SESSION['summoner']))
 	die(json_encode(array("error" => "NOT_LOGGED_IN")));
 
-global $t_API;
 try
 {
 	$t_Players = DatabasePlayer::Load(SQLSearch::In(DatabasePlayer::Table)->Where("user")->Is($_SESSION["summoner"]["id"]));
 	$t_API = new riotapi($settings["riot_key"], $_SESSION["region"], new FileSystemCache("cache"));
-	$t_Champions = $t_API->getStatic('champion?dataById=true');
+	$t_Champions = $t_API->getStatic('champion?dataById=true&champData=image');
 	
 	$t_Info = $_SESSION["summoner"];
 	$t_Info["cash"] = $t_Players->Cash;

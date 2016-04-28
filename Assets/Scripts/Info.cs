@@ -28,7 +28,6 @@ public static class Info
 
         HTTP.Request("http://localhost/ajax/init.php", delegate (WWW a_Request)
         {
-            Debug.Log(a_Request.text);
             var t_JSON = JSON.Parse(a_Request.text);
 
             if (t_JSON["error"].Value!="")
@@ -40,10 +39,10 @@ public static class Info
             Champion.Setup(t_JSON["champions"].AsArray);
 
             Player = new PlayerInfo(t_JSON["name"], t_JSON["cash"].AsDouble);
-            Debug.Log("Initialisation complete, username is '" + Player.Name + "', and has " + Player.Cash + " cash.");
+            //Debug.Log("Initialisation complete, username is '" + Player.Name + "', and has " + Player.Cash + " cash.");
             m_Setup = true;
             m_InProgress = false;
-        });
+        }, true);
 
         m_InProgress = true;
         return m_Setup;
