@@ -25,7 +25,7 @@ public class Champion
         Effectiveness
     };
 
-    public static Champion[] GetSortedBy(SortValue a_Value, SortType a_Type = SortType.ASC)
+    public static Champion[] GetSortedBy(SortValue a_Value, SortType a_Type = SortType.DESC)
     {
         Champion[] t_Array = Champion.All;
 
@@ -34,7 +34,13 @@ public class Champion
             case SortValue.Name:
                 Array.Sort(t_Array, delegate (Champion Champ1, Champion Champ2)
                 {
-                    return Champ1.Price.CompareTo(Champ2.Price);
+                    return Champ1.Name.CompareTo(Champ2.Name) * (a_Type == SortType.DESC ? 1 : -1);
+                });
+                break;
+            case SortValue.Price:
+                Array.Sort(t_Array, delegate (Champion Champ1, Champion Champ2)
+                {
+                    return Champ1.Price.CompareTo(Champ2.Price) * (a_Type == SortType.DESC ? 1 : -1);
                 });
                 break;
         }
@@ -94,9 +100,9 @@ public class Champion
         if (t_ShopContent == null)
             return;
         
-        Debug.Log("Rect: x = " + Image.rect.x + " y = " + Image.rect.y)
         t_Image.GetComponent<Image>().sprite = Image;
     }
+    
 
     private static bool m_Setup = false;
     public static bool Setup(JSONArray a_Champions)
@@ -124,28 +130,29 @@ public class Champion
             JSONNode t_ImageInfo = a_Champion["image"];
             Rect t_Rect = new Rect();
 
-            t_Rect.x = 0; //t_ImageInfo["x"].AsFloat;
-            t_Rect.y = 0;// t_ImageInfo["y"].AsFloat;
-            t_Rect.width = t_ImageInfo["width"].AsFloat;
-            t_Rect.height = t_ImageInfo["height"].AsFloat;
+            t_Rect.x = t_ImageInfo["x"].AsFloat;
+            t_Rect.y = t_ImageInfo["y"].AsFloat;
+            t_Rect.width = t_ImageInfo["w"].AsFloat;
+            t_Rect.height = t_ImageInfo["h"].AsFloat;
 
             if (m_Textures.ContainsKey(t_ImageInfo["sprite"]) == false)
             {
                 string ImageURL = Settings.ChampionImageDirectory + t_ImageInfo["sprite"];
-                HTTP.Request(ImageURL, delegate (WWW Request)
+                HTTP.Request(ImageURL, delegate (WWW a_Request)
                 {
-                    t_Champion.Image = Sprite.Create(Request.texture, t_Rect, Vector2.zero);
-
-                    GameObject.FindGameObjectWithTag("Finish").GetComponent<Renderer>().material.mainTexture = Request.texture;
                     if (m_Textures.ContainsKey(t_ImageInfo["sprite"]) == false)
-                        m_Textures.Add(t_ImageInfo["sprite"], Request.texture);
+                        m_Textures.Add(t_ImageInfo["sprite"], a_Request.texture);
 
+                    t_Rect.y = (t_Rect.y + t_Rect.height) % a_Request.texture.height;
+                    t_Champion.Image = Sprite.Create(a_Request.texture, t_Rect, Vector2.zero);
                     t_Champion.UpdateShopImage();
                 }, false);
             }
             else
             {
                 Texture2D t_Texture = m_Textures[t_ImageInfo["sprite"]];
+
+                t_Rect.y = (t_Rect.y + t_Rect.height) % t_Texture.height;
                 t_Champion.Image = Sprite.Create(t_Texture, t_Rect, Vector2.zero);
                 t_Champion.UpdateShopImage();
             }
