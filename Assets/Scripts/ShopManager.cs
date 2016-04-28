@@ -9,7 +9,7 @@ public class ShopManager : MonoBehaviour
     {
         if(ChampionArray == null)
         {
-            ChampionArray = Champion.GetSortedBy(SortValue.Name);
+            ChampionArray = Champion.GetSortedBy(Champion.SortValue.Name, Champion.SortType.DESC);
         }
 
         GameObject Prefab = Resources.Load("Prefabs/Champion") as GameObject;
@@ -53,5 +53,3 @@ public class ShopManager : MonoBehaviour
         }
 	}
 }
-
-//sorteren op laagste/hoogste prijs
