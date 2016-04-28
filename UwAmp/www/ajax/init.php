@@ -7,7 +7,7 @@ if(!isset($_SESSION['summoner']))
 try
 {
 	$t_Players = DatabasePlayer::Load(SQLSearch::In(DatabasePlayer::Table)->Where("user")->Is($_SESSION["summoner"]["id"]));
-	$t_API = new riotapi($settings["riot_key"], $_SESSION["region"], new FileSystemCache("cache"));
+	$t_API = new riotapi($settings["riot_key"], $_SESSION["region"], new FileSystemCache(BASE_FOLDER . "cache"));
 	$t_Champions = $t_API->getStatic('champion?dataById=true&champData=image');
 	
 	$t_Info = $_SESSION["summoner"];
@@ -25,6 +25,23 @@ try
 		$t_Champion["price"]
 		= 
 		$t_Prices[$t_Champion["name"]];
+	}
+	
+	$t_OldMastery = $t_API->getChampionMastery($t_Info["id"]);
+	$t_Mastery = array();
+	foreach($t_OldMastery as $t_CurrentMastery)
+	{
+		$t_Mastery[$t_CurrentMastery["championId"]] = $t_CurrentMastery;
+	}
+	
+	foreach($t_Info["champions"] as &$t_Champion)
+	{
+		if(isset($t_Mastery[$t_Champion['id']]))
+		{
+			$t_Champion["mastery"]
+			= 
+			$t_Mastery[$t_Champion['id']];
+		}
 	}
 	
 	echo json_encode($t_Info);

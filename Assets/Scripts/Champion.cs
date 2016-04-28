@@ -48,12 +48,13 @@ public class Champion
         return t_Array;
     }
 
-    public Champion(int a_ID, string a_Name, string a_Title, double a_Price, ViabilityInfo a_Viability)
+    public Champion(int a_ID, string a_Name, string a_Title, double a_Price, MasteryInfo a_MasteryInfo, ViabilityInfo a_Viability)
     {
         ID = a_ID;
         Name = a_Name;
         Title = a_Title;
         Price = a_Price;
+        Mastery = a_MasteryInfo;
 
         if(Champions.ContainsKey(a_ID) == false)
         {
@@ -66,8 +67,8 @@ public class Champion
     public string Name { get; private set; }
     public string Title { get; private set; }
     public double Price { get; private set; }
-    public ViabilityInfo Viability;
-    
+
+
     public struct ViabilityInfo
     {
         public ViabilityInfo(double a_Meta, double a_Top, double a_Mid, double a_Jungle, double a_Marksman, double a_Support)
@@ -87,6 +88,32 @@ public class Champion
         public double Marksman;
         public double Support;
     };
+    private ViabilityInfo Viability;
+
+    public struct MasteryInfo
+    {
+        public MasteryInfo(int a_Level, int a_Points, DateTime a_LastPlayed)
+        {
+            Level = a_Level;
+            Points = a_Points;
+
+
+            LastPlayed = a_LastPlayed;
+        }
+
+        public static MasteryInfo NoMastery
+        {
+            get
+            {
+                return new MasteryInfo(0, 0, DateTime.UtcNow);
+            }
+        }
+
+        public int Level;
+        public int Points;
+        public DateTime LastPlayed;
+    };
+    private MasteryInfo Mastery;
 
     static Dictionary<string, Texture2D> m_Textures = new Dictionary<string, Texture2D>();
 
@@ -115,13 +142,29 @@ public class Champion
         
         foreach(JSONNode a_Champion in a_Champions)
         {
+            var t_Time = (new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).AddMilliseconds(a_Champion["mastery"]["lastPlayTime"].AsInt);
+
+            MasteryInfo t_Mastery;
+            if (a_Champion["mastery"].Count > 0)
+            {
+                t_Mastery = new MasteryInfo
+                (
+                    a_Champion["mastery"]["championLevel"].AsInt,
+                    a_Champion["mastery"]["championPoints"].AsInt,
+                    t_Time
+                );
+            }
+            else t_Mastery = MasteryInfo.NoMastery;
+
+            Debug.Log("You are level " + t_Mastery.Level + " with " + a_Champion["name"] + ".");
+
             Champion t_Champion = new Champion
             (
                 a_Champion["id"].AsInt, // ID
                 a_Champion["name"].Value, // Name
                 a_Champion["title"].Value, // Title
                 a_Champion["price"].AsDouble, // Price
-
+                t_Mastery,
                 // TODO setup viability
                 new ViabilityInfo(1.0, 1.0, 1.0, 1.0, 1.0, 1.0)
             );
@@ -135,7 +178,7 @@ public class Champion
             t_Rect.width = t_ImageInfo["w"].AsFloat;
             t_Rect.height = t_ImageInfo["h"].AsFloat;
 
-
+            // Check if we've loaded it before
             if (m_Textures.ContainsKey(t_ImageInfo["sprite"]) == false)
             {
                 string ImageURL = Settings.ChampionImageDirectory + t_ImageInfo["sprite"];
