@@ -17,8 +17,14 @@ public class Settings : MonoBehaviour
     // What appears in front of cash?
     public char m_CashSign = 'ƒ';
     public static char CashSign { get { return Singleton.m_CashSign; } }
-    
+
+    [Header("Network")]
+    // Where do I find the champion images?
+    public string m_ChampionImageDirectory = "http://ddragon.leagueoflegends.com/cdn/6.8.1/img/sprite/";
+    public static string ChampionImageDirectory { get { return Singleton.m_ChampionImageDirectory; } }
+
     public  static Settings Singleton { get; private set; }
+
 
     void Start ()
 	{

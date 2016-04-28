@@ -1,0 +1,49 @@
+[ ] Matches
+	[ ] Find match
+	[ ] Matchmaking
+
+[ ] Teams
+	[ ] Create teams
+	[ ] Enable/disable teams
+	[ ] Team overview
+	[ ] Edit teams
+	
+[ ] Champions
+	[ ] Champion performance
+	[ ] Champion sorting
+	[ ] Change champion settings
+		[ ] Aggressive/Passive
+	
+[ ] Game
+	[ ] Calculate winrate
+		[ ] Champion points
+		[ ] Last played
+		[ ] Correct lane
+	[ ] Map
+	[ ] Generate ingame occurences
+		[ ] Laning
+		[ ] Teamfights
+		[ ] Objectives
+	[ ] Post Game info
+	[ ] Gaining cash
+	
+[ ] Shop
+	[x] Shop Main UI
+	[ ] Shop Pop-up
+	[ ] Shop buying
+	
+[ ] Messages
+	[ ] Wins and losses
+	[ ] Events
+[ ] Statistics and winrate
+
+[ ] Settings
+	[ ] Volume
+	[ ] Testing
+	
+[ ] Sounds
+[ ] Music
+[ ] Background
+	[ ] Static
+	[ ] Dynamic
+	
