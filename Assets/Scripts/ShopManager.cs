@@ -17,7 +17,7 @@ public class ShopManager : MonoBehaviour
 
         int I = 0;
         int J = 0;
-        
+
         foreach (Transform Child in ShopContent.transform)
             Destroy(Child.gameObject);
 
@@ -26,24 +26,24 @@ public class ShopManager : MonoBehaviour
             GameObject Instance = Instantiate(Prefab) as GameObject;
             Instance.transform.SetParent(ShopContent.transform);
             Instance.transform.localPosition = new Vector3((I * 250) + 2, (J * 300), 0);
-            
+
             Instance.name = Champion.Name;
             Instance.transform.Find("Name").GetComponent<Text>().text = Champion.Name;
             Instance.transform.Find("Price").GetComponent<Text>().text = Cash.Format(Champion.Price);
-    
+
             I += 1;
-            if (I>4)
+            if (I > 4)
             {
                 J = J - 1;
                 I = 0;
             }
-            if(Champion.Price > Info.Player.Cash)
+            if (Champion.Price > Info.Player.Cash)
             {
                 Instance.transform.Find("Price").GetComponent<Text>().color = Color.red;
             }
         }
     }
-    
+
     void Update ()
     {
 	    if(Champion.All.Length != 0 && Done == false)
@@ -53,3 +53,6 @@ public class ShopManager : MonoBehaviour
         }
 	}
 }
+
+//add OnClick Champion, open buy screen popup
+//buy screen corresponds with champion clicked

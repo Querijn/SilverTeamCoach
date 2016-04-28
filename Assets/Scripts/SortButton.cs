@@ -20,7 +20,6 @@ public class SortButton : MonoBehaviour {
    public void OnClick()
     {
         Text text = GetComponentInChildren<Text>();
-
         text.text = "Sort Price (ASC)";
 
         Champion[] ChampionArray = Champion.All;
@@ -30,6 +29,10 @@ public class SortButton : MonoBehaviour {
         });
 
         //on second click state = false + champions descending price
+
+        //Text text = GetComponentInChildren<Text>();
+        //text.text = "Sort Price (DSC)";
+
         //Champion[] ChampionArray = Champion.All;
         //Array.Reverse(ChampionArray, delegate (Champion Champ1, Champion Champ2)
         //{
