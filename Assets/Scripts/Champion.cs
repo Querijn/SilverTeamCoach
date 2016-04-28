@@ -135,6 +135,7 @@ public class Champion
             t_Rect.width = t_ImageInfo["w"].AsFloat;
             t_Rect.height = t_ImageInfo["h"].AsFloat;
 
+
             if (m_Textures.ContainsKey(t_ImageInfo["sprite"]) == false)
             {
                 string ImageURL = Settings.ChampionImageDirectory + t_ImageInfo["sprite"];
@@ -143,7 +144,7 @@ public class Champion
                     if (m_Textures.ContainsKey(t_ImageInfo["sprite"]) == false)
                         m_Textures.Add(t_ImageInfo["sprite"], a_Request.texture);
 
-                    t_Rect.y = (t_Rect.y + t_Rect.height) % a_Request.texture.height;
+                    t_Rect.y = a_Request.texture.height - t_Rect.y - t_Rect.height;
                     t_Champion.Image = Sprite.Create(a_Request.texture, t_Rect, Vector2.zero);
                     t_Champion.UpdateShopImage();
                 }, false);
@@ -152,7 +153,7 @@ public class Champion
             {
                 Texture2D t_Texture = m_Textures[t_ImageInfo["sprite"]];
 
-                t_Rect.y = (t_Rect.y + t_Rect.height) % t_Texture.height;
+                t_Rect.y = t_Texture.height - t_Rect.y - t_Rect.height;
                 t_Champion.Image = Sprite.Create(t_Texture, t_Rect, Vector2.zero);
                 t_Champion.UpdateShopImage();
             }

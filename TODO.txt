@@ -11,6 +11,7 @@
 [ ] Champions
 	[ ] Champion performance
 	[ ] Champion sorting
+	[ ] Data mining
 	[ ] Change champion settings
 		[ ] Aggressive/Passive
 	
@@ -35,7 +36,9 @@
 [ ] Messages
 	[ ] Wins and losses
 	[ ] Events
-[ ] Statistics and winrate
+	
+[ ] Statistics overview
+	[ ] Winrate per champion
 
 [ ] Settings
 	[ ] Volume

@@ -10,12 +10,19 @@ public class HTTP : MonoBehaviour
         public RequestWithCB(WWW a_Request, HTTPCallback a_Callback, bool a_Important)
         {
             Request = a_Request;
-            Callback = a_Callback;
+            Callbacks = new List<HTTPCallback>();
+            Callbacks.Add(a_Callback);
             Important = a_Important;
         }
 
+        public void Add(HTTPCallback a_RequestCallback)
+        {
+            Callbacks.Add(a_RequestCallback);
+        }
+
         public WWW Request { get; private set; }
-        public HTTPCallback Callback { get; private set; }
+        public List<HTTPCallback> Callbacks;
+        
         public bool Important;
     }
 
@@ -23,6 +30,14 @@ public class HTTP : MonoBehaviour
 
     public static void Request(string a_URL, HTTPCallback a_Callback, bool a_Important)
     {
+        for(int i = 0; i< m_Requests.Count; i++)
+        {
+            if (m_Requests[i].Request.url == a_URL)
+            {
+                m_Requests[i].Add(a_Callback);
+            }
+        }
+
         m_Requests.Add(new RequestWithCB(new WWW(a_URL), a_Callback, a_Important));
     }
 
@@ -44,7 +59,8 @@ public class HTTP : MonoBehaviour
 
             if (t_Request.Request.isDone)
             {
-                t_Request.Callback.Invoke(t_Request.Request);
+                foreach(HTTPCallback t_Callback in t_Request.Callbacks)
+                    t_Callback.Invoke(t_Request.Request);
                 m_Requests.Remove(t_Request);
                 t_ListChanged = true;
             }
