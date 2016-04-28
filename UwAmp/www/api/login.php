@@ -38,6 +38,7 @@ function LogIn($a_User, $a_Region, $a_Verify = false)
 	
 		$t_Player->User = $t_Data[$t_Key]["id"];
 		$t_Player->Title = 'Player';
+		$t_Player->OwnedChampions = array(1);
 		$t_Player->Cash = 0.0;
 		
 		$t_Info = $t_API->getChampionMastery($t_Player->User);

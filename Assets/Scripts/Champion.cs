@@ -25,11 +25,17 @@ public class Champion
         Effectiveness
     };
 
+    public enum FilterType
+    {
+        Owned,
+        NotOwned
+    };
+
     public static Champion[] GetSortedBy(SortValue a_Value, SortType a_Type = SortType.DESC)
     {
         Champion[] t_Array = Champion.All;
 
-        switch(a_Value)
+        switch (a_Value)
         {
             case SortValue.Name:
                 Array.Sort(t_Array, delegate (Champion Champ1, Champion Champ2)
@@ -46,6 +52,22 @@ public class Champion
         }
 
         return t_Array;
+    }
+
+    public static Champion[] Filter(FilterType a_Value, Champion[] a_ChampionList = null)
+    {
+        if(a_ChampionList == null)
+            a_ChampionList = Champion.All;
+
+        switch (a_Value)
+        {
+            case FilterType.Owned:
+                return a_ChampionList.Where(c => c.Owned).ToArray();
+            case FilterType.NotOwned:
+                return a_ChampionList.Where(c => !c.Owned).ToArray();
+        }
+
+        return a_ChampionList;
     }
 
     public Champion(int a_ID, string a_Key, string a_Name, string a_Title, double a_Price, MasteryInfo a_MasteryInfo, ViabilityInfo a_Viability)
