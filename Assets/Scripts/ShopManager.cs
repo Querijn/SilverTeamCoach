@@ -9,7 +9,7 @@ public class ShopManager : MonoBehaviour
     {
         if(ChampionArray == null)
         {
-            ChampionArray = Champion.GetSortedBy(Champion.SortValue.Name, Champion.SortType.DESC);
+            ChampionArray = Champion.GetSortedBy(Champion.SortValue.Name, Champion.SortType.ASC);
         }
 
         GameObject Prefab = Resources.Load("Prefabs/Champion") as GameObject;
@@ -54,5 +54,5 @@ public class ShopManager : MonoBehaviour
 	}
 }
 
-//add OnClick Champion, open buy screen popup
+//add OnClick Champion, open buy screen popup, closes buy screen popup
 //buy screen corresponds with champion clicked
