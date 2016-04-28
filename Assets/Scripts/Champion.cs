@@ -34,13 +34,13 @@ public class Champion
             case SortValue.Name:
                 Array.Sort(t_Array, delegate (Champion Champ1, Champion Champ2)
                 {
-                    return Champ1.Name.CompareTo(Champ2.Name) * (a_Type == SortType.DESC ? 1 : -1);
+                    return Champ1.Name.CompareTo(Champ2.Name) * (a_Type == SortType.ASC ? 1 : -1);
                 });
                 break;
             case SortValue.Price:
                 Array.Sort(t_Array, delegate (Champion Champ1, Champion Champ2)
                 {
-                    return Champ1.Price.CompareTo(Champ2.Price) * (a_Type == SortType.DESC ? 1 : -1);
+                    return Champ1.Price.CompareTo(Champ2.Price) * (a_Type == SortType.ASC ? 1 : -1);
                 });
                 break;
         }
