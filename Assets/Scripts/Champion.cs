@@ -88,7 +88,7 @@ public class Champion
         public double Marksman;
         public double Support;
     };
-    private ViabilityInfo Viability;
+    public ViabilityInfo Viability;
 
     public struct MasteryInfo
     {

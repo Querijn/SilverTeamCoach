@@ -35,6 +35,7 @@ public class HTTP : MonoBehaviour
             if (m_Requests[i].Request.url == a_URL)
             {
                 m_Requests[i].Add(a_Callback);
+                return;
             }
         }
 
@@ -61,6 +62,7 @@ public class HTTP : MonoBehaviour
             {
                 foreach(HTTPCallback t_Callback in t_Request.Callbacks)
                     t_Callback.Invoke(t_Request.Request);
+
                 m_Requests.Remove(t_Request);
                 t_ListChanged = true;
             }
