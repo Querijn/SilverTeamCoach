@@ -19,7 +19,7 @@ public class ShopManager : MonoBehaviour
             ChampionArray = Champion.GetSortedBy(Champion.SortValue.Name, Champion.SortType.ASC);
         }
         ChampionArray = Champion.Filter(Champion.FilterType.NotOwned, ChampionArray);
-        ChampionArray = Champion.Filter(Champion.FilterType.Buyable, ChampionArray);
+        // ChampionArray = Champion.Filter(Champion.FilterType.Buyable, ChampionArray); // Too confusing?
 
         GameObject Prefab = Resources.Load("Prefabs/ShopListObject") as GameObject;
         GameObject ShopContent = GameObject.FindGameObjectWithTag("ShopContent");
@@ -34,7 +34,7 @@ public class ShopManager : MonoBehaviour
         {
             GameObject Instance = Instantiate(Prefab) as GameObject;
             Instance.transform.SetParent(ShopContent.transform);
-            Instance.transform.localPosition = new Vector3((I * 250) + 2, (J * 300), 0);
+            Instance.transform.localPosition = new Vector3((I * 250) + 40, (J * 300), 0);
 
             Instance.name = CurrentChampion.Name;
             Instance.transform.Find("Name").GetComponent<Text>().text = CurrentChampion.Name;
