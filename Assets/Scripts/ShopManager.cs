@@ -11,9 +11,9 @@ public class ShopManager : MonoBehaviour
         if(ChampionArray == null)
         {
             ChampionArray = Champion.GetSortedBy(Champion.SortValue.Name, Champion.SortType.ASC);
-            ChampionArray = Champion.Filter(Champion.FilterType.NotOwned, ChampionArray);
-            ChampionArray = Champion.Filter(Champion.FilterType.Buyable, ChampionArray);
         }
+        ChampionArray = Champion.Filter(Champion.FilterType.NotOwned, ChampionArray);
+        ChampionArray = Champion.Filter(Champion.FilterType.NotOwned, ChampionArray);
 
         GameObject Prefab = Resources.Load("Prefabs/ShopListObject") as GameObject;
         GameObject ShopContent = GameObject.FindGameObjectWithTag("ShopContent");
@@ -24,15 +24,15 @@ public class ShopManager : MonoBehaviour
         foreach (Transform Child in ShopContent.transform)
             Destroy(Child.gameObject);
 
-        foreach (Champion Champion in ChampionArray)
+        foreach (Champion CurrentChampion in ChampionArray)
         {
             GameObject Instance = Instantiate(Prefab) as GameObject;
             Instance.transform.SetParent(ShopContent.transform);
             Instance.transform.localPosition = new Vector3((I * 250) + 2, (J * 300), 0);
 
-            Instance.name = Champion.Name;
-            Instance.transform.Find("Name").GetComponent<Text>().text = Champion.Name;
-            Instance.transform.Find("Price").GetComponent<Text>().text = Cash.Format(Champion.Price);
+            Instance.name = CurrentChampion.Name;
+            Instance.transform.Find("Name").GetComponent<Text>().text = CurrentChampion.Name;
+            Instance.transform.Find("Price").GetComponent<Text>().text = Cash.Format(CurrentChampion.Price);
 
             I += 1;
             if (I > 4)
@@ -41,16 +41,16 @@ public class ShopManager : MonoBehaviour
                 I = 0;
             }
 
-            if (Champion.Price > Info.Player.Cash)
+            if (CurrentChampion.Price > Info.Player.Cash)
             {
                 Instance.transform.Find("Price").GetComponent<Text>().color = Color.red;
             }
             
-            if(Champion.Image != null)
+            if(CurrentChampion.Image != null)
             {
                 Transform t_ImageObject = Instance.transform.Find("Image");
                 if (t_ImageObject != null)
-                    t_ImageObject.GetComponent<Image>().sprite = Champion.Image;
+                    t_ImageObject.GetComponent<Image>().sprite = CurrentChampion.Image;
             }
             else
             {
