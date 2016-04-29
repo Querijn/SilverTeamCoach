@@ -22,11 +22,6 @@ public class SortButton : MonoBehaviour
 
    public void OnClick()
     {
-        foreach (Champion Champion in Champion.All)
-        {
-            Champion.UpdateShopImage();
-        }
-
         if (CurrentState == State.ascending)
         {
             Text text = GetComponentInChildren<Text>();

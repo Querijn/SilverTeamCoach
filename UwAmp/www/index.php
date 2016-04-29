@@ -16,7 +16,6 @@ if(!class_exists("DatabasePlayer"))
 	echo "-->";
 }
 
-var_dump($_SESSION);
 if(isset($_GET["reset"]) || isset($_POST["reset"]))
 {
 	echo "Resetting..";
@@ -116,7 +115,6 @@ if(!isset($_SESSION["user"]))
 // Run game.
 else
 {
-	require_once(MYSQL_FOLDER . "mysql.php");
-	echo "RunGame";
+	require_once(BASE_FOLDER. "game.php");
 }
 ?>

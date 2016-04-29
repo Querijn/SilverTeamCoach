@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class ShopManager : MonoBehaviour
 {
     bool Done = false;
+    bool SpawnImages = false;
     public void SetupShop(Champion[] ChampionArray = null)
     {
         if(ChampionArray == null)
@@ -39,11 +40,26 @@ public class ShopManager : MonoBehaviour
                 J = J - 1;
                 I = 0;
             }
+
             if (Champion.Price > Info.Player.Cash)
             {
                 Instance.transform.Find("Price").GetComponent<Text>().color = Color.red;
             }
+            
+            if(Champion.Image != null)
+            {
+                Transform t_ImageObject = Instance.transform.Find("Image");
+                if (t_ImageObject != null)
+                    t_ImageObject.GetComponent<Image>().sprite = Champion.Image;
+            }
+            else
+            {
+                // Spawn them later
+                SpawnImages = true;
+            }
         }
+
+        ShopContent.GetComponent<RectTransform>().sizeDelta = new Vector2(ShopContent.GetComponent<RectTransform>().sizeDelta.x, (Mathf.Abs(J)+1) * 300);
     }
 
     void Update ()
@@ -52,6 +68,31 @@ public class ShopManager : MonoBehaviour
         {
             SetupShop();
             Done = true;
+        }
+
+        // If we are supposed to spawn images and Annie's image is available (indicator that possibly all are)
+        if(SpawnImages && Champion.Get(1).Image != null)
+        {
+            // Don't keep doing this if unnecessary
+            SpawnImages = false;
+
+            // For each shop item
+            foreach (Transform t_ChampionTransform in GameObject.FindGameObjectWithTag("ShopContent").transform)
+            {
+                Transform t_ImageObject = t_ChampionTransform.Find("Image");
+                Sprite t_Sprite = Champion.Get(t_ChampionTransform.name).Image;
+
+                // If this champion doesn't have an image yet, try again later
+                if(t_Sprite == null)
+                {
+                    SpawnImages = true;
+                    continue;
+                }
+
+                // Set image
+                if (t_ImageObject != null)
+                    t_ImageObject.GetComponent<Image>().sprite = t_Sprite;
+            }
         }
 	}
 

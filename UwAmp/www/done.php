@@ -1,6 +1,6 @@
 <?php 
-//if(!defined("INCLUDED")) 
-	//die();
+if(!defined("INCLUDED")) 
+	die();
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -105,23 +105,7 @@ public class Champion
     private MasteryInfo Mastery;
 
     static Dictionary<string, Texture2D> m_Textures = new Dictionary<string, Texture2D>();
-
-    public void UpdateShopImage()
-    {
-        GameObject t_ShopContent = GameObject.FindGameObjectWithTag("ShopContent");
-        if (t_ShopContent == null)
-            return;
-
-        Transform t_Image = t_ShopContent.transform.Find(Name + "/Image");
-        if (t_Image == null)
-            return;
-
-        Image t_Sprite = t_Image.GetComponent<Image>();
-        if(t_Sprite != null)
-            t_Sprite.sprite = Image;
-    }
     
-
     private static bool m_Setup = false;
     public static bool Setup(JSONArray a_Champions)
     {
@@ -182,7 +166,6 @@ public class Champion
 
                     t_Rect.y = a_Request.texture.height - t_Rect.y - t_Rect.height;
                     t_Champion.Image = Sprite.Create(a_Request.texture, t_Rect, Vector2.zero);
-                    t_Champion.UpdateShopImage();
                 }, false);
             }
             else
@@ -191,7 +174,6 @@ public class Champion
 
                 t_Rect.y = t_Texture.height - t_Rect.y - t_Rect.height;
                 t_Champion.Image = Sprite.Create(t_Texture, t_Rect, Vector2.zero);
-                t_Champion.UpdateShopImage();
             }
 
             if (Champions.ContainsKey(t_Champion.ID) == false)

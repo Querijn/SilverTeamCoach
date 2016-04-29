@@ -3,10 +3,11 @@ if(!defined("INCLUDED"))
 	die();
 
 session_start();
-define("API_FOLDER", BASE_FOLDER . "api" . DIRECTORY_SEPARATOR);
-define("KEY_FOLDER", BASE_FOLDER . "key" . DIRECTORY_SEPARATOR);
-define("MYSQL_FOLDER", API_FOLDER . "mysql" . DIRECTORY_SEPARATOR);
-define("RIOT_FOLDER", API_FOLDER . "riot" . DIRECTORY_SEPARATOR);
+define("API_FOLDER", BASE_FOLDER . "api/");
+define("KEY_FOLDER", BASE_FOLDER . "key/");
+define("MYSQL_FOLDER", API_FOLDER . "mysql/");
+define("RIOT_FOLDER", API_FOLDER . "riot/");
+define("BUILD_FOLDER", BASE_FOLDER . "build/");
 
 require_once(BASE_FOLDER . "settings.php");
 require_once(API_FOLDER . "hacks.php");
