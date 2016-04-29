@@ -7,6 +7,7 @@ CREATE TABLE `players` (
   `id` int(11) NOT NULL,
   `user` int(11) NOT NULL,
   `title` enum('Player','Challenger','Developer') NOT NULL,
+  `main_team` int(11) NOT NULL,
   `cash` double NOT NULL,
   `starting_cash` double NOT NULL,
   `owned_champions` text NOT NULL,
@@ -17,6 +18,7 @@ CREATE TABLE `teams` (
   `id` int(11) NOT NULL,
   `name` text NOT NULL,
   `player` int(11) NOT NULL,
+  `enabled` int(11) NOT NULL,
   `mid` int(11) NOT NULL,
   `top` int(11) NOT NULL,
   `support` int(11) NOT NULL,
@@ -38,6 +40,6 @@ ALTER TABLE `teams`
 
 
 ALTER TABLE `players`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 ALTER TABLE `teams`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;

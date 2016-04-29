@@ -21,19 +21,19 @@ try
 		die("Team name is too long!");
 	
 	$t_Champions = $t_API->getStatic('champion?dataById=true&champData=image')["data"];
-	if(isset($t_Champions[$_GET["mid"]]) == false)
+	if(!isset($_GET["mid"]) || isset($t_Champions[$_GET["mid"]]) == false)
 		die("Invalid mid!");
 	
-	if(isset($t_Champions[$_GET["top"]]) == false)
+	if(!isset($_GET["top"]) || isset($t_Champions[$_GET["top"]]) == false)
 		die("Invalid top!");
 	
-	if(isset($t_Champions[$_GET["jungle"]]) == false)
+	if(!isset($_GET["jungle"]) || isset($t_Champions[$_GET["jungle"]]) == false)
 		die("Invalid jungle!");
 	
-	if(isset($t_Champions[$_GET["marksman"]]) == false)
+	if(!isset($_GET["marksman"]) || isset($t_Champions[$_GET["marksman"]]) == false)
 		die("Invalid marksman!");
 	
-	if(isset($t_Champions[$_GET["support"]]) == false)
+	if(!isset($_GET["support"]) || isset($t_Champions[$_GET["support"]]) == false)
 		die("Invalid support!");
 	
 	$t_Team = new DatabaseTeam();
@@ -46,6 +46,9 @@ try
 	$t_Team->Marksman = $_GET["marksman"];
 	$t_Team->Support = $_GET["support"];
 	
+	
+	$t_Team->Enabled = 1;
+	
 	$t_Team->Wins = 0;
 	$t_Team->Losses = 0;
 	$t_Team->Kills = 0;
@@ -53,6 +56,15 @@ try
 	$t_Team->CreepScore = 0;
 	$t_Team->Save();
 
+	$t_Player = DatabasePlayer::Load(SQLSearch::In(DatabasePlayer::Table)->Where("user")->Is($_SESSION["summoner"]["id"]));
+	if($t_Player->MainTeam == 0)
+	{
+		$t_InsertedTeam = DatabaseTeam::Load(SQLSearch::In(DatabaseTeam::Table)->Where("id")->IsLastID());
+		if(is_object($t_InsertedTeam) && $t_InsertedTeam->LoadFailed == false)
+			$t_Player->MainTeam = $t_InsertedTeam->Id;
+
+		$t_Player->Save();
+	}
 	die("true");
 }
 catch(Exception $e)
