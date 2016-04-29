@@ -3,10 +3,11 @@
 	[ ] Matchmaking
 
 [ ] Teams
-	[ ] Create teams
+	[x] Create teams
+	[x] Team overview
 	[ ] Enable/disable teams
-	[ ] Team overview
 	[ ] Edit teams
+	[ ] Delete team
 	
 [ ] Champions
 	[ ] Champion performance

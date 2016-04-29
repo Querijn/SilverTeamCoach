@@ -32,10 +32,10 @@ public class Stats : MonoBehaviour
                         break;
 
                     case "Team":
-
+                        t_Transform.GetComponent<Text>().text = Info.Player.Team;
                         break;
                     default:
-                        Debug.Log(t_Transform.name);
+                        Debug.LogError("Unknown transform: "+t_Transform.name);
                         break;
 
                 }

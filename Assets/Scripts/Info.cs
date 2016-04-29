@@ -9,14 +9,16 @@ public static class Info
 
     public struct PlayerInfo
     {
-        public PlayerInfo(string a_Name, double a_Cash)
+        public PlayerInfo(string a_Name, double a_Cash, string a_Team)
         {
             Name = a_Name;
             Cash = a_Cash;
+            Team = a_Team;
         }
 
         public string Name { get; private set; }
         public double Cash { get; private set; }
+        public string Team { get; private set; }
         public Champion[] OwnedChampions
         {
             get
@@ -56,8 +58,8 @@ public static class Info
                 Debug.LogError("'" + t_JSON["error"] + "'");
                 return;
             }
-
-            Player = new PlayerInfo(t_JSON["name"], t_JSON["cash"].AsDouble);
+            
+            Player = new PlayerInfo(t_JSON["name"], t_JSON["cash"].AsDouble, t_JSON["main_team"]["name"].Value);
 
             Champion.Reset(t_JSON["champions"].AsArray);
             Stats.Reset();
@@ -85,7 +87,7 @@ public static class Info
 
             Champion.Setup(t_JSON["champions"].AsArray);
 
-            Player = new PlayerInfo(t_JSON["name"], t_JSON["cash"].AsDouble);
+            Player = new PlayerInfo(t_JSON["name"], t_JSON["cash"].AsDouble, t_JSON["main_team"]["name"].Value);
             //Debug.Log("Initialisation complete, username is '" + Player.Name + "', and has " + Player.Cash + " cash.");
             m_Setup = true;
             m_InProgress = false;

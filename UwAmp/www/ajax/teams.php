@@ -11,6 +11,20 @@ if(isset($_GET["id"]) && is_numeric($_GET["id"]))
 	$t_GetID = $_GET["id"];
 }
 
+function AddTeamToArray($a_Team, &$a_Array)
+{
+	$a_Array[] = array
+	(
+		"name" => $a_Team->Name,
+		
+		"top" => $a_Team->Top,
+		"mid" => $a_Team->Mid,
+		"marksman" => $a_Team->Marksman,
+		"support" => $a_Team->Support,
+		"jungle" => $a_Team->Jungle,
+	);
+}
+
 try
 {
 	$t_API = new riotapi($settings["riot_key"], $_SESSION["region"], new FileSystemCache(BASE_FOLDER . "cache"));
@@ -22,17 +36,12 @@ try
 	{
 		foreach($t_Teams as $t_Team)
 		{
-			$t_Info[] = array
-			(
-				"name" => $t_Team->Name,
-				
-				"top" => $t_Team->Top,
-				"mid" => $t_Team->Mid,
-				"marksman" => $t_Team->Marksman,
-				"support" => $t_Team->Support,
-				"jungle" => $t_Team->Jungle,
-			);
+			AddTeamToArray($t_Team, $t_Info);
 		}
+	}
+	else if(is_object($t_Teams) && $t_Teams->LoadFailed == false)
+	{
+		AddTeamToArray($t_Teams, $t_Info);
 	}
 	
 	echo json_encode($t_Info);

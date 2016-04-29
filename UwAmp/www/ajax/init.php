@@ -7,10 +7,22 @@ if(!isset($_SESSION['summoner']))
 try
 {
 	$t_Players = DatabasePlayer::Load(SQLSearch::In(DatabasePlayer::Table)->Where("user")->Is($_SESSION["summoner"]["id"]));
+	
+	
 	$t_API = new riotapi($settings["riot_key"], $_SESSION["region"], new FileSystemCache(BASE_FOLDER . "cache"), 5);
 	$t_Champions = $t_API->getStatic('champion?dataById=true&champData=image');
 	
 	$t_Info = $_SESSION["summoner"];
+	if($t_Players->MainTeam != 0)
+	{
+		$t_MainTeam = DatabaseTeam::Load(SQLSearch::In(DatabaseTeam::Table)->Where("id")->Is($t_Players->MainTeam));
+		
+		if(is_object($t_MainTeam) && $t_MainTeam->LoadFailed == false)
+			$t_Info["main_team"]["name"] = $t_MainTeam->Name;
+		
+		// Nothing else is necessary so far
+	}
+		
 	$t_Info["cash"] = $t_Players->Cash;
 	$t_Info["champions"] = array();
 	

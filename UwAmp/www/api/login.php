@@ -47,6 +47,8 @@ function LogIn($a_User, $a_Region, $a_Verify = false)
 			$t_Player->Cash += $t_Mastery["championPoints"];
 		$t_Player->Cash *= $settings["starting_cash_per_champion_point"];
 		
+		// TODO create message about cash gain
+		
 		$t_Player->StartingCash = $t_Player->Cash;
 		
 		$t_Player->Admin = 0;
