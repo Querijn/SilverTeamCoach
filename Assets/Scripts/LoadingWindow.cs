@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 
-
+//[ExecuteInEditMode]
 public class LoadingWindow : MonoBehaviour 
 {
     static private LoadingWindow m_Window = null;
@@ -14,10 +14,11 @@ public class LoadingWindow : MonoBehaviour
 
     public static void Show()
     {
-        if (m_Window == null)
+        if (m_Window == null && GameObject.FindGameObjectWithTag("LoadingWindow") != null)
             m_Window = GameObject.FindGameObjectWithTag("LoadingWindow").GetComponent<LoadingWindow>();
 
-        m_Window.gameObject.SetActive(true);
+        if (m_Window != null)
+            m_Window.gameObject.SetActive(true);
     }
 
     public static void Hide()
@@ -27,9 +28,10 @@ public class LoadingWindow : MonoBehaviour
         
     public static void Close()
     {
-        if (m_Window == null)
+        if (m_Window == null && GameObject.FindGameObjectWithTag("LoadingWindow") != null)
             m_Window = GameObject.FindGameObjectWithTag("LoadingWindow").GetComponent<LoadingWindow>();
 
-        m_Window.gameObject.SetActive(false);
+        if (m_Window != null)
+            m_Window.gameObject.SetActive(false);
     }
 }

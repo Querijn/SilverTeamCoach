@@ -34,7 +34,6 @@ public static class Info
             {
                 if (a_Request.text == "true")
                 {
-                    // TODO refresh user
                     Info.Reset();
                 }
                 else Error.Show(a_Request.text);

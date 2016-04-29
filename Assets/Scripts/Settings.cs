@@ -19,7 +19,7 @@ public class Settings : MonoBehaviour
     public static char CashSign { get { return Singleton.m_CashSign; } }
 
     // What menu pops up when you start the game?
-    public MenuHandler.Menus m_DefaultMenu = MenuHandler.Menus.Teams;
+    public MenuHandler.Menus m_DefaultMenu = MenuHandler.Menus.Main;
     public static MenuHandler.Menus DefaultMenu { get { return Singleton.m_DefaultMenu; } }
 
     [Header("Network")]

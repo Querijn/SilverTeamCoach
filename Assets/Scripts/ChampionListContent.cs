@@ -15,6 +15,7 @@ public class ChampionListContent : MonoBehaviour
     void Start()
     {
         m_Element = this;
+        GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
     }
     	
 	void Update () 

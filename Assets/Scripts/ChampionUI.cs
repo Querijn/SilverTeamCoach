@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using System;
 
 public class ChampionUI : MonoBehaviour 
 {
@@ -14,16 +15,16 @@ public class ChampionUI : MonoBehaviour
     public Type m_Type;
 
     Dropdown m_Dropdown;
-    Toggle m_ShowAllChampions;
+    Toggle m_ShowAllChampionsToggle;
 
-    bool m_IsOn = false;
+    bool m_ShowAllChampions = false;
 
     void Start ()
 	{
         m_Dropdown = transform.Find("Dropdown").GetComponent<Dropdown>();
-        m_ShowAllChampions = transform.parent.Find("ShowAllChampions").GetComponent<Toggle>();
+        m_ShowAllChampionsToggle = transform.parent.Find("ShowAllChampions").GetComponent<Toggle>();
 
-        m_IsOn = !m_ShowAllChampions.isOn;
+        m_ShowAllChampions = !m_ShowAllChampionsToggle.isOn;
 
         m_UIElements.Add(this);
 
@@ -32,34 +33,64 @@ public class ChampionUI : MonoBehaviour
             Reset();
         });
     }
+
+    public static bool AllLanesFilled()
+    {
+        foreach (ChampionUI t_Element in m_UIElements)
+            if (t_Element.Value == null)
+                return false;
+        return true;
+    }
 	
 	void Update () 
 	{
-        if (Champion.All.Length != 0 && m_ShowAllChampions.isOn != m_IsOn)
+        if (Champion.All.Length != 0 && m_ShowAllChampionsToggle.isOn != m_ShowAllChampions)
         {
-            m_IsOn = m_ShowAllChampions.isOn;
-            SetChampionList(m_ShowAllChampions.isOn);
+            m_ShowAllChampions = m_ShowAllChampionsToggle.isOn;
+            Reset();
         }
     }
 
-    bool IsViableInSelectedLane(Champion.ViabilityInfo a_Viability)
+    public static void Reset()
     {
-        switch(m_Type)
+        List<Champion> t_OwnedChampions = new List<Champion>(Champion.Filter(Champion.FilterType.Owned, Champion.GetSortedBy(Champion.SortValue.Name)));
+        
+        foreach (ChampionUI t_Element in m_UIElements)
         {
-            case Type.Top:
-                return a_Viability.Top >= 0.5;
-            case Type.Mid:
-                return a_Viability.Mid >= 0.5;
-            case Type.Jungle:
-                return a_Viability.Jungle >= 0.5;
-            case Type.Marksman:
-                return a_Viability.Marksman >= 0.5;
-            case Type.Support:
-                return a_Viability.Support >= 0.5;
-            default:
-                return false;
+            if(t_Element.Value != null)
+            {
+                t_OwnedChampions.Remove(t_Element.Value);
+            }
         }
+        
+        foreach (ChampionUI t_Element in m_UIElements) 
+            t_Element.SetChampionList(t_OwnedChampions);
     }
+
+    void SetChampionList(List<Champion> a_Champions)
+    {
+        Champion t_SelectedChampion = Value;
+
+        m_Dropdown.ClearOptions();
+        List<Dropdown.OptionData> t_Options = new List<Dropdown.OptionData>();
+        t_Options.Add(new Dropdown.OptionData(""));
+
+        foreach (Champion t_Champion in a_Champions)
+        {
+            if (m_ShowAllChampions || IsViableInSelectedLane(t_Champion.Viability))
+                t_Options.Add(new Dropdown.OptionData(t_Champion.Name, t_Champion.Image));
+        }
+
+        if(t_SelectedChampion != null)
+        {
+            var t_Selected = new Dropdown.OptionData(t_SelectedChampion.Name, t_SelectedChampion.Image);
+            t_Options.Add(t_Selected);
+            m_Dropdown.AddOptions(t_Options);
+            m_Dropdown.value = t_Options.IndexOf(t_Selected);
+        }
+        else m_Dropdown.AddOptions(t_Options);
+    }
+
 
     public Champion Value
     {
@@ -76,47 +107,22 @@ public class ChampionUI : MonoBehaviour
         }
     }
 
-    public bool IsSelected(string a_Champion)
+    bool IsViableInSelectedLane(Champion.ViabilityInfo a_Viability)
     {
-        try
+        switch (m_Type)
         {
-            return m_Dropdown.options[m_Dropdown.value].text == a_Champion;
+            case Type.Top:
+                return a_Viability.Top >= 0.5;
+            case Type.Mid:
+                return a_Viability.Mid >= 0.5;
+            case Type.Jungle:
+                return a_Viability.Jungle >= 0.5;
+            case Type.Marksman:
+                return a_Viability.Marksman >= 0.5;
+            case Type.Support:
+                return a_Viability.Support >= 0.5;
+            default:
+                return false;
         }
-        catch
-        {
-            return false;
-        }
-    }
-
-    public bool IsInOtherList(string a_Champion)
-    {
-        foreach (ChampionUI t_UI in m_UIElements)
-            if (t_UI.IsSelected(a_Champion))
-                return true;
-
-        return false;
-    }
-
-    public void Reset()
-    {
-        SetChampionList(m_IsOn);
-    }
-
-    void SetChampionList(bool a_ShowAllChampions)
-    {
-        List<string> t_Options = new List<string>();
-
-        Champion[] t_OwnedChampions = Champion.Filter(Champion.FilterType.Owned, Champion.GetSortedBy(Champion.SortValue.Name));
-        foreach (Champion t_Champion in t_OwnedChampions)
-        {
-            // No duplicate champion per team.
-            if (IsInOtherList(t_Champion.Name))
-                continue;
-
-            if(a_ShowAllChampions || IsViableInSelectedLane(t_Champion.Viability))
-                t_Options.Add(t_Champion.Name);
-        }
-
-        m_Dropdown.AddOptions(t_Options);
     }
 }

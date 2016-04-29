@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 
+//[ExecuteInEditMode]
 public class Error : MonoBehaviour 
 {
     static private Error m_Error = null;

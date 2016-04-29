@@ -17,7 +17,7 @@ public class TeamManager : MonoBehaviour
     {
         if(Info.Player.OwnedChampions.Length >= 5)
         {
-            GameObject.Find("CreatePopup").transform.localScale = Vector3.one;
+            CreateTeamWindow.Instance.SetActive(true);
         }
         else
         {
