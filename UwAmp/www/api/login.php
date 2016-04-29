@@ -40,6 +40,7 @@ function LogIn($a_User, $a_Region, $a_Verify = false)
 		$t_Player->Title = 'Player';
 		$t_Player->OwnedChampions = array(1);
 		$t_Player->Cash = 0.0;
+		$t_Player->MainTeam = 0;
 		
 		$t_Info = $t_API->getChampionMastery($t_Player->User);
 		foreach($t_Info as $t_Mastery) 

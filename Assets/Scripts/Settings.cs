@@ -44,12 +44,19 @@ public class Settings : MonoBehaviour
     {
         return Host + AjaxFolder + a_API;
     }
+    
+    public static Settings Singleton
+    {
+        get;
+        private set;
+    }
 
-    public static Settings Singleton { get; private set; }
 
     void Start ()
 	{
 	    if(Singleton == null)
             Singleton = this;
+
+        Info.Setup();
 	}
 }

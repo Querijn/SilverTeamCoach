@@ -23,7 +23,8 @@ public class MenuHandler : MonoBehaviour
     {
         Menus t_Menu = GetMenuTypeByName(a_Menu.name);
         if(t_Menu != Menus.None)
-        m_Menus.Add(t_Menu, a_Menu);
+            m_Menus.Add(t_Menu, a_Menu);
+
         //Debug.Log("Filed new menu '" + a_Menu.name + "' under '" + t_Menu.ToString() + "'");
     }
 
@@ -51,7 +52,6 @@ public class MenuHandler : MonoBehaviour
 
     void Start()
     {
-        Info.Setup();
     }
 
     bool m_Setup = false;

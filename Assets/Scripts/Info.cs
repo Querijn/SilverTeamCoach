@@ -47,7 +47,7 @@ public static class Info
 
     public static bool Reset()
     {
-        HTTP.Request("http://localhost/ajax/init.php", delegate (WWW a_Request)
+        HTTP.Request(Settings.FormAjaxURL("init.php"), delegate (WWW a_Request)
         {
             var t_JSON = JSON.Parse(a_Request.text);
 
@@ -73,7 +73,7 @@ public static class Info
         if (m_Setup == true || m_InProgress == true)
             return m_Setup;
 
-        HTTP.Request("http://localhost/ajax/init.php", delegate (WWW a_Request)
+        HTTP.Request(Settings.FormAjaxURL("init.php"), delegate (WWW a_Request)
         {
             var t_JSON = JSON.Parse(a_Request.text);
 
