@@ -10,7 +10,8 @@
 	
 [ ] Champions
 	[ ] Champion performance
-	[ ] Champion sorting
+	[x] Champion sorting
+	[x] Champion filtering
 	[ ] Data mining
 	[ ] Change champion settings
 		[ ] Aggressive/Passive

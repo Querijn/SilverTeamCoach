@@ -25,7 +25,8 @@ $settings["testing_account"] = 22929336;
 $settings["testing_region"] = 'euw';
 
 // Balance settings
-$settings["cash_per_champion_point"] = 0.1;
+$settings["starting_cash_per_champion_point"] = 0.1;
+$settings["cash_per_champion_point"] = 0.3;
 
 
 ?>

@@ -48,10 +48,20 @@ public static class Info
 
     public static bool Reset()
     {
-        Debug.Log("Resetting..");
-        m_Setup = false;
-        m_InProgress = false;
-        return Setup();
+        HTTP.Request("http://localhost/ajax/init.php", delegate (WWW a_Request)
+        {
+            var t_JSON = JSON.Parse(a_Request.text);
+
+            if (t_JSON["error"].Value != "")
+            {
+                Debug.LogError("'" + t_JSON["error"] + "'");
+                return;
+            }
+
+            Player = new PlayerInfo(t_JSON["name"], t_JSON["cash"].AsDouble);
+            Debug.Log("Initialisation complete, username is '" + Player.Name + "', and has " + Player.Cash + " cash.");
+        }, true);
+        return true;
     }
 
     public static bool Setup()
@@ -63,9 +73,9 @@ public static class Info
         {
             var t_JSON = JSON.Parse(a_Request.text);
 
-            if (t_JSON["error"].Value!="")
+            if (t_JSON["error"].Value != "")
             {
-                Debug.LogError("'" + t_JSON["error"]+ "'");
+                Debug.LogError("'" + t_JSON["error"] + "'");
                 return;
             }
 

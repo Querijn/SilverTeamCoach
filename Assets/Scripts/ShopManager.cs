@@ -9,7 +9,9 @@ public class ShopManager : MonoBehaviour
     {
         if(ChampionArray == null)
         {
-            ChampionArray = Champion.Filter(Champion.FilterType.NotOwned, Champion.GetSortedBy(Champion.SortValue.Name, Champion.SortType.ASC));
+            ChampionArray = Champion.GetSortedBy(Champion.SortValue.Name, Champion.SortType.ASC);
+            ChampionArray = Champion.Filter(Champion.FilterType.NotOwned, ChampionArray);
+            ChampionArray = Champion.Filter(Champion.FilterType.Buyable, ChampionArray);
         }
 
         GameObject Prefab = Resources.Load("Prefabs/Champion") as GameObject;

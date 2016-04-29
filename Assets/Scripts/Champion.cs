@@ -10,6 +10,14 @@ public class Champion
     private static Dictionary<int, Champion> Champions = new Dictionary<int, Champion>();
     private static Dictionary<string, int> Translation = new Dictionary<string, int>();
     public static Champion[] All { get { return Champions.Values.ToArray(); } }
+    
+    public int ID { get; private set; }
+    public Sprite Image { get; private set; }
+    public string Name { get; private set; }
+    public string Key { get; private set; }
+    public bool Owned { get; private set; }
+    public string Title { get; private set; }
+    public double Price { get; private set; }
 
     public enum SortType
     {
@@ -28,47 +36,10 @@ public class Champion
     public enum FilterType
     {
         Owned,
-        NotOwned
+        NotOwned,
+        Buyable,
+        Unbuyable
     };
-
-    public static Champion[] GetSortedBy(SortValue a_Value, SortType a_Type = SortType.DESC)
-    {
-        Champion[] t_Array = Champion.All;
-
-        switch (a_Value)
-        {
-            case SortValue.Name:
-                Array.Sort(t_Array, delegate (Champion Champ1, Champion Champ2)
-                {
-                    return Champ1.Name.CompareTo(Champ2.Name) * (a_Type == SortType.ASC ? 1 : -1);
-                });
-                break;
-            case SortValue.Price:
-                Array.Sort(t_Array, delegate (Champion Champ1, Champion Champ2)
-                {
-                    return Champ1.Price.CompareTo(Champ2.Price) * (a_Type == SortType.ASC ? 1 : -1);
-                });
-                break;
-        }
-
-        return t_Array;
-    }
-
-    public static Champion[] Filter(FilterType a_Value, Champion[] a_ChampionList = null)
-    {
-        if(a_ChampionList == null)
-            a_ChampionList = Champion.All;
-
-        switch (a_Value)
-        {
-            case FilterType.Owned:
-                return a_ChampionList.Where(c => c.Owned).ToArray();
-            case FilterType.NotOwned:
-                return a_ChampionList.Where(c => !c.Owned).ToArray();
-        }
-
-        return a_ChampionList;
-    }
 
     public Champion(int a_ID, string a_Key, string a_Name, string a_Title, double a_Price, bool a_Owned, MasteryInfo a_MasteryInfo, ViabilityInfo a_Viability)
     {
@@ -85,14 +56,6 @@ public class Champion
             Champions.Add(a_ID, this);
         }
     }
-
-    public int ID { get; private set; }
-    public Sprite Image { get; private set; }
-    public string Name { get; private set; }
-    public string Key { get; private set; }
-    public bool Owned { get; private set; }
-    public string Title { get; private set; }
-    public double Price { get; private set; }
 
 
     public struct ViabilityInfo
@@ -255,5 +218,54 @@ public class Champion
         if (Translation.ContainsKey(a_Name))
             return Get(Translation[a_Name]);
         else return null;
+    }
+    
+    public static Champion[] GetSortedBy(SortValue a_Value, SortType a_Type = SortType.DESC)
+    {
+        Champion[] t_Array = Champion.All;
+
+        switch (a_Value)
+        {
+            case SortValue.Name:
+                Array.Sort(t_Array, delegate (Champion Champ1, Champion Champ2)
+                {
+                    return Champ1.Name.CompareTo(Champ2.Name) * (a_Type == SortType.ASC ? 1 : -1);
+                });
+                break;
+            case SortValue.Price:
+                Array.Sort(t_Array, delegate (Champion Champ1, Champion Champ2)
+                {
+                    return Champ1.Price.CompareTo(Champ2.Price) * (a_Type == SortType.ASC ? 1 : -1);
+                });
+                break;
+            case SortValue.UserMastery:
+                Array.Sort(t_Array, delegate (Champion Champ1, Champion Champ2)
+                {
+                    return Champ1.Mastery.Level.CompareTo(Champ2.Mastery.Level) * (a_Type == SortType.ASC ? 1 : -1);
+                });
+                break;
+        }
+
+        return t_Array;
+    }
+
+    public static Champion[] Filter(FilterType a_Value, Champion[] a_ChampionList = null)
+    {
+        if (a_ChampionList == null)
+            a_ChampionList = Champion.All;
+
+        switch (a_Value)
+        {
+            case FilterType.Owned:
+                return a_ChampionList.Where(c => c.Owned).ToArray();
+            case FilterType.NotOwned:
+                return a_ChampionList.Where(c => !c.Owned).ToArray();
+            case FilterType.Buyable:
+                return a_ChampionList.Where(c => c.Price <= Info.Player.Cash).ToArray();
+            case FilterType.Unbuyable:
+                return a_ChampionList.Where(c => c.Price > Info.Player.Cash).ToArray();
+        }
+
+        return a_ChampionList;
     }
 }

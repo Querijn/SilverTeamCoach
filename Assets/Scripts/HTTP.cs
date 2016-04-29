@@ -53,7 +53,6 @@ public class HTTP : MonoBehaviour
 
     void Update ()
     {
-        bool t_ListChanged = false;
         for(int i = m_Requests.Count - 1; i >= 0; i--)
         {
             var t_Request = m_Requests[i];
@@ -64,13 +63,12 @@ public class HTTP : MonoBehaviour
                     t_Callback.Invoke(t_Request.Request);
 
                 m_Requests.Remove(t_Request);
-                t_ListChanged = true;
             }
         }
-
-        if(t_ListChanged && HasImportantTask())
-        {
-            // TODO turn on or off blocking spinner
-        }
+        
+        if (HasImportantTask())
+            LoadingWindow.Show();
+        else
+            LoadingWindow.Hide();
     }
 }

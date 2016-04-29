@@ -44,7 +44,9 @@ function LogIn($a_User, $a_Region, $a_Verify = false)
 		$t_Info = $t_API->getChampionMastery($t_Player->User);
 		foreach($t_Info as $t_Mastery) 
 			$t_Player->Cash += $t_Mastery["championPoints"];
-		$t_Player->Cash *= $settings["cash_per_champion_point"];
+		$t_Player->Cash *= $settings["starting_cash_per_champion_point"];
+		
+		$t_Player->StartingCash = $t_Player->Cash;
 		
 		$t_Player->Admin = 0;
 		

@@ -53,7 +53,7 @@ class riotapi {
 	const RATE_LIMIT_SHORT = 10;
 
 	// Cache variables
-	const CACHE_LIFETIME_MINUTES = 60;
+	private $CACHE_LIFETIME_MINUTES = 60;
 	private $cache;
 	
 	private $m_Key;
@@ -79,8 +79,10 @@ class riotapi {
 	// Remove this commit if you want. - Ahubers
 	const DECODE_ENABLED = TRUE;
 
-	public function __construct($api_key, $region, CacheInterface $cache = null)
+	public function __construct($api_key, $region, CacheInterface $cache = null, $a_CacheLifetimeMinutes = 60)
 	{
+		$this->CACHE_LIFETIME_MINUTES = $a_CacheLifetimeMinutes;
+		
 		$this->REGION = $region;
 
 		$this->m_Key = $api_key;
@@ -369,7 +371,7 @@ class riotapi {
 			{
 				if($this->cache !== null)
 				{
-					$this->cache->put($url, $result, self::CACHE_LIFETIME_MINUTES * 60);
+					$this->cache->put($url, $result, $this->CACHE_LIFETIME_MINUTES * 60);
 				}
 			} else {
 				throw new Exception(self::$errorCodes[$this->responseCode]);

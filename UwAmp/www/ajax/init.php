@@ -7,7 +7,7 @@ if(!isset($_SESSION['summoner']))
 try
 {
 	$t_Players = DatabasePlayer::Load(SQLSearch::In(DatabasePlayer::Table)->Where("user")->Is($_SESSION["summoner"]["id"]));
-	$t_API = new riotapi($settings["riot_key"], $_SESSION["region"], new FileSystemCache(BASE_FOLDER . "cache"));
+	$t_API = new riotapi($settings["riot_key"], $_SESSION["region"], new FileSystemCache(BASE_FOLDER . "cache"), 5);
 	$t_Champions = $t_API->getStatic('champion?dataById=true&champData=image');
 	
 	$t_Info = $_SESSION["summoner"];
@@ -20,8 +20,20 @@ try
 	
 	// Make sure the mastery is usable
 	$t_Mastery = array();
+	$t_TotalPoints = 0;
 	foreach($t_API->getChampionMastery($t_Info["id"]) as $t_CurrentMastery)
+	{
+		$t_TotalPoints = $t_CurrentMastery["championPoints"];
 		$t_Mastery[$t_CurrentMastery["championId"]] = $t_CurrentMastery;
+	}
+	
+	$t_TotalPoints -= $t_Players->StartingCash;
+	if($t_TotalPoints > 0)
+	{
+		$t_TotalPoints *= $settings["cash_per_champion_point"];
+		$t_Players->Cash += $t_TotalPoints;
+		$t_Players->Save();
+	}
 	
 	// Get all the prices
 	$t_Prices = GetChampionPrices();
@@ -39,6 +51,7 @@ try
 		}
 		
 		// Setup the owned boolean
+		if(!is_null($t_Players->OwnedChampions))
 		$t_Champion["owned"] = in_array($t_Champion["id"], $t_Players->OwnedChampions) ? "true" : "false";
 	}
 	
