@@ -14,6 +14,7 @@ public class MenuHandler : MonoBehaviour
         Main,
         Matches,
         Teams,
+        Champions,
         Shop,
         Settings
     };
@@ -23,6 +24,7 @@ public class MenuHandler : MonoBehaviour
         Menus t_Menu = GetMenuTypeByName(a_Menu.name);
         if(t_Menu != Menus.None)
         m_Menus.Add(t_Menu, a_Menu);
+        //Debug.Log("Filed new menu '" + a_Menu.name + "' under '" + t_Menu.ToString() + "'");
     }
 
     public static Menus GetMenuTypeByName(string a_Name)
@@ -51,7 +53,7 @@ public class MenuHandler : MonoBehaviour
 	{
         Info.Setup();
 
-        SetAllSizes(Vector3.zero);
+        OpenMenu("Champions");
 	}
 
     void SetAllSizes(Vector3 a_Size, Menus a_Exception = Menus.None)
@@ -97,6 +99,6 @@ public class MenuHandler : MonoBehaviour
 
         SetTitle(t_Menu);
 
-        //Debug.Log("I was asked to open the " + a_MenuName + " menu.");
+        // Debug.Log("I was asked to open the " + a_MenuName + " menu.");
     }
 }

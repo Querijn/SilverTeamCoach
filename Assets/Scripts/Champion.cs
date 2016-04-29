@@ -18,6 +18,8 @@ public class Champion
     public bool Owned { get; private set; }
     public string Title { get; private set; }
     public double Price { get; private set; }
+    public ViabilityInfo Viability { get; private set; }
+    public MasteryInfo Mastery { get; private set; }
 
     public enum SortType
     {
@@ -50,6 +52,7 @@ public class Champion
         Price = a_Price;
         Owned = a_Owned;
         Mastery = a_MasteryInfo;
+        Viability = a_Viability;
 
         if(Champions.ContainsKey(a_ID) == false)
         {
@@ -77,7 +80,6 @@ public class Champion
         public double Marksman;
         public double Support;
     };
-    public ViabilityInfo Viability;
 
     public struct MasteryInfo
     {
@@ -102,7 +104,6 @@ public class Champion
         public int Points;
         public DateTime LastPlayed;
     };
-    private MasteryInfo Mastery;
 
     static Dictionary<string, Texture2D> m_Textures = new Dictionary<string, Texture2D>();
     
@@ -186,6 +187,55 @@ public class Champion
         //Debug.Log(Champions.Values.Count + " champions added.");
         m_Setup = true;
         return true;
+    }
+
+    public string GetBestLane(int a_Number = 0)
+    {
+        Debug.Assert(a_Number == 0 || a_Number == 1);
+        // TODO: support more than 1 lane
+
+        string t_Ignore = (a_Number>0) ? GetBestLane(a_Number-1) : "";
+
+        string t_Lane = "Unknown";
+        double t_HighestViability = 0.0;
+
+        if (Viability.Top == Viability.Mid &&
+           Viability.Top == Viability.Jungle &&
+           Viability.Top == Viability.Marksman &&
+           Viability.Top == Viability.Support)
+            return "All";
+
+        if (t_HighestViability < Viability.Top && t_Ignore != "Top")
+        {
+            t_HighestViability = Viability.Top;
+            t_Lane = "Top";
+        }
+
+        if (t_HighestViability < Viability.Mid && t_Ignore != "Mid")
+        {
+            t_HighestViability = Viability.Mid;
+            t_Lane = "Mid";
+        }
+
+        if (t_HighestViability < Viability.Marksman && t_Ignore != "Marksman")
+        {
+            t_HighestViability = Viability.Marksman;
+            t_Lane = "Marksman";
+        }
+
+        if (t_HighestViability < Viability.Support && t_Ignore != "Support")
+        {
+            t_HighestViability = Viability.Support;
+            t_Lane = "Support";
+        }
+
+        if (t_HighestViability < Viability.Jungle && t_Ignore != "Jungle")
+        {
+            t_HighestViability = Viability.Jungle;
+            t_Lane = "Jungle";
+        }
+
+        return t_Lane;
     }
 
     public static Champion Get(int a_ID)

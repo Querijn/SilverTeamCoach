@@ -15,7 +15,7 @@ public class ShopManager : MonoBehaviour
             ChampionArray = Champion.Filter(Champion.FilterType.Buyable, ChampionArray);
         }
 
-        GameObject Prefab = Resources.Load("Prefabs/Champion") as GameObject;
+        GameObject Prefab = Resources.Load("Prefabs/ShopListObject") as GameObject;
         GameObject ShopContent = GameObject.FindGameObjectWithTag("ShopContent");
 
         int I = 0;

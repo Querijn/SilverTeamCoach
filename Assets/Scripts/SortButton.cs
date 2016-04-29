@@ -25,7 +25,7 @@ public class SortButton : MonoBehaviour
         if (CurrentState == State.ascending)
         {
             Text text = GetComponentInChildren<Text>();
-            text.text = "Sort Price (DSC)";
+            text.text = "Sort Price (DESC)";
 
             ShopManager Shop = GameObject.FindGameObjectWithTag("Shop").GetComponent<ShopManager>();
             Shop.SetupShop(Champion.GetSortedBy(Champion.SortValue.Price, Champion.SortType.DESC));
