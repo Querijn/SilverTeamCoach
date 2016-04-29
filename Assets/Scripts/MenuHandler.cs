@@ -59,7 +59,7 @@ public class MenuHandler : MonoBehaviour
     { 
         if(m_Setup == false && m_Menus.ContainsKey(Menus.Champions))
         {
-            OpenMenu("Champions");
+            OpenMenu(Settings.DefaultMenu);
             m_Setup = true;
 
         }
@@ -92,15 +92,17 @@ public class MenuHandler : MonoBehaviour
 
     public void OpenMenu(string a_MenuName)
     {
-        Menus t_Menu = GetMenuTypeByName(a_MenuName);
-        if (t_Menu == Menus.None)
+        OpenMenu(GetMenuTypeByName(a_MenuName));
+    }
+
+    public void OpenMenu(Menus a_MenuName)
+    {
+        if (a_MenuName == Menus.None)
             return;
 
-        SetAllEnabled(false, t_Menu);
-        SetEnabled(t_Menu, true);
+        SetAllEnabled(false, a_MenuName);
+        SetEnabled(a_MenuName, true);
 
-        SetTitle(t_Menu);
-
-        // Debug.Log("I was asked to open the " + a_MenuName + " menu.");
+        SetTitle(a_MenuName);
     }
 }

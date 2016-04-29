@@ -18,6 +18,10 @@ public class Settings : MonoBehaviour
     public char m_CashSign = 'ƒ';
     public static char CashSign { get { return Singleton.m_CashSign; } }
 
+    // What menu pops up when you start the game?
+    public MenuHandler.Menus m_DefaultMenu = MenuHandler.Menus.Teams;
+    public static MenuHandler.Menus DefaultMenu { get { return Singleton.m_DefaultMenu; } }
+
     [Header("Network")]
     // Where is our network?
     // This is the base root where the ajax, api and sql folder is.

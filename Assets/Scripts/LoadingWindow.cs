@@ -7,12 +7,17 @@ public class LoadingWindow : MonoBehaviour
 {
     static private LoadingWindow m_Window = null;
 
+    void Start()
+    {
+        Close();
+    }
+
     public static void Show()
     {
         if (m_Window == null)
             m_Window = GameObject.FindGameObjectWithTag("LoadingWindow").GetComponent<LoadingWindow>();
 
-        m_Window.transform.localScale = Vector3.one;
+        m_Window.gameObject.SetActive(true);
     }
 
     public static void Hide()
@@ -25,6 +30,6 @@ public class LoadingWindow : MonoBehaviour
         if (m_Window == null)
             m_Window = GameObject.FindGameObjectWithTag("LoadingWindow").GetComponent<LoadingWindow>();
 
-        m_Window.transform.localScale = Vector3.zero;
+        m_Window.gameObject.SetActive(false);
     }
 }

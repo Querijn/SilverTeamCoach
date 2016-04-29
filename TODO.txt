@@ -29,10 +29,10 @@
 	[ ] Post Game info
 	[ ] Gaining cash
 	
-[ ] Shop
+[x] Shop
 	[x] Shop Main UI
-	[ ] Shop Pop-up
-	[ ] Shop buying
+	[x] Shop Pop-up
+	[x] Shop buying
 	
 [ ] Messages
 	[ ] Wins and losses

@@ -8,20 +8,21 @@ public class Error : MonoBehaviour
 
 	void Start ()
 	{
-        m_Error = this;    
-	}
+        m_Error = this;
+        Close();
+    }
 	
 	public static void Show(string a_Message, string a_OKButtonText = "OK")
     {
         Debug.LogError(a_Message);
         m_Error.transform.Find("Content/Context").GetComponent<Text>().text = a_Message;
         m_Error.transform.Find("Content/Button/Text").GetComponent<Text>().text = a_OKButtonText;
-        m_Error.transform.localScale = Vector3.one;
+        m_Error.gameObject.SetActive(true);
     }
 
     public void Close()
     {
-        gameObject.transform.localScale = Vector3.zero;
+        m_Error.gameObject.SetActive(false);
         m_Error.transform.Find("Content/Context").GetComponent<Text>().text = "";
         m_Error.transform.Find("Content/Button/Text").GetComponent<Text>().text = "OK";
     }

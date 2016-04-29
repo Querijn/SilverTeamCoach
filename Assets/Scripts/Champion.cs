@@ -107,6 +107,13 @@ public class Champion
 
     static Dictionary<string, Texture2D> m_Textures = new Dictionary<string, Texture2D>();
     
+    public static bool Reset(JSONArray a_Champions)
+    {
+        m_Setup = false;
+        Champions.Clear();
+        return Setup(a_Champions);
+    }
+
     private static bool m_Setup = false;
     public static bool Setup(JSONArray a_Champions)
     {

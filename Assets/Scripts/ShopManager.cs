@@ -4,8 +4,14 @@ using UnityEngine.UI;
 
 public class ShopManager : MonoBehaviour
 {
-    bool Done = false;
+    static bool Done = false;
     bool SpawnImages = false;
+
+    public static void Reset()
+    {
+        Done = false;
+    }
+
     public void SetupShop(Champion[] ChampionArray = null)
     {
         if(ChampionArray == null)

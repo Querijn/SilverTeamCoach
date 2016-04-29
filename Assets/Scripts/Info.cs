@@ -59,7 +59,12 @@ public static class Info
             }
 
             Player = new PlayerInfo(t_JSON["name"], t_JSON["cash"].AsDouble);
-            Debug.Log("Reset complete, username is '" + Player.Name + "', and has " + Player.Cash + " cash.");
+
+            Champion.Reset(t_JSON["champions"].AsArray);
+            Stats.Reset();
+            ShopManager.Reset();
+            ChampionListContent.Reset();
+            // Debug.Log("Reset complete, username is '" + Player.Name + "', and has " + Player.Cash + " cash.");
         }, true);
         return true;
     }

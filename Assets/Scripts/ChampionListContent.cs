@@ -3,7 +3,19 @@ using System.Collections;
 
 public class ChampionListContent : MonoBehaviour 
 {
-    bool m_Setup = false;
+    static bool m_Setup = false;
+    static ChampionListContent m_Element = null;
+    static public void Reset()
+    {
+        foreach (Transform t_Child in m_Element.transform)
+            Destroy(t_Child.gameObject);
+        m_Setup = false;
+    }
+
+    void Start()
+    {
+        m_Element = this;
+    }
     	
 	void Update () 
 	{
@@ -18,13 +30,14 @@ public class ChampionListContent : MonoBehaviour
                 GameObject t_Instance = Instantiate(t_Prefab);
                 t_Instance.name = t_Champion.Name;
                 t_Instance.GetComponent<ChampionListElement>().FillInfo(t_Champion);
-
-                t_Instance.transform.localPosition = new Vector3(170, 500 + (-y * t_PrefabTransform.sizeDelta.y));
                 t_Instance.transform.SetParent(transform);
+
+                t_Instance.transform.localPosition = new Vector3(0, (-y * t_PrefabTransform.sizeDelta.y));
+                t_Instance.transform.localScale = Vector3.one;
                 y++;
             }
             
-            GetComponent<RectTransform>().sizeDelta = new Vector2(1200, (y * t_PrefabTransform.sizeDelta.y * 1.4f));
+            GetComponent<RectTransform>().sizeDelta = new Vector2(0, 40 + (y * t_PrefabTransform.sizeDelta.y));
             m_Setup = true;
         }
 	}

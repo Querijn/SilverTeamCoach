@@ -4,7 +4,12 @@ using UnityEngine.UI;
 
 public class Stats : MonoBehaviour 
 {
-    bool m_Setup = false;
+    public static void Reset()
+    {
+        m_Setup = false;
+    }
+
+    static bool m_Setup = false;
 
 	void Start ()
 	{
