@@ -13,7 +13,7 @@ public class ShopManager : MonoBehaviour
             ChampionArray = Champion.GetSortedBy(Champion.SortValue.Name, Champion.SortType.ASC);
         }
         ChampionArray = Champion.Filter(Champion.FilterType.NotOwned, ChampionArray);
-        ChampionArray = Champion.Filter(Champion.FilterType.NotOwned, ChampionArray);
+        ChampionArray = Champion.Filter(Champion.FilterType.Buyable, ChampionArray);
 
         GameObject Prefab = Resources.Load("Prefabs/ShopListObject") as GameObject;
         GameObject ShopContent = GameObject.FindGameObjectWithTag("ShopContent");
@@ -57,6 +57,7 @@ public class ShopManager : MonoBehaviour
                 // Spawn them later
                 SpawnImages = true;
             }
+            Instance.transform.localScale = Vector3.one;
         }
 
         ShopContent.GetComponent<RectTransform>().sizeDelta = new Vector2(ShopContent.GetComponent<RectTransform>().sizeDelta.x, (Mathf.Abs(J)+1) * 300);
@@ -64,7 +65,7 @@ public class ShopManager : MonoBehaviour
 
     void Update ()
     {
-	    if(Champion.All.Length != 0 && Done == false)
+        if (Champion.All.Length != 0 && Done == false)
         {
             SetupShop();
             Done = true;

@@ -49,29 +49,36 @@ public class MenuHandler : MonoBehaviour
         return null;
     }
 
-    void Start ()
-	{
-        Info.Setup();
-
-        OpenMenu("Champions");
-	}
-
-    void SetAllSizes(Vector3 a_Size, Menus a_Exception = Menus.None)
+    void Start()
     {
-        foreach (Menus t_Menu in Enum.GetValues(typeof(Menus)))
+        Info.Setup();
+    }
+
+    bool m_Setup = false;
+    void Update()
+    { 
+        if(m_Setup == false && m_Menus.ContainsKey(Menus.Champions))
         {
-            if (t_Menu != Menus.None && m_Menus.ContainsKey(t_Menu))
-            {
-                m_Menus[t_Menu].transform.localScale = a_Size;
-            }
+            OpenMenu("Champions");
+            m_Setup = true;
+
         }
     }
 
-    void SetSize(Menus a_Menu, Vector3 a_Size)
+    void SetAllEnabled(bool a_Enabled, Menus a_Exception = Menus.None)
     {
-        if (a_Menu != Menus.None && m_Menus.ContainsKey(a_Menu))
+        foreach (Menus t_Menu in Enum.GetValues(typeof(Menus)))
         {
-            m_Menus[a_Menu].transform.localScale = a_Size;
+            if (t_Menu != Menus.None && a_Exception != Menus.None && t_Menu != a_Exception)
+                SetEnabled(t_Menu, a_Enabled);
+        }
+    }
+
+    void SetEnabled(Menus a_Menu, bool a_Enabled)
+    {
+        if(m_Menus.ContainsKey(a_Menu))
+        {
+            m_Menus[a_Menu].gameObject.SetActive(a_Enabled);
         }
     }
 
@@ -83,19 +90,14 @@ public class MenuHandler : MonoBehaviour
         }
     }
 
-    void Update () 
-	{
-	
-	}
-
     public void OpenMenu(string a_MenuName)
     {
         Menus t_Menu = GetMenuTypeByName(a_MenuName);
         if (t_Menu == Menus.None)
             return;
 
-        SetAllSizes(Vector3.zero, t_Menu);
-        SetSize(t_Menu, Vector3.one);
+        SetAllEnabled(false, t_Menu);
+        SetEnabled(t_Menu, true);
 
         SetTitle(t_Menu);
 
