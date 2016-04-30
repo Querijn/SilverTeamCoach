@@ -5,12 +5,12 @@ using SimpleJSON;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Champion 
+public class Champion
 {
     private static Dictionary<int, Champion> Champions = new Dictionary<int, Champion>();
     private static Dictionary<string, int> Translation = new Dictionary<string, int>();
     public static Champion[] All { get { return Champions.Values.ToArray(); } }
-    
+
     public int ID { get; private set; }
     public Sprite Image { get; private set; }
     public string Name { get; private set; }
@@ -54,7 +54,7 @@ public class Champion
         Mastery = a_MasteryInfo;
         Viability = a_Viability;
 
-        if(Champions.ContainsKey(a_ID) == false)
+        if (Champions.ContainsKey(a_ID) == false)
         {
             Champions.Add(a_ID, this);
         }
@@ -106,7 +106,7 @@ public class Champion
     };
 
     static Dictionary<string, Texture2D> m_Textures = new Dictionary<string, Texture2D>();
-    
+
     public static bool Reset(JSONArray a_Champions)
     {
         m_Setup = false;
@@ -122,7 +122,52 @@ public class Champion
 
         if (a_Champions == null)
             return false;
-        
+
+        TextAsset ChampionData = Resources.Load<TextAsset>("Data/Champions");
+        JSONArray JSONChampD = JSON.Parse(ChampionData.text).AsArray;
+        Dictionary<string, ViabilityInfo> ViabilityInfos = new Dictionary<string, ViabilityInfo>();
+        foreach (JSONNode JSONChamp in JSONChampD)
+        {
+            //voeg champion toe aan dictionary
+            if (!ViabilityInfos.ContainsKey(JSONChamp["key"]))
+            {
+                ViabilityInfos.Add(JSONChamp["key"], new ViabilityInfo());
+            }
+
+            //if jungle, etc. show winrate
+            ViabilityInfo Viability = ViabilityInfos[JSONChamp["key"]];
+            string role = JSONChamp["role"].Value;
+
+            if (role == "Top")
+            {
+                Viability.Top = JSONChamp["general"]["winPercent"].AsDouble / 100.0;
+            }
+
+            else if (role == "Jungle")
+            {
+                Viability.Jungle = JSONChamp["general"]["winPercent"].AsDouble / 100.0;
+            }
+
+            else if (role == "Middle")
+            {
+                Viability.Mid = JSONChamp["general"]["winPercent"].AsDouble / 100.0;
+            }
+
+            else if (role == "ADC")
+            {
+                Viability.Marksman = JSONChamp["general"]["winPercent"].AsDouble / 100.0;
+            }
+
+            else if (role == "Support")
+            {
+                Viability.Support = JSONChamp["general"]["winPercent"].AsDouble / 100.0;
+            }
+
+            Viability.Meta += JSONChamp["general"]["playPercent"].AsDouble / 100.0;
+
+            ViabilityInfos[JSONChamp["key"]] = Viability;
+        }
+         
         foreach(JSONNode a_Champion in a_Champions)
         {
             var t_Time = (new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).AddMilliseconds(a_Champion["mastery"]["lastPlayTime"].AsInt);
@@ -150,8 +195,7 @@ public class Champion
                 a_Champion["price"].AsDouble, // Price
                 a_Champion["owned"].AsBool, // Owned
                 t_Mastery,
-                // TODO setup viability
-                new ViabilityInfo(1.0, 1.0, 1.0, 1.0, 1.0, 1.0)
+                ViabilityInfos[a_Champion["key"]]
             );
 
             // Get image
