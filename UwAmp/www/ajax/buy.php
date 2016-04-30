@@ -2,7 +2,7 @@
 require_once("include.php");
 
 if(!isset($_SESSION['summoner']))
-	die(json_encode(array("error" => "NOT_LOGGED_IN")));
+	die("You are not logged in.");
 
 $t_GetID = $_SESSION["summoner"]["id"];
 
@@ -42,6 +42,15 @@ try
 	$t_Owned[] = $_GET["champion"];
 	$t_Player->OwnedChampions = $t_Owned;
 	$t_Player->Save();
+	
+	$t_Champion = new DatabaseChampion();
+	$t_Champion->ChampionId = $_GET["champion"];
+	$t_Champion->SkinId = 0;
+	$t_Champion->PlayerId = $t_GetID;
+	$t_Champion->Wins = 0;
+	$t_Champion->Losses = 0;
+	$t_Champion->CreepScore = 0;
+	$t_Champion->Save();
 	die("true");
 }
 catch(Exception $e)

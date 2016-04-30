@@ -30,15 +30,20 @@ public class TeamManager : MonoBehaviour
                 RectTransform t_PrefabTransform = t_Prefab.GetComponent<RectTransform>();
                 GameObject t_Content = GameObject.FindGameObjectWithTag("TeamsContent");
 
+                JSONArray t_Array = t_JSON.AsArray;
+
+                Team.Setup(t_Array);
+
                 int y = 0;
-                foreach (JSONNode t_Team in t_JSON.AsArray)
+                foreach (JSONNode t_Team in t_Array)
                 {
                     GameObject t_Instance = Instantiate(t_Prefab);
                     t_Instance.transform.SetParent(t_Content.transform);
 
                     t_Instance.name = t_Team["name"];
-                    t_Instance.transform.Find("Name").GetComponent<Text>().text = t_Team["name"];
-                    
+                    t_Instance.transform.Find("Name").GetComponent<Text>().text = t_Team["name"].Value;
+                    t_Instance.transform.Find("ID").GetComponent<Text>().text = t_Team["id"].Value;
+
                     t_Instance.transform.Find("Champions/Top").GetComponentInChildren<Image>().sprite = Champion.Get(t_Team["top"].AsInt).Image;
                     t_Instance.transform.Find("Champions/Mid").GetComponentInChildren<Image>().sprite = Champion.Get(t_Team["mid"].AsInt).Image;
                     t_Instance.transform.Find("Champions/Support").GetComponentInChildren<Image>().sprite = Champion.Get(t_Team["support"].AsInt).Image;

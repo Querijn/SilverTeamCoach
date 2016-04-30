@@ -17,8 +17,8 @@ public class CloseBuyWindow : MonoBehaviour
         GameObject.FindGameObjectWithTag("BuyWindow").transform.Find("Content/SplashArt").GetComponent<Image>().color = Color.clear;
     }
 
-// Update is called once per frame
-void Update ()
+    // Update is called once per frame
+    void Update ()
     {
 	
 	}

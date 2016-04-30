@@ -11,18 +11,18 @@ try
 	$t_API = new riotapi($settings["riot_key"], $_SESSION["region"], new FileSystemCache(BASE_FOLDER . "cache"));
 
 	// Validate name
-	if(is_string($_GET["name"]) == false)
-		die("Invalid name for a team!");
+	// if(is_string($_GET["name"]) == false)
+		// die("Invalid name for a team!");
 
-	if(empty($_GET["name"]))
-		die("Team name cannot be empty!");
+	// if(empty($_GET["name"]))
+		// die("Team name cannot be empty!");
 	
-	if(strlen($_GET["name"]) > 32)
-		die("Team name is too long!");
+	// if(strlen($_GET["name"]) > 32)
+		// die("Team name is too long!");
 	
-	$t_NameCheck = DatabaseTeam::Load(SQLSearch::In(DatabaseTeam::Table)->Where("name")->Is($_GET["name"]));
-	if(is_object($t_InsertedTeam) && $t_InsertedTeam->LoadFailed == false)
-		die("A team with this name already exists!");
+	// $t_NameCheck = DatabaseTeam::Load(SQLSearch::In(DatabaseTeam::Table)->Where("name")->Is($_GET["name"]));
+	// if(is_object($t_InsertedTeam) && $t_InsertedTeam->LoadFailed == false)
+		// die("A team with this name already exists!");
 
 	$t_Champions = $t_API->getStatic('champion?dataById=true&champData=image')["data"];
 	if(!isset($_GET["mid"]) || isset($t_Champions[$_GET["mid"]]) == false)
@@ -40,24 +40,18 @@ try
 	if(!isset($_GET["support"]) || isset($t_Champions[$_GET["support"]]) == false)
 		die("Invalid support!");
 	
-	$t_Team = new DatabaseTeam();
-	$t_Team->Name = $_GET["name"];
-	$t_Team->Player = $t_GetID;
+	$t_Team = DatabaseTeam::Load(SQLSearch::In(DatabaseTeam::Table)->Where("id")->Is($_GET["id"]));
+	if(is_object($t_Team) && $t_Team->LoadFailed == true)
+		die("This team does not exist!");
+	
+	//$t_Team->Name = $_GET["name"];
 	
 	$t_Team->Mid = $_GET["mid"];
 	$t_Team->Top = $_GET["top"];
 	$t_Team->Jungle = $_GET["jungle"];
 	$t_Team->Marksman = $_GET["marksman"];
 	$t_Team->Support = $_GET["support"];
-	
-	
-	$t_Team->Enabled = 1;
-	
-	$t_Team->Wins = 0;
-	$t_Team->Losses = 0;
-	$t_Team->Kills = 0;
-	$t_Team->Deaths = 0;
-	$t_Team->CreepScore = 0;
+
 	$t_Team->Save();
 
 	$t_Player = DatabasePlayer::Load(SQLSearch::In(DatabasePlayer::Table)->Where("user")->Is($_SESSION["summoner"]["id"]));

@@ -15,6 +15,7 @@ function AddTeamToArray($a_Team, &$a_Array)
 {
 	$a_Array[] = array
 	(
+		"id" => $a_Team->Id,
 		"name" => $a_Team->Name,
 		
 		"top" => $a_Team->Top,
@@ -22,6 +23,12 @@ function AddTeamToArray($a_Team, &$a_Array)
 		"marksman" => $a_Team->Marksman,
 		"support" => $a_Team->Support,
 		"jungle" => $a_Team->Jungle,
+		"wins" => $a_Team->Wins,
+		"losses" => $a_Team->Losses,
+		
+		"kills" => $a_Team->Kills,
+		"deaths" => $a_Team->Deaths,
+		"creep_score" => $a_Team->CreepScore,
 	);
 }
 

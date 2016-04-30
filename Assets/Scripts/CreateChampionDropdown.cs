@@ -4,14 +4,14 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using System;
 
-public class ChampionUI : MonoBehaviour 
+public class CreateChampionDropdown : MonoBehaviour 
 {
     public enum Type
     {
         Top, Mid, Jungle, Marksman, Support
     };
 
-    public static List<ChampionUI> m_UIElements = new List<ChampionUI>();
+    public static List<CreateChampionDropdown> m_UIElements = new List<CreateChampionDropdown>();
     public Type m_Type;
 
     Dropdown m_Dropdown;
@@ -36,7 +36,7 @@ public class ChampionUI : MonoBehaviour
 
     public static bool AllLanesFilled()
     {
-        foreach (ChampionUI t_Element in m_UIElements)
+        foreach (CreateChampionDropdown t_Element in m_UIElements)
             if (t_Element.Value == null)
                 return false;
         return true;
@@ -55,7 +55,7 @@ public class ChampionUI : MonoBehaviour
     {
         List<Champion> t_OwnedChampions = new List<Champion>(Champion.Filter(Champion.FilterType.Owned, Champion.GetSortedBy(Champion.SortValue.Name)));
         
-        foreach (ChampionUI t_Element in m_UIElements)
+        foreach (CreateChampionDropdown t_Element in m_UIElements)
         {
             if(t_Element.Value != null)
             {
@@ -63,7 +63,7 @@ public class ChampionUI : MonoBehaviour
             }
         }
         
-        foreach (ChampionUI t_Element in m_UIElements) 
+        foreach (CreateChampionDropdown t_Element in m_UIElements) 
             t_Element.SetChampionList(t_OwnedChampions);
     }
 

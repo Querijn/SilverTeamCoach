@@ -5,11 +5,12 @@ using System.Collections.Generic;
 using System;
 
 //[ExecuteInEditMode]
-public class CreateTeamWindow : MonoBehaviour
+public class EditTeamWindow : MonoBehaviour
 {
     public static GameObject Instance = null;
+    public static Team EditingTeam = null;
 
-    public void OnCreate()
+    public void OnEdit()
     {
         if (CreateChampionDropdown.AllLanesFilled() == false)
         {
@@ -19,26 +20,29 @@ public class CreateTeamWindow : MonoBehaviour
 
         Dictionary<string, string> t_Commands = new Dictionary<string, string>();
 
-        t_Commands.Add("name", transform.Find("Content/Name").GetComponentInChildren<InputField>().text);
+        t_Commands.Add("id", EditingTeam.ID.ToString());
 
-        Transform t_Roles = transform.Find("Content/Champions");
-        foreach(Transform t_RoleElement in t_Roles)
+        // Don't allow name changes atm
+        // t_Commands.Add("name", transform.Find("Content/Name").GetComponentInChildren<InputField>().text);
+
+        Transform t_Roles = Instance.transform.Find("Content/Champions");
+        foreach (Transform t_RoleElement in t_Roles)
         {
             if (t_RoleElement.name == "ShowAllChampions")
                 continue;
-            
-            t_Commands.Add(t_RoleElement.name.ToLower(), t_RoleElement.GetComponent<CreateChampionDropdown>().Value.ID.ToString());
+
+            t_Commands.Add(t_RoleElement.name.ToLower(), t_RoleElement.GetComponent<EditChampionDropdown>().Value.ID.ToString());
         }
 
-        string t_CommandString = "create_team.php?";
+        string t_CommandString = "edit_team.php?";
 
-        foreach(var t_Command in t_Commands)
+        foreach (var t_Command in t_Commands)
         {
             t_CommandString += t_Command.Key + "=" + Uri.EscapeDataString(t_Command.Value) + "&";
         }
         t_CommandString = t_CommandString.Substring(0, t_CommandString.Length - 1);
 
-        //Debug.Log(t_CommandString);
+        Debug.Log(t_CommandString);
         HTTP.Request(Settings.FormAjaxURL(t_CommandString), delegate (WWW a_Request)
         {
             if (a_Request.text == "true")
@@ -48,6 +52,12 @@ public class CreateTeamWindow : MonoBehaviour
             }
             else Error.Show(a_Request.text);
         }, true);
+        EditingTeam = null;
+    }
+
+    public void OnDelete()
+    {
+
     }
 
     public void Awake()
@@ -59,5 +69,6 @@ public class CreateTeamWindow : MonoBehaviour
     public void OnCancel()
     {
         gameObject.SetActive(false);
+        EditingTeam = null;
     }
 }
