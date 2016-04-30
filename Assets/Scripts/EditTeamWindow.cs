@@ -47,7 +47,8 @@ public class EditTeamWindow : MonoBehaviour
         {
             if (a_Request.text == "true")
             {
-                Info.Reset();
+                TeamManager.Reset();
+                Info.Reset(); // Info needs to be reset as well because of the possibility of getting a new main team
                 OnCancel();
             }
             else Error.Show(a_Request.text);
@@ -57,6 +58,23 @@ public class EditTeamWindow : MonoBehaviour
 
     public void OnDelete()
     {
+        Confirmation.Show("Delete Team", "Are you sure you want to delete '" + EditingTeam.Name + "'?", delegate (bool a_Delete)
+         {
+             if(a_Delete)
+             {
+                 HTTP.Request(Settings.FormAjaxURL("delete_team.php?id=" + EditingTeam.ID), delegate (WWW a_Request)
+                 {
+                     if (a_Request.text == "true")
+                     {
+                         TeamManager.Reset();
+                         OnCancel();
+                     }
+                     else Error.Show(a_Request.text);
+                 }, true);
+             }
+
+             EditingTeam = null;
+         });
 
     }
 

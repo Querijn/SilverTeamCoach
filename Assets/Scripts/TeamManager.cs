@@ -30,6 +30,9 @@ public class TeamManager : MonoBehaviour
                 RectTransform t_PrefabTransform = t_Prefab.GetComponent<RectTransform>();
                 GameObject t_Content = GameObject.FindGameObjectWithTag("TeamsContent");
 
+                foreach (Transform t_Child in t_Content.transform)
+                    Destroy(t_Child.gameObject);
+
                 JSONArray t_Array = t_JSON.AsArray;
 
                 Team.Setup(t_Array);
