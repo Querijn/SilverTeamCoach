@@ -86,7 +86,10 @@ public class MenuHandler : MonoBehaviour
     {
         if (a_Menu != Menus.None && m_Menus.ContainsKey(a_Menu))
         {
-            GameObject.FindGameObjectWithTag("MenuTitle").GetComponent<Text>().text = m_Menus[a_Menu].name;
+            var t_Text = GameObject.FindGameObjectWithTag("MenuTitle").GetComponent<Text>();
+            t_Text.text = m_Menus[a_Menu].name;
+            if (a_Menu == Menus.Main)
+                t_Text.text += " Menu";
         }
     }
 
