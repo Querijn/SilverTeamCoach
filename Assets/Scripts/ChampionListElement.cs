@@ -20,8 +20,8 @@ public class ChampionListElement : MonoBehaviour
         transform.Find("Text/Mastery/Points").GetComponent<Text>().text = a_Champion.Mastery.Points.ToString() + " LP";
         transform.Find("Text/Winrate").GetComponent<Text>().text = "No winrate";// (a_Champion.WinRate * 100.0f).ToString() + "%";
 
-        string t_BestLane = a_Champion.GetBestLane();
-        transform.Find("Text/Lane").GetComponent<Text>().text = "Best fit: " + t_BestLane + (t_BestLane != "All" ? ", " + a_Champion.GetBestLane(1) : "");
+        string t_BestLanes = a_Champion.GetBestLanes();
+        transform.Find("Text/Lane").GetComponent<Text>().text = "Best fit: " + t_BestLanes;
     }
 
     void Update()

@@ -40,7 +40,12 @@ public class Champion
         Owned,
         NotOwned,
         Buyable,
-        Unbuyable
+        Unbuyable,
+        Top,
+        Mid,
+        Support,
+        Jungle,
+        Marksman
     };
 
     public Champion(int a_ID, string a_Key, string a_Name, string a_Title, double a_Price, bool a_Owned, MasteryInfo a_MasteryInfo, ViabilityInfo a_Viability)
@@ -240,6 +245,16 @@ public class Champion
         return true;
     }
 
+    public string GetBestLanes()
+    {
+        string t_BestLane1 = GetBestLane(0);
+        string t_BestLane2 = GetBestLane(1);
+        if (t_BestLane2 == "Unknown" || t_BestLane1 == "All")
+            return t_BestLane1;
+
+        return t_BestLane1 + ", " + t_BestLane2;
+    }
+
     public string GetBestLane(int a_Number = 0)
     {
         Debug.Assert(a_Number == 0 || a_Number == 1);
@@ -347,6 +362,16 @@ public class Champion
                 return a_ChampionList.Where(c => c.Price <= Info.Player.Cash).ToArray();
             case FilterType.Unbuyable:
                 return a_ChampionList.Where(c => c.Price > Info.Player.Cash).ToArray();
+            case FilterType.Top:
+                return a_ChampionList.Where(c => c.Viability.Top > 0.5).ToArray();
+            case FilterType.Mid:
+                return a_ChampionList.Where(c => c.Viability.Mid > 0.5).ToArray();
+            case FilterType.Support:
+                return a_ChampionList.Where(c => c.Viability.Support > 0.5).ToArray();
+            case FilterType.Jungle:
+                return a_ChampionList.Where(c => c.Viability.Support > 0.5).ToArray();
+            case FilterType.Marksman:
+                return a_ChampionList.Where(c => c.Viability.Support > 0.5).ToArray();
         }
 
         return a_ChampionList;

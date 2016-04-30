@@ -9,13 +9,6 @@ define("INCLUDED", true);
 define("BASE_FOLDER", "");
 require_once(BASE_FOLDER . "include.php");
 
-if(!class_exists("DatabasePlayer"))
-{
-	echo "<!--";
-	print_r(RunSQL("sql/database.sql"));
-	echo "-->";
-}
-
 if(isset($_GET["reset"]) || isset($_POST["reset"]))
 {
 	echo "Resetting..";

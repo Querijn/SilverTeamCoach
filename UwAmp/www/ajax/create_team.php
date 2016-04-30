@@ -50,6 +50,12 @@ try
 	$t_Team->Marksman = $_GET["marksman"];
 	$t_Team->Support = $_GET["support"];
 	
+	$t_Team->SkinMid = 0;
+	$t_Team->SkinTop = 0;
+	$t_Team->SkinJungle = 0;
+	$t_Team->SkinMarksman = 0;
+	$t_Team->SkinSupport = 0;
+	
 	
 	$t_Team->Enabled = 1;
 	

@@ -9,8 +9,9 @@ try
 	$t_Players = DatabasePlayer::Load(SQLSearch::In(DatabasePlayer::Table)->Where("user")->Is($_SESSION["summoner"]["id"]));
 	
 	
+	$t_StaticAPI = new riotapi($settings["riot_key"], $_SESSION["region"], new FileSystemCache(BASE_FOLDER . "cache"), 3600);
 	$t_API = new riotapi($settings["riot_key"], $_SESSION["region"], new FileSystemCache(BASE_FOLDER . "cache"), 5);
-	$t_Champions = $t_API->getStatic('champion?dataById=true&champData=image');
+	$t_Champions = $t_StaticAPI->getStatic('champion?dataById=true&champData=image');
 	
 	$t_Info = $_SESSION["summoner"];
 	if($t_Players->MainTeam != 0)
