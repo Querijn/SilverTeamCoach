@@ -1,0 +1,160 @@
+- Misty - (Cerulean City Gym)
+Top: Tahm Kench
+Mid: Fizz
+Support: Nami
+ADC: pool party Graves
+Jungle: Zac (pool party)
+
+- Wall-E - (int main())
+Top: Rumble
+Mid: Orianna
+Support: Blitzcrank
+ADC: Corki
+Jungle: skin Cho'Gath (battlecast)
+
+- Gandalf -  (The Blue Wizards)
+Top: Ryze
+Mid: Veigar
+Support: Zilean
+ADC: Ezreal
+Jungle: Evelynn
+
+- Hattori Hanzo - (We Hate Pirates)
+Top: Akali
+Mid: Zed
+Support: Shen
+ADC: Kennen
+Jungle: Rammus (Ninja Rammus)
+
+- Hawkeye - (Hail of Pointy Things) 
+Top: Pantheon
+Mid: Azir
+Support: Kennen
+ADC: Ashe
+Jungle: Nidalee
+
+- Gnar - (We <3 Yordles)
+Top: Poppy
+Mid: Heimerdinger
+Support: Lulu
+ADC: Tristana
+Jungle: Rumble
+
+- Steve Irwin - (National Geographic)
+Top: Renekton (Outback)
+Mid: Anivia (birds of prey)
+Support: Alistar
+ADC: Twitch
+Jungle: Warwick
+
+- Mike - (Monsters Inc)
+Top: Tahm Kench
+Mid: Cho'Gath
+Support: Vel'Koz
+ADC: Kog'Maw
+Jungle: Rek'Sai
+
+- Spider - (Kill It With Fire)
+Top: Wukong (Volcanic Wukong)
+Mid: Annie
+Support: Brand
+ADC: Jinx (Firecracker jinx)
+Jungle: Warwick (Firefang)
+
+- Muscles - (Do U Even Lift Bro)
+Top: Garen
+Mid: Jayce
+Support: Braum
+ADC: Draven
+Jungle: Olaf
+
+- Lara Croft - (Girl Power)
+Top: Illaoi
+Mid: Quinn
+Support: Leona
+ADC: Jinx
+Jungle: Vi
+
+- Masterchef - (We Like Food)
+Top: Tahm Kench
+Mid: Cho'Gath
+Support: Bard
+ADC: Kog'Maw
+Jungle: Gragas
+
+- King Boo - (Luigi's Mansion)
+Top: Mordekaiser
+Mid: Karthus
+Support: Soraka (Reaper skin)
+ADC: Kalista
+Jungle: Hecarim
+
+- Diablo - (Flagellum Dei)
+Top: Galio (Gatekeeper)
+Mid: Brand (Spirit Fire)
+Support: Morgana
+ADC: Kalista
+Jungle: Vi (Demon)
+
+- Stevie Wonder - (ghda b634v)
+Top: Lee Sin
+Mid: Lee Sin
+Support: Lee Sin
+ADC: Lee Sin
+Jungle: Lee Sin
+
+- James Bond - (Guns and Bullets)
+Top: Gangplank
+Mid: Jhin
+Support: Miss Fortune
+ADC: Lucian
+Jungle: Graves
+
+- Sloth - (We Fast You Slow)
+Top: Teemo
+Mid: Lux
+Support: Sona
+ADC: Miss Fortune
+Jungle: Ekko
+
+- Poppy - (Knights of Good)
+Top: Garen
+Mid: Kayle
+Support: Leona
+ADC: Ashe
+Jungle: Jarvan IV
+
+- Blackbeard - (We Hate Ninjas)
+Top: Ryze (Pirate Ryze)
+Mid: Katarina (Bilgewater Katarina)
+Support: Fiddlesticks (Fiddle me Timbers)
+ADC: Tristana (Buccaneer Tristana)
+Jungle: Gangplank
+
+- Geralt of Rivia - (Team Ciri)
+Top: Riven
+Mid: Varus
+Support: Soraka
+ADC: Tristana
+Jungle: Volibear
+
+- Pennywise - (Surprise Party)
+Top: Nasus (Archduke)
+Mid: Vel'Koz (Definitely not Vel'Koz)
+Support: Fiddlesticks (Surprise Party)
+ADC: Twitch
+Jungle: Amumu (Surprise party)
+
+- Commander Shepard - (The Normandy)
+Top: Aurelion Sol
+Mid: Kassadin
+Support: Vel'Koz
+ADC: Teemo (Astronaut Teemo)
+Jungle: Nautilus (Astronautilus)
+
+- Santa Claus - (Snow Party)
+Top: Gnar (Snow Day)
+Mid: Orianna (Winter Wonder)
+Support: Bard (Snow Day)
+ADC: Sivir (Snow Day)
+Jungle: Sejuani (Poro Rider)

@@ -7,7 +7,7 @@ public static class Info
     static bool m_Setup = false;
     static bool m_InProgress = false;
 
-    public struct PlayerInfo
+    public class PlayerInfo
     {
         public PlayerInfo(string a_Name, double a_Cash, string a_Team)
         {
