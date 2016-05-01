@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class Settings : MonoBehaviour 
 {
@@ -76,7 +77,13 @@ public class Settings : MonoBehaviour
 	{
 	    if(Singleton == null)
             Singleton = this;
+        
+        //if(Application.isEditor == false)
+        {
+            for (int i = 1; i < SceneManager.sceneCountInBuildSettings; i++)
+                SceneManager.LoadScene(i, LoadSceneMode.Additive);
+        }
 
         Info.Setup();
-	}
+    }
 }

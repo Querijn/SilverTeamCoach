@@ -25,10 +25,9 @@ public class MessageHandler : MonoBehaviour {
             GameObject MessageContent = GameObject.FindGameObjectWithTag("MessageContent");
 
             GameObject Prefab = Resources.Load("Prefabs/Message") as GameObject;
-            GameObject PrefabButton = Resources.Load("Prefabs/Read More Button") as GameObject;
 
             int I = 0;
-            Debug.Log(Messages.All.Length);
+            // Debug.Log(Messages.All.Length);
 
             foreach (Message NewMessage in Messages.All)
             {

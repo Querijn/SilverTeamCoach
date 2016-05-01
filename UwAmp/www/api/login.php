@@ -13,7 +13,7 @@ function LogIn($a_User, $a_Region, $a_Verify = false)
 		return;
 	
 	$t_Key = preg_replace('/\s+/', '', strtolower($a_User));
-	$t_API = new riotapi($settings["riot_key"], 'euw', new FileSystemCache(BASE_FOLDER . "cache"));
+	$t_API = new riotapi($settings["riot_key"], $a_Region, new FileSystemCache(BASE_FOLDER . "cache"));
 	
 	$t_Data = $t_API->getSummoner($t_Key);
 	

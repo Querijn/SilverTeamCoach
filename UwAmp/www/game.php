@@ -1,7 +1,3 @@
-<?php
-if(!defined("INCLUDED")) 
-	die();
-?>
 <!doctype html>
 <html lang="en-us">
   <head>
@@ -15,7 +11,7 @@ if(!defined("INCLUDED"))
   <body class="template">
     <p class="header"><span>Unity WebGL Player | </span>SilverTeamCoach</p>
     <div class="template-wrap clear">
-      <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" height="600px" width="960px"></canvas>
+      <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" height="720px" width="1280px"></canvas>
       <br>
       <div class="logo"></div>
       <div class="fullscreen"><img src="TemplateData/fullscreen.png" width="38" height="38" alt="Fullscreen" title="Fullscreen" onclick="SetFullscreen(1);" /></div>
@@ -27,9 +23,9 @@ if(!defined("INCLUDED"))
     TOTAL_MEMORY: 268435456,
     errorhandler: null,			// arguments: err, url, line. This function must return 'true' if the error is handled, otherwise 'false'
     compatibilitycheck: null,
-    dataUrl: "Release/Build.data",
-    codeUrl: "Release/Build.js",
-    memUrl: "Release/Build.mem",
+    dataUrl: "Release/www.data",
+    codeUrl: "Release/www.js",
+    memUrl: "Release/www.mem",
   };
 </script>
 <script src="Release/UnityLoader.js"></script>

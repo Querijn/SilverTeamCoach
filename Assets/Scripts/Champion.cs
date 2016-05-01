@@ -485,10 +485,7 @@ public class Champion
                 });
                 break;
             case SortValue.Efficiency:
-                Array.Sort(t_Array, delegate (Champion Champ1, Champion Champ2)
-                {
-                    return Champ1.RealEfficiency.CompareTo(Champ2.RealEfficiency) * (a_Type == SortType.ASC ? 1 : -1);
-                });
+                Array.Sort(t_Array, (Champ1, Champ2) => Champ1.RealEfficiency.CompareTo(Champ2.RealEfficiency) * (a_Type == SortType.ASC ? 1 : -1));
                 break;
         }
 

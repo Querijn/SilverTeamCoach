@@ -15,6 +15,31 @@ CREATE TABLE `champions` (
   `creep_score` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+CREATE TABLE `matches` (
+  `id` int(11) NOT NULL,
+  `team1` int(11) NOT NULL,
+  `team2` int(11) NOT NULL,
+  `team1_stats` int(11) NOT NULL,
+  `team2_stats` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `match_champion_stats` (
+  `id` int(11) NOT NULL,
+  `champion_id` int(11) NOT NULL,
+  `kills` int(11) NOT NULL,
+  `deaths` int(11) NOT NULL,
+  `creep_score` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `match_stats` (
+  `id` int(11) NOT NULL,
+  `team_id` int(11) NOT NULL,
+  `top` int(11) NOT NULL,
+  `mid` int(11) NOT NULL,
+  `support` int(11) NOT NULL,
+  `marksman` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 CREATE TABLE `messages` (
   `id` int(11) NOT NULL,
   `player_id` int(11) NOT NULL,
@@ -57,6 +82,15 @@ CREATE TABLE `teams` (
 ALTER TABLE `champions`
   ADD PRIMARY KEY (`id`);
 
+ALTER TABLE `matches`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `match_champion_stats`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `match_stats`
+  ADD PRIMARY KEY (`id`);
+
 ALTER TABLE `messages`
   ADD PRIMARY KEY (`id`);
 
@@ -68,6 +102,12 @@ ALTER TABLE `teams`
 
 
 ALTER TABLE `champions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `matches`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `match_champion_stats`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `match_stats`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `messages`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
