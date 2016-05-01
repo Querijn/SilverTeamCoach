@@ -55,7 +55,7 @@ public static class Messages
         foreach(JSONNode t_Node in a_Array)
         {
             DateTime t_Time = (new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).AddSeconds(t_Node["time"].AsInt);
-            m_Dictionary.Add(t_Node["id"].AsInt, new Message(t_Node["title"].Value, t_Node["title"].Value, t_Node["unread"].AsBool == false, t_Time));
+            m_Dictionary.Add(t_Node["id"].AsInt, new Message(t_Node["title"].Value, t_Node["message"].Value, t_Node["unread"].AsBool == false, t_Time));
         }
 
         m_Setup = true;
