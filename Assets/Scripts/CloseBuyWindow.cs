@@ -13,8 +13,8 @@ public class CloseBuyWindow : MonoBehaviour
 
     public void OnClick()
     {
-        GameObject.FindGameObjectWithTag("BuyWindow").transform.localScale = Vector3.zero;
-        GameObject.FindGameObjectWithTag("BuyWindow").transform.Find("Content/SplashArt").GetComponent<Image>().color = Color.clear;
+        BuyWindow.Instance.transform.Find("Content/SplashArt").GetComponent<Image>().color = Color.clear;
+        BuyWindow.Instance.SetActive(false);
     }
 
     // Update is called once per frame

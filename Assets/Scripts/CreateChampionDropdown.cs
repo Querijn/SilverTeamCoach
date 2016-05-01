@@ -6,13 +6,8 @@ using System;
 
 public class CreateChampionDropdown : MonoBehaviour 
 {
-    public enum Type
-    {
-        Top, Mid, Jungle, Marksman, Support
-    };
-
     public static List<CreateChampionDropdown> m_UIElements = new List<CreateChampionDropdown>();
-    public Type m_Type;
+    public Lane m_Type;
 
     Dropdown m_Dropdown;
     Toggle m_ShowAllChampionsToggle;
@@ -111,15 +106,15 @@ public class CreateChampionDropdown : MonoBehaviour
     {
         switch (m_Type)
         {
-            case Type.Top:
+            case Lane.Top:
                 return a_Viability.Top >= 0.5;
-            case Type.Mid:
+            case Lane.Mid:
                 return a_Viability.Mid >= 0.5;
-            case Type.Jungle:
+            case Lane.Jungle:
                 return a_Viability.Jungle >= 0.5;
-            case Type.Marksman:
+            case Lane.Marksman:
                 return a_Viability.Marksman >= 0.5;
-            case Type.Support:
+            case Lane.Support:
                 return a_Viability.Support >= 0.5;
             default:
                 return false;

@@ -5,6 +5,11 @@ using SimpleJSON;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum Lane
+{
+    Top, Mid, Support, Jungle, Marksman
+}
+
 public class Champion
 {
     private static Dictionary<int, Champion> Champions = new Dictionary<int, Champion>();
@@ -32,7 +37,7 @@ public class Champion
         Name,
         Price,
         UserMastery,
-        Effectiveness
+        Efficiency
     };
 
     public enum FilterType
@@ -65,6 +70,124 @@ public class Champion
         }
     }
 
+    public double GetViabilityByLane(Lane a_Lane)
+    {
+        return Viability.GetViabilityByLane(a_Lane);
+    }
+
+    public double RelativeMastery
+    {
+        get
+        {
+            return Mastery.Points / Settings.PointsForFullEfficiency;
+        }   
+    }   
+
+    private void EfficiencyModifier(ref double a_Efficiency)
+    {
+        double t_MetaModifier = 1.0 + ((double)Mathf.Clamp((float)Viability.Meta, 0.0f, 2.0f * Settings.MetaCoefficient) - Settings.MetaCoefficient);
+        a_Efficiency *= t_MetaModifier;
+
+        float t_WeeksUnplayed = (float)DateTime.Now.Subtract(Mastery.LastPlayed).TotalDays / 7.0f;
+        float t_ClampedWeeks = Mathf.Clamp(t_WeeksUnplayed, 0.0f, (float)Settings.MaxWeekModifier);
+        float t_LossModifier = (float)(a_Efficiency * Settings.EfficiencyLossPerWeek * t_ClampedWeeks);
+
+        a_Efficiency -= (double)t_LossModifier;
+    }
+
+    public double Efficiency
+    {
+        get
+        {
+            double t_Efficiency = RelativeMastery;
+            EfficiencyModifier(ref t_Efficiency);
+
+            return (double)Mathf.Clamp01((float)t_Efficiency);
+        }
+    }
+
+    public double RealEfficiency
+    {
+        get
+        {
+            double t_Efficiency = Mastery.Points;
+            EfficiencyModifier(ref t_Efficiency);
+            return t_Efficiency;
+        }
+    }
+
+    public double GetLaneEfficiency(Lane a_Lane)
+    {
+        double t_Efficiency = Efficiency;
+        double t_Viability = GetViabilityByLane(a_Lane) - 0.5;
+        double t_LaneModifier = 1.0 + ((double)Mathf.Clamp((float)t_Viability, -Settings.LaneCoefficient, Settings.LaneCoefficient));
+
+
+        t_Efficiency *= t_LaneModifier;
+
+        // Debug.Log(Name + "'s efficiency in " + a_Lane.ToString() + " is " + t_Efficiency);
+        return (double)Mathf.Clamp01((float)t_Efficiency);
+    }
+
+    public double GetRealLaneEfficiency(Lane a_Lane)
+    {
+        double t_Efficiency = Efficiency;
+        double t_Viability = GetViabilityByLane(a_Lane) - 0.5;
+        double t_LaneModifier = 1.0 + ((double)Mathf.Clamp((float)t_Viability, -Settings.LaneCoefficient, Settings.LaneCoefficient));
+
+
+        t_Efficiency *= t_LaneModifier;
+
+        //Debug.Log(Name + "'s efficiency in " + a_Lane.ToString() + " is " + t_Efficiency);
+        return t_Efficiency;
+    }
+
+    public double GetBestLaneEfficiency(out Lane a_Lane)
+    {
+        double t_HighestEfficiency = 0.0;
+        a_Lane = Lane.Top; // Just to get rid of the error
+
+        foreach (Lane t_Lane in Enum.GetValues(typeof(Lane)))
+        {
+            double t_Efficiency = GetLaneEfficiency(t_Lane);
+            if (t_HighestEfficiency < t_Efficiency)
+            {
+                t_HighestEfficiency = t_Efficiency;
+                a_Lane = t_Lane;
+            }
+        }
+
+        return t_HighestEfficiency;
+    }
+
+    public double GetWorstLaneEfficiency(out Lane a_Lane)
+    {
+        double t_LowestEfficiency = 9e9;
+        a_Lane = Lane.Top; // Just to get rid of the error
+
+        foreach (Lane t_Lane in Enum.GetValues(typeof(Lane)))
+        {
+            double t_Efficiency = GetLaneEfficiency(t_Lane);
+            if (t_LowestEfficiency > t_Efficiency)
+            {
+                t_LowestEfficiency = t_Efficiency;
+                a_Lane = t_Lane;
+            }
+        }
+
+        return t_LowestEfficiency;
+    }
+
+    public double GetRelativeLaneEfficiency(Lane a_Lane)
+    {
+        Lane t_Lane; // To get rid of the out
+        double t_Worst = GetWorstLaneEfficiency(out t_Lane);
+        double t_Best = GetBestLaneEfficiency(out t_Lane);
+        double t_Current = GetLaneEfficiency(a_Lane);
+
+        return (t_Worst - t_Current) / (t_Worst - t_Best);
+
+    }
 
     public struct ViabilityInfo
     {
@@ -78,6 +201,25 @@ public class Champion
             Support = a_Support;
         }
 
+        public double GetViabilityByLane(Lane a_Lane)
+        {
+            switch (a_Lane)
+            {
+                case Lane.Top:
+                    return Top;
+                case Lane.Mid:
+                    return Mid;
+                case Lane.Marksman:
+                    return Marksman;
+                case Lane.Support:
+                    return Support;
+                case Lane.Jungle:
+                    return Jungle;
+                default:
+                    return 0.0f;
+            }
+        }
+        
         public double Meta;
         public double Top;
         public double Mid;
@@ -245,14 +387,14 @@ public class Champion
         return true;
     }
 
-    public string GetBestLanes()
+    public string GetBestLanes(string a_Seperator = ", ")
     {
         string t_BestLane1 = GetBestLane(0);
         string t_BestLane2 = GetBestLane(1);
         if (t_BestLane2 == "Unknown" || t_BestLane1 == "All")
             return t_BestLane1;
 
-        return t_BestLane1 + ", " + t_BestLane2;
+        return t_BestLane1 + a_Seperator + t_BestLane2;
     }
 
     public string GetBestLane(int a_Number = 0)
@@ -342,6 +484,12 @@ public class Champion
                     return Champ1.Mastery.Level.CompareTo(Champ2.Mastery.Level) * (a_Type == SortType.ASC ? 1 : -1);
                 });
                 break;
+            case SortValue.Efficiency:
+                Array.Sort(t_Array, delegate (Champion Champ1, Champion Champ2)
+                {
+                    return Champ1.RealEfficiency.CompareTo(Champ2.RealEfficiency) * (a_Type == SortType.ASC ? 1 : -1);
+                });
+                break;
         }
 
         return t_Array;
@@ -363,15 +511,15 @@ public class Champion
             case FilterType.Unbuyable:
                 return a_ChampionList.Where(c => c.Price > Info.Player.Cash).ToArray();
             case FilterType.Top:
-                return a_ChampionList.Where(c => c.Viability.Top > 0.5).ToArray();
+                return a_ChampionList.Where(c => c.Viability.Top >= 0.5).ToArray();
             case FilterType.Mid:
-                return a_ChampionList.Where(c => c.Viability.Mid > 0.5).ToArray();
+                return a_ChampionList.Where(c => c.Viability.Mid >= 0.5).ToArray();
             case FilterType.Support:
-                return a_ChampionList.Where(c => c.Viability.Support > 0.5).ToArray();
+                return a_ChampionList.Where(c => c.Viability.Support >= 0.5).ToArray();
             case FilterType.Jungle:
-                return a_ChampionList.Where(c => c.Viability.Support > 0.5).ToArray();
+                return a_ChampionList.Where(c => c.Viability.Support >= 0.5).ToArray();
             case FilterType.Marksman:
-                return a_ChampionList.Where(c => c.Viability.Support > 0.5).ToArray();
+                return a_ChampionList.Where(c => c.Viability.Support >= 0.5).ToArray();
         }
 
         return a_ChampionList;

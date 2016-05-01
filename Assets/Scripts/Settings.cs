@@ -4,14 +4,34 @@ using System.Collections;
 public class Settings : MonoBehaviour 
 {
     [Header("Balance")]
-    public double m_CashPerChampionPoint = 0.1;
-    public static double CashPerChampionPoint { get { return Singleton.m_CashPerChampionPoint; } }
+    // How many points do you need for full efficiency
+    public float m_PointsForFullEfficiency = 21600;
+    public static float PointsForFullEfficiency { get { return Singleton.m_PointsForFullEfficiency; } }
+
+    // How much does the play rate affect the efficiency?
+    public float m_MetaCoefficient = 0.1f;
+    public static float MetaCoefficient { get { return Singleton.m_MetaCoefficient; } }
+
+    // How many weeks are considered in total
+    public int m_MaxWeekModifier = 3;
+    public static int MaxWeekModifier { get { return Singleton.m_MaxWeekModifier; } }
+
+    // How much does the play rate affect the efficiency?
+    public double m_EfficiencyLossPerWeek = 0.1f;
+    public static double EfficiencyLossPerWeek { get { return Singleton.m_EfficiencyLossPerWeek; } }
+
+    // How much does the win rate affect the efficiency?
+    public float m_LaneCoefficient = 0.05f;
+    public static float LaneCoefficient { get { return Singleton.m_LaneCoefficient; } }
+
     // How much cash you get for one champion point.
     // This is used to buy champions.
+    public double m_CashPerChampionPoint = 0.1;
+    public static double CashPerChampionPoint { get { return Singleton.m_CashPerChampionPoint; } }
 
+    // How much it costs to buy a champ compared to its RP equivalent.
     public double m_PriceComparedToOriginal = 1.0;
     public static double PriceComparedToOriginal { get { return Singleton.m_PriceComparedToOriginal; } }
-    // How much it costs to buy a champ compared to its RP equivalent.
 
     [Header("Generic")]
     // What appears in front of cash?
