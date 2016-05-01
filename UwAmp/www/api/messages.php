@@ -25,7 +25,7 @@ function CreateMessage($a_To, $a_Title, $a_Message, $a_Important = 1)
 	return true;
 }
 
-function MarkMessageRead(int $a_MessageID)
+function MarkMessageRead($a_MessageID)
 {
 	global $settings;
 	

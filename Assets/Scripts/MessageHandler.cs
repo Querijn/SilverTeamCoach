@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class MessageHandler : MonoBehaviour {
 
-    bool SetUp = false;
+    static bool SetUp = false;
     GameObject t_UnreadMessages = null;
 
     // Use this for initialization
@@ -13,15 +13,29 @@ public class MessageHandler : MonoBehaviour {
         t_UnreadMessages = GameObject.FindGameObjectWithTag("UnreadMessages");
     }
 	
+    public static void Reset()
+    {
+        SetUp = false;
+    }
+
 	// Update is called once per frame
 	void Update ()
     {
         t_UnreadMessages.GetComponentInChildren<Text>().text = Messages.Unread.Length.ToString();
         t_UnreadMessages.SetActive(Messages.Unread.Length != 0);
+
         
 
-        if (Messages.All.Length != 0 && SetUp == false)
+        if (Messages.All.Length != 0 && Menu.Open == MenuHandler.Menus.Main && SetUp == false)
         {
+            // When clicked on the unread messages you mark them all as read
+            t_UnreadMessages.GetComponent<Button>().onClick.RemoveAllListeners();
+            t_UnreadMessages.GetComponent<Button>().onClick.AddListener(delegate ()
+            {
+                Messages.MarkAllAsRead();
+            });
+
+
             GameObject MessageContent = GameObject.FindGameObjectWithTag("MessageContent");
 
             GameObject Prefab = Resources.Load("Prefabs/Message") as GameObject;
@@ -49,19 +63,17 @@ public class MessageHandler : MonoBehaviour {
                     {
                         Confirmation.Show(NewMessage.Title, NewMessage.Content, delegate (bool a_Delete)
                         {
-                            // Mark message read
-                            
                             if (a_Delete)
-                            {
-                                // TODO delete message
-                            }
+                                NewMessage.Delete();
+                            else
+                                NewMessage.MarkAsRead();
                         }, "Delete", "Close");
                     });
                 }
 
                 else
                 {
-                    Instance.transform.Find("Read More Button").gameObject.SetActive(false); 
+                   // Instance.transform.Find("Read More Button").gameObject.SetActive(false); 
                 }
 
                 Instance.transform.Find("Message Content").GetComponent<Text>().text = Message;

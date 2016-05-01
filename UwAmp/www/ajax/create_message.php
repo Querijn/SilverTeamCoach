@@ -17,7 +17,10 @@ try
 	if(isset($_GET["message"]) == false || is_string($_GET["message"]) == false)
 		die("Invalid message!");
 	
-	if(CreateMessage($_GET["id"], $_GET["title"], $_GET["message"]))
+	if(isset($_GET["unread"]) == false || is_numeric($_GET["message"]) == false)
+		die("Invalid message!");
+	
+	if(CreateMessage($_GET["id"], $_GET["title"], $_GET["message"], $_GET['unread']))
 		die("true");
 }
 catch(Exception $e)

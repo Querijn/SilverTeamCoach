@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
 
 public class Settings : MonoBehaviour 
 {
@@ -72,16 +73,37 @@ public class Settings : MonoBehaviour
         private set;
     }
 
+    static bool m_FirstTime = true;
+    public static void OpenRequiredScenes()
+    {
+        List<int> t_InBuild = new List<int>();
+
+        if (m_FirstTime == false)
+            return;
+        
+        for(int i = 0; i < SceneManager.sceneCount; i++)
+        {
+            t_InBuild.Add(SceneManager.GetSceneAt(i).buildIndex);
+        }
+
+        for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
+        {
+            if(t_InBuild.Contains(i) == false)
+            {
+                SceneManager.LoadScene(i, LoadSceneMode.Additive);
+            }
+        }
+        m_FirstTime = false;
+    }
 
     void Start ()
 	{
 	    if(Singleton == null)
             Singleton = this;
         
-        //if(Application.isEditor == false)
+        if(Application.isEditor == false)
         {
-            for (int i = 1; i < SceneManager.sceneCountInBuildSettings; i++)
-                SceneManager.LoadScene(i, LoadSceneMode.Additive);
+            OpenRequiredScenes();
         }
 
         Info.Setup();

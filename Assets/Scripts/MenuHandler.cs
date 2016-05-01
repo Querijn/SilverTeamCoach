@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class MenuHandler : MonoBehaviour 
 {
     private static Dictionary<Menus, Menu> m_Menus = new Dictionary<Menus, Menu>();
+    public static Menus CurrentlyOpenMenu = Menus.None;
 
     public enum Menus
     {
@@ -103,9 +104,12 @@ public class MenuHandler : MonoBehaviour
         if (a_MenuName == Menus.None)
             return;
 
+        Settings.OpenRequiredScenes();
+
         SetAllEnabled(false, a_MenuName);
         SetEnabled(a_MenuName, true);
 
         SetTitle(a_MenuName);
+        CurrentlyOpenMenu = a_MenuName;
     }
 }
