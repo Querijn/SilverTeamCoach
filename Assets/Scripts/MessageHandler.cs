@@ -5,19 +5,23 @@ using UnityEngine.UI;
 public class MessageHandler : MonoBehaviour {
 
     bool SetUp = false;
+    GameObject t_UnreadMessages = null;
 
-	// Use this for initialization
-	void Start ()
+    // Use this for initialization
+    void Start ()
     {
-	}
+        t_UnreadMessages = GameObject.FindGameObjectWithTag("UnreadMessages");
+    }
 	
 	// Update is called once per frame
 	void Update ()
     {
+        t_UnreadMessages.GetComponentInChildren<Text>().text = Messages.Unread.Length.ToString();
+        t_UnreadMessages.SetActive(Messages.Unread.Length != 0);
+        
+
         if (Messages.All.Length != 0 && SetUp == false)
         {
-            GameObject.FindGameObjectWithTag("UnreadMessages").GetComponentInChildren<Text>().text = Messages.Unread.Length.ToString();
-
             GameObject MessageContent = GameObject.FindGameObjectWithTag("MessageContent");
 
             GameObject Prefab = Resources.Load("Prefabs/Message") as GameObject;
@@ -36,7 +40,7 @@ public class MessageHandler : MonoBehaviour {
                 Instance.transform.Find("Message Title").GetComponent<Text>().text = NewMessage.Title;
                 Instance.transform.Find("Message Content").GetComponent<Text>().text = NewMessage.Content;
                 Instance.transform.Find("Message Time").GetComponent<Text>().text = NewMessage.Time.ToString();
-                
+
                 I += 1;
 
                 Instance.transform.localScale = Vector3.one;

@@ -129,9 +129,10 @@ function GetMessages($a_Count = 30)
 	else
 	{
 		$t_Array = array();
+		
 		for($i = 0; $i < count($t_Messages); $i++)
 		{
-			TranslateMessage($t_Messages[$i]);
+			$t_Array[] = TranslateMessage($t_Messages[$i]);
 		}
 		return $t_Array;
 	}
