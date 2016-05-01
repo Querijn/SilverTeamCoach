@@ -25,6 +25,7 @@ public class MessageHandler : MonoBehaviour {
             GameObject MessageContent = GameObject.FindGameObjectWithTag("MessageContent");
 
             GameObject Prefab = Resources.Load("Prefabs/Message") as GameObject;
+            GameObject PrefabButton = Resources.Load("Prefabs/Read More Button") as GameObject;
 
             int I = 0;
             Debug.Log(Messages.All.Length);
@@ -34,14 +35,23 @@ public class MessageHandler : MonoBehaviour {
 
                 GameObject Instance = Instantiate(Prefab) as GameObject;
                 Instance.transform.SetParent(MessageContent.transform);
-                Instance.transform.localPosition = new Vector3(0, (I * 120), 0);
+                Instance.transform.localPosition = new Vector3(0, (I * - 120), 0);
 
                 Instance.name = NewMessage.Title;
                 Instance.transform.Find("Message Title").GetComponent<Text>().text = NewMessage.Title;
-                Instance.transform.Find("Message Content").GetComponent<Text>().text = NewMessage.Content;
                 Instance.transform.Find("Message Time").GetComponent<Text>().text = NewMessage.Time.ToString();
 
                 I += 1;
+                string Message = NewMessage.Content;
+                if(NewMessage.Content.Length > 70)
+                {
+                    Message = Message.Substring(0, 70) + "...";
+                    GameObject InstanceButton = Instantiate(PrefabButton) as GameObject;
+                    InstanceButton.transform.SetParent(MessageContent.transform);
+                    InstanceButton.transform.localPosition = new Vector3(340, -100, 0);
+                }
+
+                Instance.transform.Find("Message Content").GetComponent<Text>().text = Message;
 
                 Instance.transform.localScale = Vector3.one;
             }
@@ -65,3 +75,12 @@ public class MessageHandler : MonoBehaviour {
 //3) een knop om alle messages unread te maken
 //    Messages.MarkAllUnread();
 //4) op message klikken maakt ook unread
+
+//Confirmation.Show("MessageTitle", "MessageContent", delegate (bool a_Delete)
+//        {
+//            // Mark message read
+//            if(a_Delete)
+//            {
+//                // TODO delete message
+//            }
+//        }, "Delete", "Close");
