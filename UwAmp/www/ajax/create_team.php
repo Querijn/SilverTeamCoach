@@ -21,7 +21,7 @@ try
 		die("Team name is too long!");
 	
 	$t_NameCheck = DatabaseTeam::Load(SQLSearch::In(DatabaseTeam::Table)->Where("name")->Is($_GET["name"]));
-	if(is_object($t_InsertedTeam) && $t_InsertedTeam->LoadFailed == false)
+	if(is_object($t_NameCheck) && $t_NameCheck->LoadFailed == false)
 		die("A team with this name already exists!");
 
 	$t_Champions = $t_API->getStatic('champion?dataById=true&champData=image')["data"];
@@ -49,13 +49,6 @@ try
 	$t_Team->Jungle = $_GET["jungle"];
 	$t_Team->Marksman = $_GET["marksman"];
 	$t_Team->Support = $_GET["support"];
-	
-	$t_Team->SkinMid = 0;
-	$t_Team->SkinTop = 0;
-	$t_Team->SkinJungle = 0;
-	$t_Team->SkinMarksman = 0;
-	$t_Team->SkinSupport = 0;
-	
 	
 	$t_Team->Enabled = 1;
 	

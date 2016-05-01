@@ -45,11 +45,7 @@ try
 	
 	$t_Champion = new DatabaseChampion();
 	$t_Champion->ChampionId = $_GET["champion"];
-	$t_Champion->SkinId = 0;
-	$t_Champion->PlayerId = $t_GetID;
-	$t_Champion->Wins = 0;
-	$t_Champion->Losses = 0;
-	$t_Champion->CreepScore = 0;
+	$t_Champion->PlayerId = $t_Player->Id;
 	$t_Champion->Save();
 	die("true");
 }

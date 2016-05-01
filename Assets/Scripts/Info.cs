@@ -65,6 +65,7 @@ public static class Info
             Stats.Reset();
             ShopManager.Reset();
             ChampionListContent.Reset();
+            TeamManager.Reset();
             // Debug.Log("Reset complete, username is '" + Player.Name + "', and has " + Player.Cash + " cash.");
         }, true);
         return true;
@@ -82,6 +83,12 @@ public static class Info
             if (t_JSON["error"].Value != "")
             {
                 Debug.LogError("'" + t_JSON["error"] + "'");
+                switch(t_JSON["error"])
+                {
+                    case "NOT_LOGGED_IN":
+                        Error.Show("You seem not to have logged in. How did you get here? Did you set up the game from source incorrectly?", "Not a clue dude. Lol.");
+                        break;
+                }
                 return;
             }
 

@@ -66,6 +66,7 @@ function CreateBot($a_Name, $a_TeamName, $a_Top, $a_Mid, $a_Jungle, $a_Support, 
 	
 	$t_Skins = $t_API->getStatic('champion?dataById=true&champData=skins')["data"];
 	$t_Found = false;
+	
 	foreach($t_Skins[$t_Top]["skins"] as $t_Skin) 
 		if($t_Skin['num'] == $a_TopSkin)
 		{
@@ -77,7 +78,12 @@ function CreateBot($a_Name, $a_TeamName, $a_Top, $a_Mid, $a_Jungle, $a_Support, 
 		echo "$a_Name's $a_Top does not have skin $a_SkinTop.\n";
 		return false;
 	}
-	$t_Team->SkinTop = $a_TopSkin;
+	//$t_Team->SkinTop = $a_TopSkin;
+	$t_Champion = new DatabaseChampion();
+	$t_Champion->ChampionId = $t_Top;
+	$t_Champion->SkinId = $a_TopSkin;
+	$t_Champion->PlayerId = $t_Bot->Id;
+	$t_Champion->Save();
 		
 	$t_Found = false;
 	foreach($t_Skins[$t_Mid]["skins"] as $t_Skin) 
@@ -91,7 +97,12 @@ function CreateBot($a_Name, $a_TeamName, $a_Top, $a_Mid, $a_Jungle, $a_Support, 
 		echo "$a_Name's $a_Mid does not have skin $a_MidSkin.\n";
 		return false;
 	}
-	$t_Team->SkinMid = $a_MidSkin;
+	//$t_Team->SkinMid = $a_MidSkin;
+	$t_Champion = new DatabaseChampion();
+	$t_Champion->ChampionId = $t_Mid;
+	$t_Champion->SkinId = $a_MidSkin;
+	$t_Champion->PlayerId = $t_Bot->Id;
+	$t_Champion->Save();
 		
 	$t_Found = false;
 	foreach($t_Skins[$t_Jungle]["skins"] as $t_Skin) 
@@ -105,7 +116,12 @@ function CreateBot($a_Name, $a_TeamName, $a_Top, $a_Mid, $a_Jungle, $a_Support, 
 		echo "$a_Name's $a_Jungle does not have skin $a_JungleSkin.\n";
 		return false;
 	}
-	$t_Team->SkinJungle = $a_JungleSkin;
+	//$t_Team->SkinJungle = $a_JungleSkin;
+	$t_Champion = new DatabaseChampion();
+	$t_Champion->ChampionId = $t_Jungle;
+	$t_Champion->SkinId = $a_JungleSkin;
+	$t_Champion->PlayerId = $t_Bot->Id;
+	$t_Champion->Save();
 		
 	$t_Found = false;
 	foreach($t_Skins[$t_Support]["skins"] as $t_Skin) 
@@ -119,7 +135,12 @@ function CreateBot($a_Name, $a_TeamName, $a_Top, $a_Mid, $a_Jungle, $a_Support, 
 		echo "$a_Name's $a_Support does not have skin $a_SupportSkin.\n";
 		return false;
 	}
-	$t_Team->SkinSupport = $a_SupportSkin;
+	//$t_Team->SkinSupport = $a_SupportSkin;
+	$t_Champion = new DatabaseChampion();
+	$t_Champion->ChampionId = $t_Support;
+	$t_Champion->SkinId = $a_SupportSkin;
+	$t_Champion->PlayerId = $t_Bot->Id;
+	$t_Champion->Save();
 		
 	$t_Found = false;
 	foreach($t_Skins[$t_Marksman]["skins"] as $t_Skin) 
@@ -133,7 +154,12 @@ function CreateBot($a_Name, $a_TeamName, $a_Top, $a_Mid, $a_Jungle, $a_Support, 
 		echo "$a_Name's $a_Marksman does not have skin $a_MarksmanSkin.\n";
 		return false;
 	}
-	$t_Team->SkinMarksman = $a_MarksmanSkin;
+	//$t_Team->SkinMarksman = $a_MarksmanSkin;
+	$t_Champion = new DatabaseChampion();
+	$t_Champion->ChampionId = $t_Marksman;
+	$t_Champion->SkinId = $a_MarksmanSkin;
+	$t_Champion->PlayerId = $t_Bot->Id;
+	$t_Champion->Save();
 	
 	$t_Team->Enabled = 1;
 	

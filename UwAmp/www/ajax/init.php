@@ -1,5 +1,8 @@
 <?php
+ob_start();
 require_once("include.php");
+ob_get_contents();
+ob_end_clean();
 
 if(!isset($_SESSION['summoner']))
 	die(json_encode(array("error" => "NOT_LOGGED_IN")));

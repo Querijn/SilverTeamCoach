@@ -3,6 +3,18 @@ SET time_zone = "+00:00";
 CREATE DATABASE IF NOT EXISTS `stc` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
 USE `stc`;
 
+CREATE TABLE `champions` (
+  `id` int(11) NOT NULL,
+  `champion_id` int(11) NOT NULL,
+  `player_id` int(11) NOT NULL,
+  `skin_id` int(11) NOT NULL DEFAULT '0',
+  `wins` int(11) NOT NULL DEFAULT '0',
+  `losses` int(11) NOT NULL DEFAULT '0',
+  `kills` int(11) NOT NULL DEFAULT '0',
+  `deaths` int(11) NOT NULL DEFAULT '0',
+  `creep_score` int(11) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 CREATE TABLE `players` (
   `id` int(11) NOT NULL,
   `user` int(11) NOT NULL,
@@ -24,11 +36,6 @@ CREATE TABLE `teams` (
   `top` int(11) NOT NULL,
   `support` int(11) NOT NULL,
   `marksman` int(11) NOT NULL,
-  `skin_mid` int(11) NOT NULL,
-  `skin_top` int(11) NOT NULL,
-  `skin_support` int(11) NOT NULL,
-  `skin_marksman` int(11) NOT NULL,
-  `skin_jungle` int(11) NOT NULL,
   `jungle` int(11) NOT NULL,
   `wins` int(11) NOT NULL,
   `losses` int(11) NOT NULL,
@@ -38,6 +45,9 @@ CREATE TABLE `teams` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
+ALTER TABLE `champions`
+  ADD PRIMARY KEY (`id`);
+
 ALTER TABLE `players`
   ADD PRIMARY KEY (`id`);
 
@@ -45,7 +55,9 @@ ALTER TABLE `teams`
   ADD PRIMARY KEY (`id`);
 
 
+ALTER TABLE `champions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `players`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `teams`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;

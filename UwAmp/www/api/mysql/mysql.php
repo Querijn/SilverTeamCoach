@@ -52,10 +52,18 @@ if(!isset($settings["mysql_connection"]))
 			$code[$i] .= "\tprotected \$m_Tablename = \"".$t_Table[$i]->CleanName."\";\n";
 			$code[$i] .= "const Table = \"".$t_Table[$i]->CleanName."\";\n";
 			
-		
+			$x = 0;
 			while($t_Row = $t_Result->fetch_array(MYSQLI_NUM)) // For each table column
 			{		
-				
+				$t_Type = "";
+				// if(strpos(strtolower($t_Row[1]), "int") !== false)
+					// $t_Type = "int";
+				// else if(strpos(strtolower($t_Row[1]), "text") !== false)
+					// $t_Type = "string";
+				// else if(strpos(strtolower($t_Row[1]), "double") !== false)
+					// $t_Type = "float";
+				// else if(strpos(strtolower($t_Row[1]), "enum") !== false)
+					// $t_Type = "string";
 				$t_OriginalName = $t_Row[0]; // Old name, db name
 				$t_Row[0] = preg_replace('/[^0-9A-Za-z_]/', '', $t_Row[0]); // Clean the name
 				
@@ -67,7 +75,11 @@ if(!isset($settings["mysql_connection"]))
 				
 				$columns[] = $t_Row[0];
 				$columns2[] = $t_OriginalName;
-				$code[$i] .= "\tprotected \$m_".ucfirst($t_Row[0]).";\n"; // Add the variable
+				$t_Is = is_null($t_Row[4])?"":" = ".$t_Row[4];
+				if($x == 0)
+					$t_Is = " = 'NULL'";
+				$code[$i] .= "\tprotected $t_Type \$m_".ucfirst($t_Row[0]).$t_Is.";\n"; // Add the variable
+				$x ++;
 			}
 			
 			$t_Table[$i]->columns = $columns;
