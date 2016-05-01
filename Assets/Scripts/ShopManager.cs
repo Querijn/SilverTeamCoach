@@ -108,10 +108,12 @@ public class ShopManager : MonoBehaviour
         GameObject BuyWindow = GameObject.FindGameObjectWithTag("BuyWindow");
 
         string ChampionName = BuyWindow.transform.Find("Content/ChampionName").GetComponent<Text>().text;
-        Info.Player.Buy(Champion.Get(ChampionName));
+        Champion BoughtChampion = Champion.Get(ChampionName);
+        Info.Player.Buy(BoughtChampion);
 
         // Close window
         BuyWindow.transform.Find("Content/Cancel").GetComponent<CloseBuyWindow>().OnClick();
+        Message.Create("You've bought a champion!", "Congratulations, " + Info.Player.Name + "! You've just strengthened your forces by buying " + BoughtChampion.Name + ". Have fun playing!", false);
     }
 }
 
