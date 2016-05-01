@@ -1,7 +1,7 @@
 <?php
 require_once("include.php");
 
-if(!isset($_SESSION['summoner']))
+if(!IsLoggedIn())
 	die("You are not logged in.");
 
 $t_GetID = $_SESSION["summoner"]["id"];

@@ -38,7 +38,7 @@ function LogIn($a_User, $a_Region, $a_Verify = false)
 	
 		$t_Player->User = $t_Data[$t_Key]["id"];
 		$t_Player->Title = 'Player';
-		$t_Player->OwnedChampions = array(1);
+		$t_Player->OwnedChampions = array($settings["free_champion"]);
 		$t_Player->Cash = 0.0;
 		$t_Player->MainTeam = 0;
 		$t_Player->AlternativeName = "";
@@ -55,6 +55,13 @@ function LogIn($a_User, $a_Region, $a_Verify = false)
 		$t_Player->Admin = 0;
 		
 		$t_Player->Save();
+		
+		$t_Champion = new DatabaseChampion();
+		$t_Champion->ChampionId = $settings["free_champion"];
+		$t_Champion->PlayerId = $t_Player->Id;
+		$t_Champion->Save();
+		
+		CreateMessage($t_Player->Id, "Welcome", "Welcome to Silver Team Coach!");
 	}
 	
 	if($a_Verify === true)
@@ -64,5 +71,10 @@ function LogIn($a_User, $a_Region, $a_Verify = false)
 		if(isset($_SESSION['verification']))
 			unset($_SESSION['verification']);
 	}
+}
+
+function IsLoggedIn()
+{
+	return isset($_SESSION["user"]);
 }
 ?>

@@ -9,13 +9,15 @@ public static class Info
 
     public class PlayerInfo
     {
-        public PlayerInfo(string a_Name, double a_Cash, string a_Team)
+        public PlayerInfo(int a_ID, string a_Name, double a_Cash, string a_Team)
         {
+            ID = a_ID;
             Name = a_Name;
             Cash = a_Cash;
             Team = a_Team;
         }
 
+        public int ID { get; private set; }
         public string Name { get; private set; }
         public double Cash { get; private set; }
         public string Team { get; private set; }
@@ -59,13 +61,17 @@ public static class Info
                 return;
             }
             
-            Player = new PlayerInfo(t_JSON["name"], t_JSON["cash"].AsDouble, t_JSON["main_team"]["name"].Value);
+            Player = new PlayerInfo(t_JSON["game_id"].AsInt, t_JSON["name"].Value, t_JSON["cash"].AsDouble, t_JSON["main_team"]["name"].Value);
+
+
 
             Champion.Reset(t_JSON["champions"].AsArray);
             Stats.Reset();
             ShopManager.Reset();
             ChampionListContent.Reset();
             TeamManager.Reset();
+            Messages.Reset();
+            Messages.Insert(t_JSON["messages"].AsArray);
             // Debug.Log("Reset complete, username is '" + Player.Name + "', and has " + Player.Cash + " cash.");
         }, true);
         return true;
@@ -94,7 +100,8 @@ public static class Info
 
             Champion.Setup(t_JSON["champions"].AsArray);
 
-            Player = new PlayerInfo(t_JSON["name"], t_JSON["cash"].AsDouble, t_JSON["main_team"]["name"].Value);
+            Player = new PlayerInfo(t_JSON["game_id"].AsInt, t_JSON["name"].Value, t_JSON["cash"].AsDouble, t_JSON["main_team"]["name"].Value);
+            Messages.Insert(t_JSON["messages"].AsArray);
             //Debug.Log("Initialisation complete, username is '" + Player.Name + "', and has " + Player.Cash + " cash.");
             m_Setup = true;
             m_InProgress = false;

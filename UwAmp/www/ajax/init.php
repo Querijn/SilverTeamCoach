@@ -4,14 +4,13 @@ require_once("include.php");
 ob_get_contents();
 ob_end_clean();
 
-if(!isset($_SESSION['summoner']))
+if(!IsLoggedIn())
 	die(json_encode(array("error" => "NOT_LOGGED_IN")));
 
 try
 {
 	$t_Players = DatabasePlayer::Load(SQLSearch::In(DatabasePlayer::Table)->Where("user")->Is($_SESSION["summoner"]["id"]));
-	
-	
+		
 	$t_StaticAPI = new riotapi($settings["riot_key"], $_SESSION["region"], new FileSystemCache(BASE_FOLDER . "cache"), 3600);
 	$t_API = new riotapi($settings["riot_key"], $_SESSION["region"], new FileSystemCache(BASE_FOLDER . "cache"), 5);
 	$t_Champions = $t_StaticAPI->getStatic('champion?dataById=true&champData=image');
@@ -27,6 +26,8 @@ try
 		// Nothing else is necessary so far
 	}
 		
+	$t_Info["messages"] = GetMessages(30);
+	$t_Info["game_id"] = $t_Players->Id;
 	$t_Info["cash"] = $t_Players->Cash;
 	$t_Info["champions"] = array();
 	
@@ -49,6 +50,8 @@ try
 		$t_TotalPoints *= $settings["cash_per_champion_point"];
 		$t_Players->Cash += $t_TotalPoints;
 		$t_Players->Save();
+		
+		CreateMessage($t_Players->Id, "Money earned", "You gained {CashSign} %!i for gaining champion points in League of Legends.");
 	}
 	
 	// Get all the prices

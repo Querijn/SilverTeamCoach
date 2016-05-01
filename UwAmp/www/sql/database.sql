@@ -15,6 +15,15 @@ CREATE TABLE `champions` (
   `creep_score` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+CREATE TABLE `messages` (
+  `id` int(11) NOT NULL,
+  `player_id` int(11) NOT NULL,
+  `title` text NOT NULL,
+  `message` text NOT NULL,
+  `time` int(11) NOT NULL,
+  `unread` int(11) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 CREATE TABLE `players` (
   `id` int(11) NOT NULL,
   `user` int(11) NOT NULL,
@@ -48,6 +57,9 @@ CREATE TABLE `teams` (
 ALTER TABLE `champions`
   ADD PRIMARY KEY (`id`);
 
+ALTER TABLE `messages`
+  ADD PRIMARY KEY (`id`);
+
 ALTER TABLE `players`
   ADD PRIMARY KEY (`id`);
 
@@ -56,6 +68,8 @@ ALTER TABLE `teams`
 
 
 ALTER TABLE `champions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `messages`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `players`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
