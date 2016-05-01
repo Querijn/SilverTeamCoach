@@ -46,9 +46,23 @@ public class MessageHandler : MonoBehaviour {
                 if(NewMessage.Content.Length > 70)
                 {
                     Message = Message.Substring(0, 70) + "...";
-                    GameObject InstanceButton = Instantiate(PrefabButton) as GameObject;
-                    InstanceButton.transform.SetParent(MessageContent.transform);
-                    InstanceButton.transform.localPosition = new Vector3(340, -100, 0);
+                    Instance.transform.Find("Read More Button").GetComponent<Button>().onClick.AddListener(delegate ()
+                    {
+                        Confirmation.Show(NewMessage.Title, NewMessage.Content, delegate (bool a_Delete)
+                        {
+                            // Mark message read
+                            
+                            if (a_Delete)
+                            {
+                                // TODO delete message
+                            }
+                        }, "Delete", "Close");
+                    });
+                }
+
+                else
+                {
+                    Instance.transform.Find("Read More Button").gameObject.SetActive(false); 
                 }
 
                 Instance.transform.Find("Message Content").GetComponent<Text>().text = Message;
@@ -76,11 +90,3 @@ public class MessageHandler : MonoBehaviour {
 //    Messages.MarkAllUnread();
 //4) op message klikken maakt ook unread
 
-//Confirmation.Show("MessageTitle", "MessageContent", delegate (bool a_Delete)
-//        {
-//            // Mark message read
-//            if(a_Delete)
-//            {
-//                // TODO delete message
-//            }
-//        }, "Delete", "Close");
