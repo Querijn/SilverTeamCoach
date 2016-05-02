@@ -35,11 +35,11 @@ public class BuyButton : MonoBehaviour
             string InWords = "Not Recommended";
             if(t_Efficiency > 0.33 && t_Efficiency < 0.5)
                 InWords = "Mediocre";
-            else if (t_Efficiency >= 0.5 && t_Efficiency < 0.8)
+            else if (t_Efficiency >= 0.5 && t_Efficiency < 0.7)
                 InWords = "Above average";
-            else if (t_Efficiency >= 0.8 && t_Efficiency < 0.99)
+            else if (t_Efficiency >= 0.7 && t_Efficiency < 0.95)
                 InWords = "Recommended";
-            else if (t_Efficiency >= 0.99)
+            else if (t_Efficiency >= 0.95)
                 InWords = "Perfect";
 
 

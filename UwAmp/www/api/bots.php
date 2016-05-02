@@ -56,7 +56,7 @@ function CreateBot($a_Name, $a_TeamName, $a_Top, $a_Mid, $a_Jungle, $a_Support, 
 	
 	$t_Team = new DatabaseTeam();
 	$t_Team->Name = $a_TeamName;
-	$t_Team->Player = -1;
+	$t_Team->Player = $t_Bot->Id;
 	
 	$t_Team->Mid = $t_Mid;
 	$t_Team->Top = $t_Top;
@@ -170,15 +170,8 @@ function CreateBot($a_Name, $a_TeamName, $a_Top, $a_Mid, $a_Jungle, $a_Support, 
 	$t_Team->CreepScore = 0;
 	$t_Team->Save();
 
-	$t_Player = DatabasePlayer::Load(SQLSearch::In(DatabasePlayer::Table)->Where("user")->Is($_SESSION["summoner"]["id"]));
-	if($t_Player->MainTeam == 0)
-	{
-		$t_InsertedTeam = DatabaseTeam::Load(SQLSearch::In(DatabaseTeam::Table)->Where("id")->IsLastID());
-		if(is_object($t_InsertedTeam) && $t_InsertedTeam->LoadFailed == false)
-			$t_Player->MainTeam = $t_InsertedTeam->Id;
-
-		$t_Player->Save();
-	}
+	$t_Bot->MainTeam = $t_Team->Id;
+	$t_Bot->Save();
 	
 	echo "Added bot team \"$a_Name's $a_TeamName\" ().\n";
 	return true;

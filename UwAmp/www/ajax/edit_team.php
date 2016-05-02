@@ -40,7 +40,11 @@ try
 	if(!isset($_GET["support"]) || isset($t_Champions[$_GET["support"]]) == false)
 		die("Invalid support!");
 	
-	$t_Team = DatabaseTeam::Load(SQLSearch::In(DatabaseTeam::Table)->Where("id")->Is($_GET["id"]));
+	$t_Player = DatabasePlayer::Load(SQLSearch::In(DatabasePlayer::Table)->Where("user")->Is($_SESSION["summoner"]["id"]));
+	if(!is_object($t_Player) || $t_Player->LoadFailed)
+		die("Unable to edit team!");
+	
+	$t_Team = DatabaseTeam::Load(SQLSearch::In(DatabaseTeam::Table)->Where("id")->Is($_GET["id"])->Also("player")->Is($t_Player->Id));
 	if(is_object($t_Team) && $t_Team->LoadFailed == true)
 		die("This team does not exist!");
 	
@@ -53,16 +57,7 @@ try
 	$t_Team->Support = $_GET["support"];
 
 	$t_Team->Save();
-
-	$t_Player = DatabasePlayer::Load(SQLSearch::In(DatabasePlayer::Table)->Where("user")->Is($_SESSION["summoner"]["id"]));
-	if($t_Player->MainTeam == 0)
-	{
-		$t_InsertedTeam = DatabaseTeam::Load(SQLSearch::In(DatabaseTeam::Table)->Where("id")->IsLastID());
-		if(is_object($t_InsertedTeam) && $t_InsertedTeam->LoadFailed == false)
-			$t_Player->MainTeam = $t_InsertedTeam->Id;
-
-		$t_Player->Save();
-	}
+	
 	die("true");
 }
 catch(Exception $e)

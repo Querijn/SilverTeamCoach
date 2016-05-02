@@ -75,9 +75,16 @@ if(!isset($settings["mysql_connection"]))
 				
 				$columns[] = $t_Row[0];
 				$columns2[] = $t_OriginalName;
-				$t_Is = is_null($t_Row[4])?"":" = ".$t_Row[4];
-				if($x == 0)
-					$t_Is = " = 'NULL'";
+				$t_Is = "";
+				if(is_null($t_Row[4]) == false)
+				{
+					if($x == 0)
+						$t_Is = " = 'NULL'";
+					else if(is_numeric($t_Row[4]))
+						$t_Is = " = ".$t_Row[4];
+					else 
+						$t_Is = " = '".$t_Row[4]."'";
+				}
 				$code[$i] .= "\tprotected $t_Type \$m_".ucfirst($t_Row[0]).$t_Is.";\n"; // Add the variable
 				$x ++;
 			}

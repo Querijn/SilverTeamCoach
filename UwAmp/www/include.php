@@ -4,6 +4,7 @@ if(!defined("INCLUDED"))
 	die();
 
 session_start();
+define("AJAX_FOLDER", BASE_FOLDER . "ajax/");
 define("API_FOLDER", BASE_FOLDER . "api/");
 define("KEY_FOLDER", BASE_FOLDER . "key/");
 define("MYSQL_FOLDER", API_FOLDER . "mysql/");
@@ -31,6 +32,8 @@ require_once(API_FOLDER . "champion_names.php");
 require_once(API_FOLDER . "champion_prices.php");
 require_once(API_FOLDER . "bots.php");
 require_once(API_FOLDER . "messages.php");
+require_once(API_FOLDER . "ranked.php");
+require_once(API_FOLDER . "game.php");
 
 if($settings['testing'] === true && !isset($_SESSION["summoner"]))
 {

@@ -5,12 +5,11 @@
 [ ] Teams
 	[x] Create teams
 	[x] Team overview
-	[ ] Enable/disable teams
 	[x] Edit teams
-	[ ] Delete team
+	[x] Delete team
 	
 [ ] Champions
-	[ ] Champion performance
+	[x] Champion performance
 	[x] Champion sorting
 	[x] Champion filtering
 	[x] Data mining
@@ -19,8 +18,8 @@
 	
 [ ] Game
 	[ ] Calculate winrate
-		[ ] Champion points
-		[ ] Last played
+		[x] Champion points
+		[x] Last played
 		[ ] Correct lane
 	[ ] Map
 	[ ] Generate ingame occurences
@@ -36,6 +35,7 @@
 	[x] Shop buying
 	
 [ ] Messages
+	[x] Buying
 	[ ] Wins and losses
 	[ ] Events
 	

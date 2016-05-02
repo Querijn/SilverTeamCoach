@@ -8,6 +8,7 @@ CREATE TABLE `champions` (
   `champion_id` int(11) NOT NULL,
   `player_id` int(11) NOT NULL,
   `skin_id` int(11) NOT NULL DEFAULT '0',
+  `steal_mastery_from` int(11) DEFAULT '0',
   `wins` int(11) NOT NULL DEFAULT '0',
   `losses` int(11) NOT NULL DEFAULT '0',
   `kills` int(11) NOT NULL DEFAULT '0',
@@ -58,6 +59,7 @@ CREATE TABLE `players` (
   `cash` double NOT NULL,
   `starting_cash` double NOT NULL,
   `owned_champions` text NOT NULL,
+  `bots_beaten` int(11) NOT NULL DEFAULT '0',
   `admin` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -66,6 +68,8 @@ CREATE TABLE `teams` (
   `name` text NOT NULL,
   `player` int(11) NOT NULL,
   `enabled` int(11) NOT NULL,
+  `league` enum('BRONZE','SILVER','GOLD','PLATINUM','DIAMOND','MASTER','CHALLENGER') NOT NULL DEFAULT 'SILVER',
+  `division` int(11) NOT NULL DEFAULT '3',
   `mid` int(11) NOT NULL,
   `top` int(11) NOT NULL,
   `support` int(11) NOT NULL,

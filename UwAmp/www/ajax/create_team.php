@@ -40,9 +40,10 @@ try
 	if(!isset($_GET["support"]) || isset($t_Champions[$_GET["support"]]) == false)
 		die("Invalid support!");
 	
+	$t_Player = DatabasePlayer::Load(SQLSearch::In(DatabasePlayer::Table)->Where("user")->Is($_SESSION["summoner"]["id"]));
 	$t_Team = new DatabaseTeam();
 	$t_Team->Name = $_GET["name"];
-	$t_Team->Player = $t_GetID;
+	$t_Team->Player = $t_Player->Id;
 	
 	$t_Team->Mid = $_GET["mid"];
 	$t_Team->Top = $_GET["top"];
@@ -59,13 +60,9 @@ try
 	$t_Team->CreepScore = 0;
 	$t_Team->Save();
 
-	$t_Player = DatabasePlayer::Load(SQLSearch::In(DatabasePlayer::Table)->Where("user")->Is($_SESSION["summoner"]["id"]));
 	if($t_Player->MainTeam == 0)
 	{
-		$t_InsertedTeam = DatabaseTeam::Load(SQLSearch::In(DatabaseTeam::Table)->Where("id")->IsLastID());
-		if(is_object($t_InsertedTeam) && $t_InsertedTeam->LoadFailed == false)
-			$t_Player->MainTeam = $t_InsertedTeam->Id;
-
+		$t_Player->MainTeam = $t_Team->Id;
 		$t_Player->Save();
 	}
 	die("true");

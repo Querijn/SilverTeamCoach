@@ -16,7 +16,9 @@ try
 	$t_Team = DatabaseTeam::Load(SQLSearch::In(DatabaseTeam::Table)->Where("id")->Is($_GET["id"]));
 	if(is_object($t_Team) && $t_Team->LoadFailed == false)
 	{
-		if($t_Team->Player == $_SESSION["summoner"]["id"])
+		$t_Player = DatabasePlayer::Load(SQLSearch::In(DatabasePlayer::Table)->Where("user")->Is($_SESSION["summoner"]["id"]));
+		
+		if($t_Team->Player == $t_Player->Id)
 		{
 			$t_Team->Delete();
 			die("true");

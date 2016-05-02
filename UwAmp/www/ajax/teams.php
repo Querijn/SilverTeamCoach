@@ -36,7 +36,8 @@ try
 {
 	$t_API = new riotapi($settings["riot_key"], $_SESSION["region"], new FileSystemCache(BASE_FOLDER . "cache"));
 	
-	$t_Teams = DatabaseTeam::Load(SQLSearch::In(DatabaseTeam::Table)->Where("player")->Is($t_GetID));
+	$t_Player = DatabasePlayer::Load(SQLSearch::In(DatabasePlayer::Table)->Where("user")->Is($t_GetID));
+	$t_Teams = DatabaseTeam::Load(SQLSearch::In(DatabaseTeam::Table)->Where("player")->Is($t_Player->Id));
 
 	$t_Info = array();
 	if(is_array($t_Teams))

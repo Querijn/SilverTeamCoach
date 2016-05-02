@@ -29,5 +29,8 @@ $settings["free_champion"] = 1; // 1 = annie
 $settings["starting_cash_per_champion_point"] = 0.1;
 $settings["cash_per_champion_point"] = 0.3;
 
+$settings["meta_coefficient"] = 0.1;
+$settings["max_week_modifier"] = 3;
+$settings["efficiency_loss_per_week"] = 0.1;
 
 ?>

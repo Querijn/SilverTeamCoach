@@ -101,7 +101,7 @@ public class Settings : MonoBehaviour
 	    if(Singleton == null)
             Singleton = this;
         
-        if(Application.isEditor == false)
+        //if(Application.isEditor == false)
         {
             OpenRequiredScenes();
         }
