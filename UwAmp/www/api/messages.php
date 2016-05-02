@@ -6,7 +6,7 @@ require_once(MYSQL_FOLDER . "mysql.php");
 require_once(RIOT_FOLDER . "FileSystemCache.php");
 require_once(RIOT_FOLDER . "php-riot-api.php");
 
-function CreateMessage($a_To, $a_Title, $a_Message, $a_Important = 1)
+function CreateMessage($a_To, $a_Title, $a_Message, $a_Important = true)
 {
 	global $settings;
 	
@@ -18,7 +18,7 @@ function CreateMessage($a_To, $a_Title, $a_Message, $a_Important = 1)
 	$t_Message->PlayerId = $a_To;
 	$t_Message->Title = $a_Title;
 	$t_Message->Message = $a_Message;
-	$t_Message->Unread = $a_Important;
+	$t_Message->Unread = $a_Important == true ? 1 : 0;
 	$t_Message->Time = time();
 	$t_Message->Save();
 

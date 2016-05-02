@@ -40,18 +40,19 @@ try
 	$t_TotalPoints = 0;
 	foreach($t_API->getChampionMastery($t_Info["id"]) as $t_CurrentMastery)
 	{
-		$t_TotalPoints = $t_CurrentMastery["championPoints"];
+		$t_TotalPoints += $t_CurrentMastery["championPoints"];
 		$t_Mastery[$t_CurrentMastery["championId"]] = $t_CurrentMastery;
 	}
 	
-	$t_TotalPoints -= $t_Players->StartingCash;
+	$t_TotalPoints -= ($t_Players->StartingCash / $settings["starting_cash_per_champion_point"]);
 	if($t_TotalPoints > 0)
 	{
 		$t_TotalPoints *= $settings["cash_per_champion_point"];
 		$t_Players->Cash += $t_TotalPoints;
+		$t_Players->StartingCash = $t_Players->Cash;
 		$t_Players->Save();
 		
-		CreateMessage($t_Players->Id, "Money earned", "You gained {CashSign} %!i for gaining champion points in League of Legends.");
+		CreateMessage($t_Players->Id, "Money earned", "You gained {CashSign}".number_format($t_TotalPoints, 2, '.', ',')." for gaining champion points in League of Legends.", true);
 	}
 	
 	// Get all the prices
