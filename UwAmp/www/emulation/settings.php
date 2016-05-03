@@ -4,11 +4,15 @@ if(!defined("INCLUDED"))
 
 $g_Settings["afk_chance_0_points"] = 0.1;
 $g_Settings["troll_chance_0_points"] = 0.05;
+$g_Settings["tilt_chance_0_points"] = 0.03;
 
 $g_Settings["afk_time"] = new vec2(8, 30);
-$g_Settings["tilt_time"] = 0.05;
+$g_Settings["tilt_time"] = new vec2(4, 15);
 
 $g_Settings["tilt_efficiency_modifier"] = 0.9;
+
+$g_Settings["invade_chance"] = 0.1;
+
 $g_Settings["movement_speed"] = 350.0;
 
 // You probably shouldn't change anything below here.

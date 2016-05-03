@@ -71,7 +71,9 @@ try
 	
 	
 	$t_Game = new Game($t_GameInfo);
-	echo json_encode($t_Game);
+	var_dump($t_Game->Timeline);
+	//echo json_encode($t_Game);
+	
 }
 catch(Exception $e)
 {

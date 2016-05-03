@@ -14,9 +14,9 @@ $g_CouldAFK = function(Player $a_Player)
 		return;
 	
 	// Solid for an afk chance here
-	if($a_Player->Efficiency < $g_Settings["mastery_points_level"][2])
+	if($a_Player->GetEfficiency() < $g_Settings["mastery_points_level"][2])
 	{
-		$t_Chance = $g_Settings["afk_chance_0_points"] - $a_Player->Efficiency*($g_Settings["afk_chance_0_points"] / $g_Settings["mastery_points_level"][2]);
+		$t_Chance = $g_Settings["afk_chance_0_points"] - $a_Player->GetEfficiency() * ($g_Settings["afk_chance_0_points"] / $g_Settings["mastery_points_level"][2]);
 		
 		$t_AFKRoll = (double)(mt_rand(0,1000)) * 0.001;
 		if($t_AFKRoll < $t_Chance)
@@ -24,12 +24,12 @@ $g_CouldAFK = function(Player $a_Player)
 			$t_Event = $g_Game->Time == 0 ? $g_Events["no_connect"] : $g_Events["afk"];
 			$g_Game->AddEvent($t_Event, $a_Player);
 			$t_AFKTimer = mt_rand($g_Settings["afk_time"]->x, $g_Settings["afk_time"]->y) ** 2;
-			$a_Player->TrollingUntil = $g_Game->Time + $t_AFKTimer;
+			$a_Player->AFKUntil = $g_Game->Time + $t_AFKTimer;
 		}
 	}
 };
 
-$g_CouldTiltEveryone = function(Player $a_Player)
+$g_CouldTilt = function(Player $a_Player)
 {
 	global $g_Events;
 	global $g_Settings;
@@ -40,17 +40,33 @@ $g_CouldTiltEveryone = function(Player $a_Player)
 		return;
 	
 	// Solid for an afk chance here
-	if($a_Player->Efficiency < $g_Settings["mastery_points_level"][2])
+	if($a_Player->GetEfficiency() < $g_Settings["mastery_points_level"][2])
 	{
-		$t_Chance = $g_Settings["afk_chance_0_points"] - $a_Player->Efficiency*($g_Settings["afk_chance_0_points"] / $g_Settings["mastery_points_level"][2]);
+		$t_Chance = $g_Settings["tilt_chance_0_points"] - $a_Player->GetEfficiency() * ($g_Settings["tilt_chance_0_points"] / $g_Settings["mastery_points_level"][2]);
 		
-		$t_AFKRoll = (double)(mt_rand(0,1000)) * 0.001;
-		if($t_AFKRoll < $t_Chance)
+		$t_Roll = (double)(mt_rand(0, 1000)) * 0.001;
+		if($t_Roll < $t_Chance)
 		{
-			$t_Event = $g_Game->Time == 0 ? $g_Events["no_connect"] : $g_Events["afk"];
-			$g_Game->AddEvent($t_Event, $a_Player);
-			$t_AFKTimer = mt_rand($g_Settings["afk_time"]->x, $g_Settings["afk_time"]->y) ** 2;
-			$a_Player->TrollingUntil = $g_Game->Time + $t_AFKTimer;
+			$g_Game->AddEvent($g_Events["tilt"], $a_Player);
+			$t_AFKTimer = mt_rand($g_Settings["tilt_time"]->x, $g_Settings["tilt_time"]->y) ** 2;
+			$a_Player->TiltingUntil = $g_Game->Time + $t_AFKTimer;
 		}
+	}
+};
+
+$g_CouldTiltEveryone = function(Player $a_Player)
+{
+	global $g_Game;
+	global $g_CouldTilt;
+	
+	// For each team member
+	foreach($g_Game->Teams[$a_Player->Team] as $t_Player)
+	{
+		// Little hack to check if it's the same player
+		if($t_Player->Spawn->x == $a_Player->Spawn->x &&
+			$t_Player->Spawn->y == $a_Player->Spawn->y)
+			continue;
+			
+		$g_CouldTilt($a_Player);
 	}
 };

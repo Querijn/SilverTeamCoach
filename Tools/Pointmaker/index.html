@@ -1,0 +1,270 @@
+<body>
+<canvas id="map" width="512" height="512" style="background-image:url('map11.png'); width: 512px; height: 512px;"></canvas>
+<textarea id="code" rows="34" cols="50"></textarea>
+<script>
+
+Array.prototype.contains = function(obj) {
+    var i = this.length;
+    while (i--) {
+        if (this[i] === obj) {
+            return true;
+        }
+    }
+    return false;
+}
+
+var actions = [];
+function get_vec(ax,ay)
+{
+	return {
+		x: ax,
+		y: ay
+	};
+}
+
+function get_wp(ax,ay)
+{
+	return {
+		pos: ax,
+		sel: ay,
+		attachments: []
+	};
+}
+
+function create_attachment_action(obj1, obj2)
+{
+	actions.push({
+		action: "attachment",
+		attachments: [obj1, obj2]
+	});
+}
+
+function create_draw_action(obj)
+{
+	actions.push({
+		action: "draw",
+		object: obj
+	});
+}
+
+function length2(vec)
+{
+	return vec.x * vec.x + vec.y * vec.y;
+}
+
+function sub(vec, vec2)
+{
+	return get_vec(vec.x - vec2.x, vec.y - vec2.y);
+}
+
+function dist2(vec, vec2)
+{
+	return length2(sub(vec,vec2));
+}
+
+function getPosition(el) 
+{
+	var xPos = 0;
+	var yPos = 0;
+
+	while (el) 
+	{
+		if (el.tagName == "BODY") 
+		{
+			// deal with browser quirks with body/window/document and page scroll
+			var xScroll = el.scrollLeft || document.documentElement.scrollLeft;
+			var yScroll = el.scrollTop || document.documentElement.scrollTop;
+
+			xPos += (el.offsetLeft - xScroll + el.clientLeft);
+			yPos += (el.offsetTop - yScroll + el.clientTop);
+		} 
+		else 
+		{
+			// for all other non-BODY elements
+			xPos += (el.offsetLeft - el.scrollLeft + el.clientLeft);
+			yPos += (el.offsetTop - el.scrollTop + el.clientTop);
+		}
+
+		el = el.offsetParent;
+	}
+	return get_vec(xPos, yPos);
+}
+
+var Waypoints = [];
+
+function Redraw()
+{
+	console.log("drawing "+Waypoints.length+" items!");
+	var ctx = t_Image.getContext("2d");
+	ctx.clearRect(0, 0, t_Image.width, t_Image.height);
+	for(i = 0; i < Waypoints.length; i++)
+	{
+		ctx.beginPath();
+		console.log()
+		ctx.fillStyle= Waypoints[i].sel ? "#00FF00" : "#FF0000";
+		ctx.arc(Waypoints[i].pos.x,Waypoints[i].pos.y, 3,0,2*Math.PI, false);
+		ctx.fill();
+		
+		for(j = 0; j < Waypoints[i].attachments.length; j++)
+		{
+			var k = Waypoints[i].attachments[j];
+			
+			if (typeof Waypoints[k] !== "undefined")
+			{
+				ctx.beginPath();
+				ctx.fillStyle= "#000000";
+				ctx.moveTo(Waypoints[i].pos.x, Waypoints[i].pos.y);
+				ctx.lineTo(Waypoints[k].pos.x, Waypoints[k].pos.y);
+				ctx.stroke();
+			}
+		}
+	}
+	
+	var code = document.getElementById("code");
+	code.value = '$g_WaypointNodes = array();\n';
+	
+	for(i = 0; i < Waypoints.length; i++)
+	{
+		var attachments = "array(";
+		for(j = 0; j < Waypoints[i].attachments.length; j++)
+			attachments += Waypoints[i].attachments[j] + (j != Waypoints[i].attachments.length -1 ? "," : "");
+		attachments += ")";
+		code.value += '$g_WaypointNodes['+i+'] = new WaypointNode('+(Waypoints[i].pos.x/512.0)+', '+(1.0 - (Waypoints[i].pos.y/512.0))+', '+attachments+');\n';
+	}
+}
+
+Array.prototype.remove = function() {
+    var what, a = arguments, L = a.length, ax;
+    while (L && this.length) {
+        what = a[--L];
+        while ((ax = this.indexOf(what)) !== -1) {
+            this.splice(ax, 1);
+        }
+    }
+    return this;
+};
+
+function Undo()
+{
+	if(actions.length==0)
+		return;
+		
+	var action = actions[actions.length-1];
+	console.log("Undoing "+action.action);
+	
+	switch(action.action)
+	{
+	case "draw":
+		var old_attachments = Waypoints[action.object].attachments;
+		Waypoints.splice(action.object, 1);
+		for(i = 0; i < old_attachments.length; i++)
+			Waypoints[old_attachments[i]].attachments.remove(action.object);
+		break;
+	case "attachment":
+		for(i = 0; i < action.attachments.length; i++)
+			for(j = 0; j < action.attachments.length; j++)
+				Waypoints[i].attachments.remove(j);
+		break;
+	}
+	
+	console.log(Waypoints)
+	actions.pop();
+	Redraw();
+}
+
+function DisableContext(event)
+{
+	event = event || window.event;
+
+	if (event.stopPropagation)
+		event.stopPropagation();
+
+	event.cancelBubble = true;
+	return false;
+}
+
+function AddWaypoint(e)
+{    
+	e.preventDefault();
+	var right_button = false;
+	e = e || window.event;
+
+	if ("which" in e)
+		right_button = e.which == 3; 
+	else if ("button" in e) 
+		right_button = e.button == 2; 
+
+	var parentPosition = getPosition(e.currentTarget);
+    var x = e.clientX - parentPosition.x;
+    var y = e.clientY - parentPosition.y;
+	
+	var t_Pos = get_vec(x,y);
+	for(i = 0; i < Waypoints.length; i++)
+		if(dist2(t_Pos, Waypoints[i].pos) < 20*20)
+		{
+			if(dist2(t_Pos, Waypoints[i].pos) < 3*3)
+			{
+				if(right_button)
+				{
+					var old_attachments = Waypoints[i].attachments;
+					Waypoints.splice(i, 1);
+					for(j = 0; j < old_attachments.length; j++)
+						Waypoints[old_attachments[j]].attachments.remove(i);
+					Redraw();
+					return DisableContext(e);
+				}
+				else
+				{
+					for(j = 0; j < Waypoints.length; j++)
+					{
+						if(Waypoints[j].sel == true)
+						{
+							Waypoints[j].sel = false;
+							if(j!=i)
+							{
+								console.log("adding attachment between "+i+" and "+j);
+								if(Waypoints[j].attachments.contains(i) == false)
+									Waypoints[j].attachments.push(i);
+								if(Waypoints[i].attachments.contains(j) == false)
+									Waypoints[i].attachments.push(j);
+								create_attachment_action(i,j);
+							}
+							else
+							{
+								Redraw();
+								return DisableContext(e);
+							}
+						}
+					}
+					Waypoints[i].sel = true;
+				}
+			}
+			Redraw();
+			return DisableContext(e);
+		}
+	
+	if(right_button)
+		return DisableContext(e);
+		
+	for(i = 0; i < Waypoints.length; i++)
+		Waypoints[i].sel = false;
+	
+	create_draw_action(Waypoints.push(get_wp(t_Pos, false)) - 1);
+	Redraw();
+}
+
+var t_Image = document.getElementById("map");
+t_Image.addEventListener("click", AddWaypoint);
+t_Image.addEventListener("contextmenu", AddWaypoint);
+
+function KeyPress(e) 
+{
+      var evtobj = window.event? event : e
+      if (evtobj.keyCode == 90 && evtobj.ctrlKey)
+		Undo();
+}
+
+document.onkeydown = KeyPress;
+Redraw();
+</script>
+</body>
