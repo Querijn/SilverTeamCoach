@@ -27,6 +27,7 @@ GameObject:
   - 224: {fileID: 22423574}
   - 222: {fileID: 22210412}
   - 114: {fileID: 11488078}
+  - 114: {fileID: 11403276}
   m_Layer: 5
   m_Name: Name
   m_TagString: Untagged
@@ -95,6 +96,7 @@ GameObject:
   - 224: {fileID: 22436548}
   - 222: {fileID: 22281092}
   - 114: {fileID: 11461468}
+  - 114: {fileID: 11461254}
   m_Layer: 5
   m_Name: Price
   m_TagString: Untagged
@@ -102,6 +104,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &11403276
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 106392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -900027084, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0.40392157, g: 0.40392157, b: 0.40392157, a: 0.40392157}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 1
 --- !u!114 &11406940
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -181,6 +197,20 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &11461254
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 195298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -900027084, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0.40392157, g: 0.40392157, b: 0.40392157, a: 0.40392157}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 1
 --- !u!114 &11461468
 MonoBehaviour:
   m_ObjectHideFlags: 1
