@@ -10,6 +10,7 @@ define("KEY_FOLDER", BASE_FOLDER . "key/");
 define("MYSQL_FOLDER", API_FOLDER . "mysql/");
 define("RIOT_FOLDER", API_FOLDER . "riot/");
 define("BUILD_FOLDER", BASE_FOLDER . "build/");
+define("EMULATION_FOLDER", BASE_FOLDER . "emulation/");
 
 require_once(BASE_FOLDER . "settings.php");
 require_once(API_FOLDER . "hacks.php");
@@ -25,6 +26,7 @@ if(!class_exists("DatabasePlayer"))
 	$t_InsertBots = true;
 }
 
+require_once(API_FOLDER . "type_hinting.php");
 require_once(RIOT_FOLDER . "FileSystemCache.php");
 require_once(RIOT_FOLDER . "php-riot-api.php");
 require_once(API_FOLDER . "login.php");

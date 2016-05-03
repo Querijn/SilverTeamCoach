@@ -1,6 +1,7 @@
 <?php
 ob_start();
 require_once("include.php");
+require_once(EMULATION_FOLDER."include.php");
 ob_get_contents();
 ob_end_clean();
 
@@ -35,7 +36,7 @@ try
 	$t_DBOpposingChampions = GetTeamChampions($t_API, $t_DBOpposingTeam, $t_DBOpponent["db"]);
 	
 	// Game info
-	$t_Game = array
+	$t_GameInfo = array
 	(
 		"teams" => array
 		(
@@ -69,7 +70,8 @@ try
 	);
 	
 	
-	var_dump($t_Game);
+	$t_Game = new Game($t_GameInfo);
+	echo json_encode($t_Game);
 }
 catch(Exception $e)
 {
