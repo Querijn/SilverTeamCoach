@@ -38,11 +38,32 @@ if(class_exists('Path') == false)
 		function __construct($a_From, $a_To)
 		{
 			if(self::$Waypoints == null)
-			{
 				self::SetupWaypoints();
-			}
 			
 			$this->Route = $this->Find($a_From, $a_To);
+		}
+		
+		static function GetClosestWaypoint(float $a_X, float $a_Y)
+		{
+			if(self::$Waypoints == null) 
+				self::SetupWaypoints();
+			
+			$t_Closest = null;
+			$t_Distance = 999999999;
+			
+			$t_ConvertedObject = array("p" => array("x"=>$a_X, "y"=>$a_Y));
+			for($i = 143; $i < count(self::$Waypoints); $i++)
+			{
+				$t_Waypoint = self::$Waypoints[$i];
+				$t_NewDistance = self::GetDistance($t_ConvertedObject, $t_Waypoint);
+				if($t_NewDistance < $t_Distance)
+				{
+					$t_Closest = $i;
+					$t_Distance = $t_NewDistance;
+				}
+			}
+			
+			return $t_Closest;
 		}
 		
 		static function InitialPathNode($a_From, $a_To)
@@ -60,8 +81,8 @@ if(class_exists('Path') == false)
 		
 		static function GetDistance($a_From, $a_To)
 		{
-			$t_X = $a_From["p"]["x"] - $a_To["p"]["x"];
-			$t_Y = $a_From["p"]["y"] - $a_To["p"]["y"];
+			$t_X = $a_To["p"]["x"] - $a_From["p"]["x"];
+			$t_Y = $a_To["p"]["y"] - $a_From["p"]["y"];
 			
 			return sqrt($t_X * $t_X + $t_Y * $t_Y);
 		}
