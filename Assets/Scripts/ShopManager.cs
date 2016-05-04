@@ -200,147 +200,64 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-    public void OnToggleOwned()
+    public void OnFilterClicked()
     {
-        Champion[] OwnedChampions = Champion.Filter(Champion.FilterType.Owned);
-        Toggle toggleowned = transform.Find("Owned").GetComponent<Toggle>();
+        Champion[] FilteredArray = Champion.All;
 
+        Toggle toggleowned = transform.Find("Owned").GetComponent<Toggle>();
         if (toggleowned.isOn == true)
         {
-            SetupShop(OwnedChampions);
+            FilteredArray = Champion.Filter(Champion.FilterType.Owned, FilteredArray);
         }
 
-        else if (toggleowned.isOn == false)
-        {
-            this.SetupShop(Champion.GetSortedBy(Champion.SortValue.Name, Champion.SortType.ASC));
-        }
-    }
-
-    public void OnToggleNotOwned()
-    {
-        Champion[] NotOwnedChampions = Champion.Filter(Champion.FilterType.NotOwned);
         Toggle togglenotowned = transform.Find("Not Owned").GetComponent<Toggle>();
-
         if (togglenotowned.isOn == true)
         {
-            SetupShop(NotOwnedChampions);
+            FilteredArray = Champion.Filter(Champion.FilterType.NotOwned, FilteredArray);
         }
 
-        else if (togglenotowned.isOn == false)
-        {
-            this.SetupShop(Champion.GetSortedBy(Champion.SortValue.Name, Champion.SortType.ASC));
-        }
-    }
-
-    public void OnToggleBuyable()
-    {
-        Champion[] BuyableChampions = Champion.Filter(Champion.FilterType.Buyable);
         Toggle togglebuyable = transform.Find("Buyable").GetComponent<Toggle>();
-
         if (togglebuyable.isOn == true)
         {
-            SetupShop(BuyableChampions);
+            FilteredArray = Champion.Filter(Champion.FilterType.Buyable, FilteredArray);
         }
 
-        else if (togglebuyable.isOn == false)
-        {
-            this.SetupShop(Champion.GetSortedBy(Champion.SortValue.Name, Champion.SortType.ASC));
-        }
-    }
-
-    public void OnToggleUnbuyable()
-    {
-        Champion[] UnbuyableChampions = Champion.Filter(Champion.FilterType.Unbuyable);
         Toggle toggleunbuyable = transform.Find("Unbuyable").GetComponent<Toggle>();
-
         if (toggleunbuyable.isOn == true)
         {
-            SetupShop(UnbuyableChampions);
+            FilteredArray = Champion.Filter(Champion.FilterType.Unbuyable, FilteredArray);
         }
 
-        else if (toggleunbuyable.isOn == false)
-        {
-            this.SetupShop(Champion.GetSortedBy(Champion.SortValue.Name, Champion.SortType.ASC));
-        }
-    }
-
-    public void OnToggleTop()
-    {
-        Champion[] TopChampions = Champion.Filter(Champion.FilterType.Top);
         Toggle toggletop = transform.Find("Top").GetComponent<Toggle>();
-
         if (toggletop.isOn == true)
         {
-            SetupShop(TopChampions);
+            FilteredArray = Champion.Filter(Champion.FilterType.Top, FilteredArray);
         }
 
-        else if (toggletop.isOn == false)
-        {
-            this.SetupShop(Champion.GetSortedBy(Champion.SortValue.Name, Champion.SortType.ASC));
-        }
-    }
-
-    public void OnToggleMid()
-    {
-        Champion[] MidChampions = Champion.Filter(Champion.FilterType.Mid);
         Toggle togglemid = transform.Find("Mid").GetComponent<Toggle>();
-
         if (togglemid.isOn == true)
         {
-            SetupShop(MidChampions);
+            FilteredArray = Champion.Filter(Champion.FilterType.Mid, FilteredArray);
         }
 
-        else if (togglemid.isOn == false)
-        {
-            this.SetupShop(Champion.GetSortedBy(Champion.SortValue.Name, Champion.SortType.ASC));
-        }
-    }
-
-    public void OnToggleSupport()
-    {
-        Champion[] SupportChampions = Champion.Filter(Champion.FilterType.Support);
         Toggle togglesupport = transform.Find("Support").GetComponent<Toggle>();
-
         if (togglesupport.isOn == true)
         {
-            SetupShop(SupportChampions);
+            FilteredArray = Champion.Filter(Champion.FilterType.Support, FilteredArray);
         }
 
-        else if (togglesupport.isOn == false)
-        {
-            this.SetupShop(Champion.GetSortedBy(Champion.SortValue.Name, Champion.SortType.ASC));
-        }
-    }
-
-    public void OnToggleMarksman()
-    {
-        Champion[] MarksmanChampions = Champion.Filter(Champion.FilterType.Marksman);
         Toggle togglemarksman = transform.Find("Marksman").GetComponent<Toggle>();
-
         if (togglemarksman.isOn == true)
         {
-            SetupShop(MarksmanChampions);
+            FilteredArray = Champion.Filter(Champion.FilterType.Marksman, FilteredArray);
         }
 
-        else if (togglemarksman.isOn == false)
-        {
-            this.SetupShop(Champion.GetSortedBy(Champion.SortValue.Name, Champion.SortType.ASC));
-        }
-    }
-
-    public void OnToggleJungle()
-    {
-        Champion[] JungleChampions = Champion.Filter(Champion.FilterType.Jungle);
         Toggle togglejungle = transform.Find("Jungle").GetComponent<Toggle>();
-
         if (togglejungle.isOn == true)
         {
-            SetupShop(JungleChampions);
+            FilteredArray = Champion.Filter(Champion.FilterType.Jungle, FilteredArray);
         }
 
-        else if (togglejungle.isOn == false)
-        {
-            this.SetupShop(Champion.GetSortedBy(Champion.SortValue.Name, Champion.SortType.ASC));
-        }
+        SetupShop(FilteredArray);
     }
 }
