@@ -115,6 +115,135 @@ public class ShopManager : MonoBehaviour
         BuyWindow.transform.Find("Content/Cancel").GetComponent<CloseBuyWindow>().OnClick();
         Message.Create("You've bought a champion!", "Congratulations, " + Info.Player.Name + "! You've just strengthened your forces by buying " + BoughtChampion.Name + ". Have fun playing!", false);
     }
+
+    public enum State { ascending, descending, AZ, ZA, none };
+    State CurrentState = State.none;
+
+    public void OnClickSortPrice()
+
+    {
+        if (CurrentState == State.AZ || CurrentState == State.ZA)
+        {
+            CurrentState = State.none;
+            Text text = transform.Find("Sort by Name").GetComponentInChildren<Text>();
+            text.text = "Sort by Name";
+        }
+        
+        if (CurrentState == State.ascending)
+        {
+            Text text = GetComponentInChildren<Text>();
+            text.text = "Sort Price (DESC)";
+
+            this.SetupShop(Champion.GetSortedBy(Champion.SortValue.Price, Champion.SortType.DESC));
+
+            CurrentState = State.descending;
+        }
+
+        else if (CurrentState == State.descending)
+        {
+            Text text = GetComponentInChildren<Text>();
+            text.text = "Sort Price";
+
+            this.SetupShop();
+
+            CurrentState = State.none;
+        }
+
+        else if (CurrentState == State.none)
+        {
+            Text text = GetComponentInChildren<Text>();
+            text.text = "Sort Price (ASC)";
+
+            this.SetupShop(Champion.GetSortedBy(Champion.SortValue.Price, Champion.SortType.ASC));
+
+            CurrentState = State.ascending;
+        }
+    }
+    
+    public void OnClickSortName()
+    {
+        if (CurrentState == State.ascending || CurrentState == State.descending)
+        {
+            CurrentState = State.none;
+            Text text = transform.Find("SortByPrice").GetComponentInChildren<Text>();
+            text.text = "Sort Price";
+        }
+
+        if (CurrentState == State.none || CurrentState == State.AZ)
+        {
+            Text textName = transform.Find("Sort by Name").GetComponentInChildren<Text>();
+            textName.text = "Sort by Name (Z-A)";
+
+            this.SetupShop(Champion.GetSortedBy(Champion.SortValue.Name, Champion.SortType.DESC));
+
+            CurrentState = State.ZA;
+        }
+
+        else if (CurrentState == State.ZA)
+        {
+            Text textName = transform.Find("Sort by Name").GetComponentInChildren<Text>();
+            textName.text = "Sort by Name (A-Z)";
+
+            this.SetupShop(Champion.GetSortedBy(Champion.SortValue.Name, Champion.SortType.ASC));
+
+            CurrentState = State.AZ;
+        }
+
+        else if (CurrentState == State.AZ)
+        {
+            Text textName = transform.Find("Sort by Name").GetComponentInChildren<Text>();
+            textName.text = "Sort by Name";
+
+            this.SetupShop(Champion.GetSortedBy(Champion.SortValue.Name, Champion.SortType.ASC));
+
+            CurrentState = State.ZA;
+        }
+    }
+
+    public void OnToggleOwned()
+    {
+
+    }
+
+    public void OnToggleNotOwned()
+    {
+
+    }
+
+    public void OnToggleBuyable()
+    {
+
+    }
+
+    public void OnToggleUnbuyable()
+    {
+
+    }
+
+    public void OnToggleTop()
+    {
+
+    }
+
+    public void OnToggleMid()
+    {
+
+    }
+
+    public void OnToggleSupport()
+    {
+
+    }
+
+    public void OnToggleMarksman()
+    {
+
+    }
+
+    public void OnToggleJungle()
+    {
+
+    }
 }
 
 //buy screen corresponds with champion clicked
