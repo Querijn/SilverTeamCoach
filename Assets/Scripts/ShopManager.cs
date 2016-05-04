@@ -216,12 +216,12 @@ public class ShopManager : MonoBehaviour
 
         else if (CurrentState == State.ascending)
         {
-            FilteredArray = Champion.GetSortedBy(Champion.SortValue.Price, Champion.SortType.DESC);
+            FilteredArray = Champion.GetSortedBy(Champion.SortValue.Price, Champion.SortType.ASC);
         }
 
         else if (CurrentState == State.descending)
         {
-            FilteredArray = Champion.GetSortedBy(Champion.SortValue.Price, Champion.SortType.ASC);
+            FilteredArray = Champion.GetSortedBy(Champion.SortValue.Price, Champion.SortType.DESC);
         }
 
         Toggle togglebuyable = transform.Find("Buyable").GetComponent<Toggle>();
