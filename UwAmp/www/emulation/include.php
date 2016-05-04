@@ -4,6 +4,7 @@ if(!defined("INCLUDED"))
 
 require_once(EMULATION_FOLDER . "vector.php");
 require_once(EMULATION_FOLDER . "settings.php");
+require_once(EMULATION_FOLDER . "pathfinding.php");
 require_once(EMULATION_FOLDER . "player.php");
 require_once(EMULATION_FOLDER . "effects.php");
 require_once(EMULATION_FOLDER . "laning_effects.php");

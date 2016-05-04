@@ -40,7 +40,7 @@ class Event
 }
 
 $g_Events = array();
-function CreateEvent($a_Name, $a_Description, $a_Effect, $a_Type = "Event")
+function CreateEvent($a_Name, $a_Description, $a_Effect = null, $a_Type = "Event")
 {
 	global $g_Events;
 	$g_Events[$a_Name] = new $a_Type($a_Name, $a_Description, $a_Effect);

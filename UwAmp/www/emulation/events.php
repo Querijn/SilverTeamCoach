@@ -30,5 +30,5 @@ CreateEvent("tilt", array
 					"{Champion} tilts and spams the chat with hatred.",
 				));
 				
-CreateEvent("init_game_pos". $g_MoveToPullOrProtect);
+CreateEvent("init_game_pos", "", $g_MoveToPullOrProtect);
 CreateEvent("move_to");

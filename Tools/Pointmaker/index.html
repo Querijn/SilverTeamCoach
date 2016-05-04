@@ -1,7 +1,11 @@
 <body>
 <canvas id="map" width="512" height="512" style="background-image:url('map11.png'); width: 512px; height: 512px;"></canvas>
 <textarea id="code" rows="34" cols="50"></textarea>
+<button id="clear">Clear</button>
 <script>
+var AllowEdit = false;
+var Waypoints = [];
+var actions = [];
 
 Array.prototype.contains = function(obj) {
     var i = this.length;
@@ -13,7 +17,18 @@ Array.prototype.contains = function(obj) {
     return false;
 }
 
-var actions = [];
+function Load(URL, CallBack) 
+{
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() 
+	{
+		if (xhttp.readyState == 4 && xhttp.status == 200 && typeof CallBack !== "undefined") 
+			CallBack(xhttp.responseText);
+	};
+	xhttp.open("GET", URL, true);
+	xhttp.send();
+}
+
 function get_vec(ax,ay)
 {
 	return {
@@ -28,6 +43,23 @@ function get_wp(ax,ay)
 		pos: ax,
 		sel: ay,
 		attachments: []
+	};
+}
+
+function get_wp_from_swp(swp)
+{
+	return {
+		pos: swp.p,
+		sel: false,
+		attachments: swp.a
+	};
+}
+
+function get_swp(wp)
+{
+	return {
+		p: wp.pos,
+		a: wp.attachments
 	};
 }
 
@@ -90,10 +122,25 @@ function getPosition(el)
 	return get_vec(xPos, yPos);
 }
 
-var Waypoints = [];
 
-function Redraw()
+function Redraw(a_Save)
 {
+	var cleared = 0;
+	for(i = 0; i < Waypoints.length; i++)
+	{
+		for(j = 0; j < Waypoints[i].attachments.length; j++)
+		{
+			if(Waypoints[i].attachments[j] >= Waypoints.length)
+			{
+				console.log("Found attachment to "+Waypoints[i].attachments[j]+", which is out of range. Removing.");
+				Waypoints[i].attachments.remove(Waypoints[i].attachments[j]);
+				cleared++;
+			}
+		}
+	}
+	if(cleared != 0)
+		console.log(cleared + " attachments removed.");
+
 	console.log("drawing "+Waypoints.length+" items!");
 	var ctx = t_Image.getContext("2d");
 	ctx.clearRect(0, 0, t_Image.width, t_Image.height);
@@ -122,6 +169,7 @@ function Redraw()
 	
 	var code = document.getElementById("code");
 	code.value = '$g_WaypointNodes = array();\n';
+	var swp = [];
 	
 	for(i = 0; i < Waypoints.length; i++)
 	{
@@ -130,6 +178,37 @@ function Redraw()
 			attachments += Waypoints[i].attachments[j] + (j != Waypoints[i].attachments.length -1 ? "," : "");
 		attachments += ")";
 		code.value += '$g_WaypointNodes['+i+'] = new WaypointNode('+(Waypoints[i].pos.x/512.0)+', '+(1.0 - (Waypoints[i].pos.y/512.0))+', '+attachments+');\n';
+		swp.push(get_swp(Waypoints[i]));
+	}
+	
+	if(typeof a_Save === "undefined" || a_Save !== false)
+	{
+		console.log("saving..");
+		
+		var t_AmountPerBatch = 30;
+		for(i = 0; i < swp.length; i += t_AmountPerBatch)
+		{		
+			var t_LastElement = Math.min(swp.length, (i+t_AmountPerBatch));
+			console.log("Sending " + (t_LastElement-i) + " elements");
+			var t_SendingArray = swp.slice(i, t_LastElement);
+			
+			if(i==0)
+			{
+				console.log("set");
+				Load("http://localhost/ajax/set_waypoints.php?waypoints="+JSON.stringify(t_SendingArray), function(e)
+				{
+					console.log(e);
+				});
+				}
+			else 
+			{
+				console.log("add");
+				Load("http://localhost/ajax/add_waypoints.php?waypoints="+JSON.stringify(t_SendingArray), function(e)
+				{
+					console.log(e);
+				});
+			}
+		}
 	}
 }
 
@@ -186,6 +265,12 @@ function DisableContext(event)
 function AddWaypoint(e)
 {    
 	e.preventDefault();
+	
+	if(AllowEdit === false)
+	{
+		return DisableContext(e);
+	}
+	
 	var right_button = false;
 	e = e || window.event;
 
@@ -200,7 +285,7 @@ function AddWaypoint(e)
 	
 	var t_Pos = get_vec(x,y);
 	for(i = 0; i < Waypoints.length; i++)
-		if(dist2(t_Pos, Waypoints[i].pos) < 20*20)
+		if(dist2(t_Pos, Waypoints[i].pos) < 10*10)
 		{
 			if(dist2(t_Pos, Waypoints[i].pos) < 3*3)
 			{
@@ -253,9 +338,21 @@ function AddWaypoint(e)
 	Redraw();
 }
 
+function Clear()
+{
+	Waypoints = [];
+	actions = [];
+	Redraw();
+}
+
+var code = document.getElementById("code");
+
 var t_Image = document.getElementById("map");
 t_Image.addEventListener("click", AddWaypoint);
 t_Image.addEventListener("contextmenu", AddWaypoint);
+
+var t_Button = document.getElementById("clear");
+t_Button.addEventListener("click", Clear);
 
 function KeyPress(e) 
 {
@@ -265,6 +362,17 @@ function KeyPress(e)
 }
 
 document.onkeydown = KeyPress;
-Redraw();
+Load("http://localhost/ajax/get_waypoints.php", function(a_Data)
+{
+	swp = JSON.parse(a_Data);
+	//console.log("Loading "+ swp.length + " elements");
+	for(i=0; i<swp.length; i++)
+	{
+		Waypoints.push(get_wp_from_swp(swp[i]));
+	}
+	//console.log(Waypoints);
+	AllowEdit = true;
+	Redraw(false);
+});
 </script>
 </body>
