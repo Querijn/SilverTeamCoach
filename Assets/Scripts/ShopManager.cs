@@ -204,16 +204,24 @@ public class ShopManager : MonoBehaviour
     {
         Champion[] FilteredArray = Champion.All;
 
-        Toggle toggleowned = transform.Find("Owned").GetComponent<Toggle>();
-        if (toggleowned.isOn == true)
+        if (CurrentState == State.AZ)
         {
-            FilteredArray = Champion.Filter(Champion.FilterType.Owned, FilteredArray);
+            FilteredArray = Champion.GetSortedBy(Champion.SortValue.Name, Champion.SortType.ASC);
         }
 
-        Toggle togglenotowned = transform.Find("Not Owned").GetComponent<Toggle>();
-        if (togglenotowned.isOn == true)
+        else if (CurrentState == State.ZA)
         {
-            FilteredArray = Champion.Filter(Champion.FilterType.NotOwned, FilteredArray);
+            FilteredArray = Champion.GetSortedBy(Champion.SortValue.Name, Champion.SortType.DESC);
+        }
+
+        else if (CurrentState == State.ascending)
+        {
+            FilteredArray = Champion.GetSortedBy(Champion.SortValue.Price, Champion.SortType.DESC);
+        }
+
+        else if (CurrentState == State.descending)
+        {
+            FilteredArray = Champion.GetSortedBy(Champion.SortValue.Price, Champion.SortType.ASC);
         }
 
         Toggle togglebuyable = transform.Find("Buyable").GetComponent<Toggle>();
@@ -248,7 +256,7 @@ public class ShopManager : MonoBehaviour
 
         Toggle togglemarksman = transform.Find("Marksman").GetComponent<Toggle>();
         if (togglemarksman.isOn == true)
-        {
+        { 
             FilteredArray = Champion.Filter(Champion.FilterType.Marksman, FilteredArray);
         }
 
