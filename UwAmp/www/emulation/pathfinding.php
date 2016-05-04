@@ -6,8 +6,8 @@ if(class_exists('Path') == false)
 {
 	function PathNodeCompare( $a, $b )
 	{ 
-		$a->Weight = ($a->Score *0.1) + $a->DistToEnd;
-		$b->Weight = ($b->Score *0.1) + $b->DistToEnd;
+		$a->Weight = ($a->Score * 0.1) + $a->DistToEnd;
+		$b->Weight = ($b->Score * 0.1) + $b->DistToEnd;
 		if(  $a->Weight ==  $b->Weight ) { return 0 ; } 
 		return ($a->Weight < $b->Weight) ? -1 : 1;
 	} 
@@ -34,6 +34,16 @@ if(class_exists('Path') == false)
 	{
 		static $Waypoints = null;
 		public $Route = null;
+				
+		function __construct($a_From, $a_To)
+		{
+			if(self::$Waypoints == null)
+			{
+				self::SetupWaypoints();
+			}
+			
+			$this->Route = $this->Find($a_From, $a_To);
+		}
 		
 		static function InitialPathNode($a_From, $a_To)
 		{
@@ -55,23 +65,13 @@ if(class_exists('Path') == false)
 			
 			return sqrt($t_X * $t_X + $t_Y * $t_Y);
 		}
-				
-		function __construct($a_From, $a_To)
-		{
-			if(self::$Waypoints == null)
-			{
-				self::SetupWaypoints();
-			}
-			
-			$this->Route = $this->Find($a_From, $a_To);
-		}
-		
 		
 		function Find($a_From, $a_To)
 		{
 			$k = 0;
 			$t_Closed = array();
-			$t_Open = array(Path::InitialPathNode($a_From, $a_To));
+			$t_Start = Path::InitialPathNode($a_From, $a_To);
+			$t_Open = array($t_Start);
 			$t_Found = false;
 			
 			if($a_To < 0 || $a_To >= count(self::$Waypoints))
@@ -96,50 +96,49 @@ if(class_exists('Path') == false)
 				unset($t_Open[0]);
 				$t_Closed[] = $t_Node;
 				
-				if(is_null($t_Node))
+				if(is_null($t_Node) || $t_Tries == 500)
 					break;
+				$t_Tries++;
 				
-				if($t_Node->DistToEnd < 0.01)
+				if($t_Node->DistToEnd == 0.0)
 				{
 					$t_Found = true;	
 					break;
 				}
-				else if($t_Tries == 100)
-					break;
-				$t_Tries++;
 				
 				foreach($t_Node->Element["a"] as $t_WayIndex)
 				{
 					$t_SortCount++;
 					$t_Waypoint = self::$Waypoints[$t_WayIndex];
-					$t_Open[] = new PathNode($t_Waypoint, $t_Node->Score + 1, self::GetDistance($t_Waypoint, $t_End), count($t_Closed)-1);
+					$t_Open[] = new PathNode($t_Waypoint, $t_Node->Score + 0.1, self::GetDistance($t_Waypoint, $t_End), count($t_Closed)-1);
 				}
 			}
 			
 			if($t_Found)
-				return self::ReconstructPath($t_Closed);
+				return $this->ReconstructPath($t_Closed, self::$Waypoints[$a_From], $t_End);
 			else return null;
 			//die("Found: " . ($t_Found !== false ? print_r($t_Found) : "no"));
 		}
 		
-		static function ReconstructPath(array $a_List)
+		function ReconstructPath(array $a_List, $a_Start, $a_End)
 		{
 			$t_Return = array();
 			$t_Element = $a_List[count($a_List)-1];
 			
-			while($t_Element != null)
+			while(true)
 			{
 				$t_Return[] = array
 				(
 					"x"=>$t_Element->Element["p"]["x"],
 					"y"=>$t_Element->Element["p"]["y"],
 				);
-				if($t_Element->Parent == null)
-					$t_Element = null;
-				else $t_Element = $a_List[$t_Element->Parent];
+				
+				if(is_null($t_Element->Parent))
+					break;
+				
+				$t_Element = $a_List[$t_Element->Parent];
 			}
 			$t_Return = array_reverse($t_Return);
-			//var_dump($t_Return);die();
 			return $t_Return;
 		}
 		

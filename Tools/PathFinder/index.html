@@ -50,6 +50,10 @@ function Draw()
 		ctx.fillStyle = "#FF0000";
 		ctx.arc(Waypoints[i]["p"]["x"], Waypoints[i]["p"]["y"], 3,0,2*Math.PI, false);
 		ctx.fill();
+		
+		ctx.fillStyle = "#FFFFFF";
+		ctx.font = "8px Arial";
+		ctx.fillText(i, Waypoints[i]["p"]["x"], Waypoints[i]["p"]["y"]);
 	}
 	
 	for(i = 0; i < Path.length; i++)
