@@ -45,19 +45,19 @@ foreach($g_Settings["spawn_point"] as &$t_Team)
 $g_Settings["movement_speed"] /= $g_Settings["map_size"];
 
 // Custom positions
-$g_Settings["golems"][0][] = new vec2(302.0/512.0, 420.0/512.0);
-$g_Settings["red_buff"][0][] = new vec2(263.0/512.0, 384.0/512.0);
-$g_Settings["raptors"][0][] = new vec2(245.0/512.0, 340.0/512.0);
-$g_Settings["wolves"][0][] = new vec2(130.0/512.0, 290.0/512.0);
-$g_Settings["blue_buff"][0][] = new vec2(125.0/512.0, 235.0/512.0);
-$g_Settings["frog"][0][] = new vec2(77.0/512.0, 222.0/512.0);
+$g_Settings["golems"][0] = new vec2(302.0/512.0, 420.0/512.0);
+$g_Settings["red_buff"][0] = new vec2(263.0/512.0, 384.0/512.0);
+$g_Settings["raptors"][0] = new vec2(245.0/512.0, 340.0/512.0);
+$g_Settings["wolves"][0] = new vec2(130.0/512.0, 290.0/512.0);
+$g_Settings["blue_buff"][0] = new vec2(125.0/512.0, 235.0/512.0);
+$g_Settings["frog"][0] = new vec2(77.0/512.0, 222.0/512.0);
 
-$g_Settings["golems"][1][] = new vec2(223.0/512.0, 84.0/512.0);
-$g_Settings["red_buff"][1][] = new vec2(245.0/512.0, 130.0/512.0);
-$g_Settings["raptors"][1][] = new vec2(270.0/512.0, 180.0/512.0);
-$g_Settings["wolves"][1][] = new vec2(380.0/512.0, 220.0/512.0);
-$g_Settings["blue_buff"][1][] = new vec2(385.0/512.0, 275.0/512.0);
-$g_Settings["frog"][1][] = new vec2(440.0/512.0, 290.0/512.0);
+$g_Settings["golems"][1] = new vec2(223.0/512.0, 84.0/512.0);
+$g_Settings["red_buff"][1] = new vec2(245.0/512.0, 130.0/512.0);
+$g_Settings["raptors"][1] = new vec2(270.0/512.0, 180.0/512.0);
+$g_Settings["wolves"][1] = new vec2(380.0/512.0, 220.0/512.0);
+$g_Settings["blue_buff"][1] = new vec2(385.0/512.0, 275.0/512.0);
+$g_Settings["frog"][1] = new vec2(440.0/512.0, 290.0/512.0);
 
 
 $g_Settings["bot_lane"][] = new vec2(440.0/512.0, 430.0/512.0);

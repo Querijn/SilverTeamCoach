@@ -40,7 +40,20 @@ if(class_exists('Path') == false)
 			if(self::$Waypoints == null)
 				self::SetupWaypoints();
 			
-			$this->Route = $this->Find($a_From, $a_To);
+			$t_From = $a_From;
+			if(is_a($a_From, 'vec2'))
+				$t_From = self::GetClosestWaypoint($a_From->x, $a_From->y);
+			
+			$t_To = $a_To;
+			if(is_a($a_To, 'vec2'))
+				$t_To = self::GetClosestWaypoint($a_To->x, $a_To->y);
+			
+			$this->Route = $this->Find($t_From, $t_To);
+			
+			if(is_a($a_From, 'vec2') && is_null($this->Route) == false)
+				array_unshift($this->Route, $a_From);
+			if(is_a($a_To, 'vec2') && is_null($this->Route) == false)
+				$this->Route[] = $a_To;
 		}
 		
 		static function GetClosestWaypoint(float $a_X, float $a_Y)

@@ -23,10 +23,10 @@ class Game
 		for($i = 0; $i < 2; $i++)
 		{
 			$j = 0;
-			foreach(self::$GameInfo["teams"][$i]["champions"] as $t_Lane)
+			foreach(self::$GameInfo["teams"][$i]["champions"] as $t_Key=>$t_Lane)
 			{
 				$t_Efficiency = $t_Lane["efficiency"];
-				$this->Teams[$i][$j] = new Player($t_Lane["name"], $i, $g_Settings["spawn_point"][$i][$j], $t_Lane["efficiency"]);
+				$this->Teams[$i][$j] = new Player($t_Lane["name"], $i, $t_Key, $g_Settings["spawn_point"][$i][$j], $t_Lane["efficiency"]);
 				$j++;
 			}
 		}

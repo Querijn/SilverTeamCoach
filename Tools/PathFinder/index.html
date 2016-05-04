@@ -1,4 +1,6 @@
-From: <input id="from" value="0"> To: <input id="to" value="130"> <button id="submit">Submit</button><br><br>
+From: <input id="fromx" value="0.0"> <input id="fromy" value="0.0"> <br>
+To: <input id="tox" value="0.5">  <input id="toy" value="0.75"> <br>
+<button id="submit">Submit</button><br><br>
 <canvas id="map" width="512" height="512" style="background-image:url('map11.png'); width: 512px; height: 512px;"></canvas>
 
 <script>
@@ -76,8 +78,10 @@ function Draw()
 }
 
 var t_Image = document.getElementById("map");
-var t_From = document.getElementById("from");
-var t_To = document.getElementById("to");
+var t_FromX = document.getElementById("fromx");
+var t_FromY = document.getElementById("fromy");
+var t_ToX = document.getElementById("tox");
+var t_ToY = document.getElementById("toy");
 var t_Submit = document.getElementById("submit");
 
 function GetWaypoints()
@@ -91,7 +95,7 @@ function GetWaypoints()
 
 function GetPath()
 {
-	Load("http://localhost/ajax/get_path.php?from="+t_From.value+"&to="+t_To.value, function(a_Data)
+	Load("http://localhost/ajax/get_path.php?fromx="+t_FromX.value+"&fromy="+t_FromY.value+"&tox="+t_ToX.value+"&toy="+t_ToY.value, function(a_Data)
 	{
 		if(Waypoints.length == 0)
 		{

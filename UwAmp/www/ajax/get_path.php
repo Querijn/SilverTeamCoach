@@ -8,8 +8,8 @@ if(!IsLoggedIn())
 if($settings['testing'] == false)
 	die();
 
-$t_From = (int)$_GET['from'];
-$t_To = (int)$_GET['to'];
+$t_From = new vec2((float)$_GET['fromx'], (float)$_GET['fromy']);
+$t_To = new vec2((float)$_GET['tox'], (float)$_GET['toy']);
 
 $t_Path = new Path($t_From, $t_To);
 echo json_encode($t_Path->Route);
