@@ -69,7 +69,6 @@ try
 		)
 	);
 	
-	
 	$t_Game = new Game($t_GameInfo);
 	var_dump($t_Game->Timeline);
 	//echo json_encode($t_Game);
