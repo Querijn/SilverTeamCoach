@@ -508,15 +508,15 @@ public class Champion
             case FilterType.Unbuyable:
                 return a_ChampionList.Where(c => c.Price > Info.Player.Cash).ToArray();
             case FilterType.Top:
-                return a_ChampionList.Where(c => c.Viability.Top >= 0.5).ToArray();
+                return a_ChampionList.Where(c => c.GetBestLanes().Contains("Top")).ToArray();
             case FilterType.Mid:
-                return a_ChampionList.Where(c => c.Viability.Mid >= 0.5).ToArray();
+                return a_ChampionList.Where(c => c.GetBestLanes().Contains("Mid")).ToArray();
             case FilterType.Support:
-                return a_ChampionList.Where(c => c.Viability.Support >= 0.5).ToArray();
+                return a_ChampionList.Where(c => c.GetBestLanes().Contains("Support")).ToArray();
             case FilterType.Jungle:
-                return a_ChampionList.Where(c => c.Viability.Support >= 0.5).ToArray();
+                return a_ChampionList.Where(c => c.GetBestLanes().Contains("Jungle")).ToArray();
             case FilterType.Marksman:
-                return a_ChampionList.Where(c => c.Viability.Support >= 0.5).ToArray();
+                return a_ChampionList.Where(c => c.GetBestLanes().Contains("Marksman")).ToArray();
         }
 
         return a_ChampionList;

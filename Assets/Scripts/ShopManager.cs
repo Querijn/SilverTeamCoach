@@ -202,48 +202,145 @@ public class ShopManager : MonoBehaviour
 
     public void OnToggleOwned()
     {
+        Champion[] OwnedChampions = Champion.Filter(Champion.FilterType.Owned);
+        Toggle toggleowned = transform.Find("Owned").GetComponent<Toggle>();
 
+        if (toggleowned.isOn == true)
+        {
+            SetupShop(OwnedChampions);
+        }
+
+        else if (toggleowned.isOn == false)
+        {
+            this.SetupShop(Champion.GetSortedBy(Champion.SortValue.Name, Champion.SortType.ASC));
+        }
     }
 
     public void OnToggleNotOwned()
     {
+        Champion[] NotOwnedChampions = Champion.Filter(Champion.FilterType.NotOwned);
+        Toggle togglenotowned = transform.Find("Not Owned").GetComponent<Toggle>();
 
+        if (togglenotowned.isOn == true)
+        {
+            SetupShop(NotOwnedChampions);
+        }
+
+        else if (togglenotowned.isOn == false)
+        {
+            this.SetupShop(Champion.GetSortedBy(Champion.SortValue.Name, Champion.SortType.ASC));
+        }
     }
 
     public void OnToggleBuyable()
     {
+        Champion[] BuyableChampions = Champion.Filter(Champion.FilterType.Buyable);
+        Toggle togglebuyable = transform.Find("Buyable").GetComponent<Toggle>();
 
+        if (togglebuyable.isOn == true)
+        {
+            SetupShop(BuyableChampions);
+        }
+
+        else if (togglebuyable.isOn == false)
+        {
+            this.SetupShop(Champion.GetSortedBy(Champion.SortValue.Name, Champion.SortType.ASC));
+        }
     }
 
     public void OnToggleUnbuyable()
     {
+        Champion[] UnbuyableChampions = Champion.Filter(Champion.FilterType.Unbuyable);
+        Toggle toggleunbuyable = transform.Find("Unbuyable").GetComponent<Toggle>();
 
+        if (toggleunbuyable.isOn == true)
+        {
+            SetupShop(UnbuyableChampions);
+        }
+
+        else if (toggleunbuyable.isOn == false)
+        {
+            this.SetupShop(Champion.GetSortedBy(Champion.SortValue.Name, Champion.SortType.ASC));
+        }
     }
 
     public void OnToggleTop()
     {
+        Champion[] TopChampions = Champion.Filter(Champion.FilterType.Top);
+        Toggle toggletop = transform.Find("Top").GetComponent<Toggle>();
 
+        if (toggletop.isOn == true)
+        {
+            SetupShop(TopChampions);
+        }
+
+        else if (toggletop.isOn == false)
+        {
+            this.SetupShop(Champion.GetSortedBy(Champion.SortValue.Name, Champion.SortType.ASC));
+        }
     }
 
     public void OnToggleMid()
     {
+        Champion[] MidChampions = Champion.Filter(Champion.FilterType.Mid);
+        Toggle togglemid = transform.Find("Mid").GetComponent<Toggle>();
 
+        if (togglemid.isOn == true)
+        {
+            SetupShop(MidChampions);
+        }
+
+        else if (togglemid.isOn == false)
+        {
+            this.SetupShop(Champion.GetSortedBy(Champion.SortValue.Name, Champion.SortType.ASC));
+        }
     }
 
     public void OnToggleSupport()
     {
+        Champion[] SupportChampions = Champion.Filter(Champion.FilterType.Support);
+        Toggle togglesupport = transform.Find("Support").GetComponent<Toggle>();
 
+        if (togglesupport.isOn == true)
+        {
+            SetupShop(SupportChampions);
+        }
+
+        else if (togglesupport.isOn == false)
+        {
+            this.SetupShop(Champion.GetSortedBy(Champion.SortValue.Name, Champion.SortType.ASC));
+        }
     }
 
     public void OnToggleMarksman()
     {
+        Champion[] MarksmanChampions = Champion.Filter(Champion.FilterType.Marksman);
+        Toggle togglemarksman = transform.Find("Marksman").GetComponent<Toggle>();
 
+        if (togglemarksman.isOn == true)
+        {
+            SetupShop(MarksmanChampions);
+        }
+
+        else if (togglemarksman.isOn == false)
+        {
+            this.SetupShop(Champion.GetSortedBy(Champion.SortValue.Name, Champion.SortType.ASC));
+        }
     }
 
     public void OnToggleJungle()
     {
+        Champion[] JungleChampions = Champion.Filter(Champion.FilterType.Jungle);
+        Toggle togglejungle = transform.Find("Jungle").GetComponent<Toggle>();
 
+        if (togglejungle.isOn == true)
+        {
+            SetupShop(JungleChampions);
+        }
+
+        else if (togglejungle.isOn == false)
+        {
+            this.SetupShop(Champion.GetSortedBy(Champion.SortValue.Name, Champion.SortType.ASC));
+        }
     }
 }
-
-//buy screen corresponds with champion clicked
