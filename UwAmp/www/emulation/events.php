@@ -31,4 +31,4 @@ CreateEvent("tilt", array
 				));
 				
 CreateEvent("init_game_pos", "", $g_MoveToPullOrProtect);
-CreateEvent("move_to");
+//CreateEvent("move_to");

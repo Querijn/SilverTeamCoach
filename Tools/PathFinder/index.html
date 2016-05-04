@@ -1,0 +1,115 @@
+From: <input id="from" value="0"> To: <input id="to" value="130"> <button id="submit">Submit</button><br><br>
+<canvas id="map" width="512" height="512" style="background-image:url('map11.png'); width: 512px; height: 512px;"></canvas>
+
+<script>
+var Waypoints = [];
+var Path = [];
+
+function Load(URL, CallBack) 
+{
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() 
+	{
+		if (xhttp.readyState == 4 && xhttp.status == 200 && typeof CallBack !== "undefined") 
+			CallBack(xhttp.responseText);
+	};
+	xhttp.open("GET", URL, true);
+	xhttp.send();
+}
+
+function get_vec(ax,ay)
+{
+	return {
+		x: ax,
+		y: ay
+	};
+}
+
+function length2(vec)
+{
+	return vec.x * vec.x + vec.y * vec.y;
+}
+
+function sub(vec, vec2)
+{
+	return get_vec(vec.x - vec2.x, vec.y - vec2.y);
+}
+
+function dist2(vec, vec2)
+{
+	return length2(sub(vec,vec2));
+}
+
+function Draw()
+{
+	var ctx = t_Image.getContext("2d");
+	ctx.clearRect(0, 0, t_Image.width, t_Image.height);
+	for(i = 0; i < Waypoints.length; i++)
+	{
+		ctx.beginPath();
+		ctx.fillStyle = "#FF0000";
+		ctx.arc(Waypoints[i]["p"]["x"], Waypoints[i]["p"]["y"], 3,0,2*Math.PI, false);
+		ctx.fill();
+	}
+	
+	for(i = 0; i < Path.length; i++)
+	{
+		ctx.beginPath();
+		ctx.fillStyle = "#00FF00";
+		ctx.arc(Path[i].x*512.0, (1.0-Path[i].y)*512.0, 3,0,2*Math.PI, false);
+		ctx.fill();
+		
+		var k = i+1;
+		if(k < Path.length)
+		{
+			ctx.beginPath();
+			ctx.fillStyle= "#000000";
+			ctx.moveTo(Path[i].x*512.0, (1.0-Path[i].y)*512.0);
+			ctx.lineTo(Path[k].x*512.0, (1.0-Path[k].y)*512.0);
+			ctx.stroke();
+		}
+	}
+}
+
+var t_Image = document.getElementById("map");
+var t_From = document.getElementById("from");
+var t_To = document.getElementById("to");
+var t_Submit = document.getElementById("submit");
+
+function GetWaypoints()
+{
+	Load("http://localhost/ajax/get_waypoints.php", function(a_Data)
+	{
+		Waypoints = JSON.parse(a_Data);
+		Draw();
+	});
+}
+
+function GetPath()
+{
+	Load("http://localhost/ajax/get_path.php?from="+t_From.value+"&to="+t_To.value, function(a_Data)
+	{
+		if(Waypoints.length == 0)
+		{
+			GetWaypoints();
+		}
+		if(a_Data == 'null')
+		{
+			alert("No path was found!");
+			return;
+		}
+		var t_Path = JSON.parse(a_Data);
+		
+		Path = [];
+		for(i = 0; i < t_Path.length; i++)
+		{
+			Path.push(get_vec(t_Path[i]["x"], t_Path[i]["y"]))
+		}
+		Draw();
+	});
+}
+
+t_Submit.addEventListener("click", GetPath);
+GetPath();
+</script>
+</body>
