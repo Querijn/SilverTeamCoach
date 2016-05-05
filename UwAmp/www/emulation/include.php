@@ -8,6 +8,7 @@ require_once(EMULATION_FOLDER . "pathfinding.php");
 require_once(EMULATION_FOLDER . "player.php");
 require_once(EMULATION_FOLDER . "effects.php");
 require_once(EMULATION_FOLDER . "laning_effects.php");
+require_once(EMULATION_FOLDER . "objectives_effects.php");
 require_once(EMULATION_FOLDER . "event.php");
 require_once(EMULATION_FOLDER . "events.php");
 require_once(EMULATION_FOLDER . "game.php");

@@ -2,7 +2,7 @@
 if(!defined("INCLUDED")) 
 	die();
 
-$g_Settings["afk_chance_0_points"] = 0.1;
+$g_Settings["afk_chance_0_points"] = 0.01;
 $g_Settings["troll_chance_0_points"] = 0.05;
 $g_Settings["tilt_chance_0_points"] = 0.03;
 
@@ -13,12 +13,15 @@ $g_Settings["tilt_efficiency_modifier"] = 0.9;
 $g_Settings["invade_efficiency_modifier"] = 1.03;
 $g_Settings["kill_efficiency_modifier"] = 1.03;
 $g_Settings["death_efficiency_modifier"] = 0.95;
+$g_Settings["baron_efficiency_modifier"] = 1.33;
+$g_Settings["dragon_efficiency_modifier"] = 1.05;
 
 $g_Settings["invade_chance"] = 0.1;
 $g_Settings["movement_speed"] = 350.0;
 $g_Settings["invade_efficiency_modifier"] = 1.03;
 
 $g_Settings["invade_kill_efficiency_modifier"] = 2.5;
+$g_Settings["teamfight_kill_efficiency_modifier"] = 1.33;
 
 // You probably shouldn't change anything below here.
 

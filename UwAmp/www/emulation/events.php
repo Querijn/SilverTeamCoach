@@ -38,7 +38,7 @@ CreateEvent("empty_jungle");
 CreateEvent("executed");
 CreateEvent("tower_destroyed");
 CreateEvent("inhibitor_destroyed");
-CreateEvent("game_over");
+CreateEvent("game_over", $g_EndGame);
 CreateEvent("kill", $g_Kill);
 CreateEvent("death", $g_Death);
 CreateEvent("play");
@@ -52,3 +52,7 @@ CreateEvent("bot_tower");
 CreateEvent("mid_tower");
 CreateEvent("top_tower");
 CreateEvent("base_tower");
+
+CreateEvent("teamfight", $g_TeamFight);
+CreateEvent("dragon", $g_Dragon);
+CreateEvent("baron", $g_Baron);

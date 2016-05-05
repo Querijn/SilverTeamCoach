@@ -22,6 +22,8 @@ class Player
 	public $Kills = 0;
 	public $Deaths = 0;
 	
+	public $HasBaronUntil = -1;
+	
 	function Player($a_Name, $a_Team, $a_Role, vec2 $a_Position, double $a_Efficiency)
 	{
 		$this->Name = $a_Name;
@@ -62,11 +64,23 @@ class Player
 		return ($g_Game->Time <= $this->DeadUntil);
 	}
 	
+	public function HasBaron()
+	{
+		global $g_Game;
+		return ($g_Game->Time <= $this->HasBaronUntil);
+	}
+	
 	public function GetEfficiency()
 	{
 		global $g_Game;
 		global $g_Settings;
-		return $this->Efficiency * ($this->IsTilting($g_Game->Time) ? $g_Settings["tilt_efficiency_modifier"] : 1.0);
+		
+		if($this->IsActive() == false)
+			return 0.0;
+		
+		$t_Efficiency = $this->Efficiency * ($this->IsTilting() ? $g_Settings["tilt_efficiency_modifier"] : 1.0);
+		$t_Efficiency *= ($this->HasBaron() ? $g_Settings["baron_efficiency_modifier"] : 1.0);
+		return $t_Efficiency;
 	}
 	
 	public function IsActive()

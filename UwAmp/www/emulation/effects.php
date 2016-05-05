@@ -56,8 +56,18 @@ $g_ShouldSurrender = function(Player $a_Player)
 	
 	if($t_AFKCount + $t_TrollCount >= 3 || $t_DeathOverflow >= 20)
 	{
-		$g_Game->AddEvent($g_Events["surrender"], $a_Player->Team);
+		$g_Game->Winner = ($a_Player->Team + 1)%2;
+		$g_Game->AddEvent($g_Events["surrender"], $a_Player);
 	}
+};
+
+$g_EndGame = function(Player $a_Player)
+{
+	global $g_Events;
+	global $g_Settings;
+	global $g_Game;
+		
+	$g_Game->GameOver = true;
 };
 
 $g_CouldTilt = function(Player $a_Player)

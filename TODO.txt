@@ -2,7 +2,7 @@
 	[ ] Find match
 	[ ] Matchmaking
 
-[ ] Teams
+[x] Teams
 	[x] Create teams
 	[x] Team overview
 	[x] Edit teams
@@ -23,9 +23,9 @@
 		[ ] Correct lane
 	[ ] Map
 	[ ] Generate ingame occurences
-		[ ] Laning
+		[x] Laning
 		[ ] Teamfights
-		[ ] Objectives
+		[x] Objectives
 	[ ] Post Game info
 	[ ] Gaining cash
 	

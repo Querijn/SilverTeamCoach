@@ -28,6 +28,9 @@ class Game
 	
 	public $Towers;
 	
+	public $DragonUpAt;
+	public $BaronUpAt;
+	
 	function __construct($a_GameInfo)
 	{
 		// Setup game info
@@ -50,6 +53,8 @@ class Game
 		}
 		
 		$this->Towers = array($t_TowerInfo,$t_TowerInfo);
+		$this->DragonUpAt = TimeConv(2,0);
+		$this->BaronUpAt = TimeConv(20,0);
 		
 		// START OF GAME
 		$this->Time = 0; // They spawn_point
@@ -60,6 +65,8 @@ class Game
 		$this->PreLaningPhaseAction();
 		
 		$this->LaningPhaseAction();
+
+		$this->PostLaningPhaseAction();
 	}
 	
 	function GameStartAction()
@@ -174,46 +181,80 @@ class Game
 					else if($this->Time > TimeConv(5, 0))
 					{
 						// Decrease tower amount 
-						$t_LaneName = null;
-						switch($t_Key)
-						{
-							case 'marksman':
-							case 'support':
-								$t_LaneName = 'bot';
-							case 'top':
-							case 'mid':
-								if(is_null($t_LaneName))
-									$t_LaneName = $t_Key;
-								
-								$t_AddTime = mt_rand(10, 45);
-								$this->Time += $t_AddTime;
-								$t_DPS = (4000/45);
-								if($this->Towers[$t_Team2][$t_LaneName] == 0)
-								{
-									$t_Lane = 'base';
-									$t_DPS = (3500/45);
-								}
-								
-								$t_DPS *= ($t_OpponentPlayer->IsActive() ? 1.0 : 3.0);
-								
-								$this->Towers[$t_Team2][$t_LaneName]["health"] -= $t_DPS*$t_AddTime;
-								if($this->Towers[$t_Team2][$t_LaneName]["health"] <= 0)
-								{
-									$t_TowersKilled[$t_Team1]++;
-									$this->Towers[$t_Team2][$t_LaneName]["health"] = $this->Towers[$t_Team2][$t_LaneName]["base"];
-									$this->Towers[$t_Team2][$t_LaneName]["count"]--;
-									$this->AddEvent($g_Events[$t_LaneName. "_tower"], $this->GetPlayer($t_Team1, $t_Key));
-								}
-								else $this->AddEvent($g_Events[$t_LaneName. "_tower_attack"], $this->GetPlayer($t_Team1, $t_Key));
-						}
-					if($this->Time > $t_HighestTime)
-						$t_HighestTime = $this->Time;
-					$this->Time = $t_Time;
+						$this->AttackTower($t_Team1, $t_Key, mt_rand(10, 45));
+						
+						if($this->Time > $t_HighestTime)
+							$t_HighestTime = $this->Time;
+						$this->Time = $t_Time;
 					}
 					
 				}
 			}
 			$this->Time = $t_HighestTime;
+		}
+	}
+	
+	function PostLaningPhaseAction()
+	{
+		global $g_Events;
+		global $g_Settings;
+		
+		$this->Time += 45;
+		
+		while($this->GameOver == false)
+		{
+			for($i = 0; $i < 2; $i++)
+			{
+				if($this->Towers[$i]["base"]["count"]==0)
+				{
+					$this->Winner = ($i + 1)%2;
+					$this->AddEvent($g_Events["game_over"]);
+					return;
+				}	
+			}
+			
+			$t_AvailableObjectives = array();
+			// Baron, Teamfight or dragon
+			if($this->GetTeamEfficiency(0) != 0 && $this->GetTeamEfficiency(1) != 0)
+				$t_AvailableObjectives[] = "teamfight";
+			
+			if($this->DragonUpAt <= $this->Time)
+				$t_AvailableObjectives[] = "dragon";
+			
+			if($this->BaronUpAt <= $this->Time)
+				$t_AvailableObjectives[] = "baron";
+						
+			// Teamfight is not available?
+			if(count($t_AvailableObjectives) == 0)
+			{
+				$t_Lanes = array("top", "mid", "bot");
+								
+				// Just take a tower then geez
+				// Or take wraiths, idk im not silver
+				if($this->GetTeamEfficiency(0) == 0)
+				{
+					if(mt_rand(0,1)==1)
+					{
+						$this->AddEvent($g_Events["useless_objective"], 0);
+						$this->Time += 45;
+					}
+					else $this->AttackTower(1, $t_Lanes[mt_rand(0, count($t_Lanes) - 1)], mt_rand(30, 60));
+				}
+				
+				else if($this->GetTeamEfficiency(1) == 0)
+				{
+					if(mt_rand(0,1)==1)
+					{
+						$this->AddEvent($g_Events["useless_objective"], 1);
+						$this->Time += 45;
+					}
+					else $this->AttackTower(0, $t_Lanes[mt_rand(0, count($t_Lanes) - 1)], mt_rand(30, 60));
+				}
+			}
+			else $this->AddEvent($g_Events[$t_AvailableObjectives[mt_rand(0, count($t_AvailableObjectives) - 1)]]);
+			// This event should take care of advancing time
+			
+			return;
 		}
 	}
 	
@@ -239,12 +280,75 @@ class Game
 		return true;
 	}
 	
+	function AttackTower($a_Team, $a_Lane, $a_For)
+	{
+		global $g_Events;
+		$t_TowersKilled = array(0,0);
+		$t_Opponent = ($a_Team + 1)%2;
+		$t_LaneName = null;
+		switch($a_Lane)
+		{
+			case 'marksman':
+			case 'support':
+				$t_LaneName = 'bot';
+			case 'top':
+			case 'mid':
+				if(is_null($t_LaneName))
+					$t_LaneName = $a_Lane;
+				
+				$t_AddTime = $a_For;
+				$this->Time += $t_AddTime;
+				$t_DPS = (4000/45);
+				if($this->Towers[$t_Opponent][$t_LaneName] == 0)
+				{
+					$t_Lane = 'base';
+					$t_DPS = (3500/45);
+				}
+				
+				$t_OppKey = $a_Lane;
+				if($a_Lane == 'marksman' || $a_Lane == 'support')
+				{
+					$t_OppKey = mt_rand(0, 1) == 0 ? 'marksman' : 'support';
+				}
+				$t_OpponentPlayer = $this->GetPlayer($t_Opponent , $t_OppKey);
+				$t_DPS *= ($t_OpponentPlayer->IsActive() ? 1.0 : 3.0);
+				
+				$this->Towers[$t_Opponent][$t_LaneName]["health"] -= $t_DPS*$t_AddTime;
+				if($this->Towers[$t_Opponent][$t_LaneName]["health"] <= 0)
+				{
+					$t_TowersKilled[$a_Team]++;
+					$this->Towers[$t_Opponent][$t_LaneName]["health"] = $this->Towers[$t_Opponent][$t_LaneName]["base"];
+					$this->Towers[$t_Opponent][$t_LaneName]["count"]--;
+					$this->AddEvent($g_Events[$t_LaneName. "_tower"], $this->GetPlayer($a_Team, $a_Lane));
+				}
+				else $this->AddEvent($g_Events[$t_LaneName. "_tower_attack"], $this->GetPlayer($a_Team, $a_Lane));
+		}
+		
+		return $t_TowersKilled;
+	}
+	
 	private function AddToTimeline($a_Player, $a_Event, $a_ToFuture = 0)
 	{
 		$t_Event = array
 		(
 			"name" =>$a_Event->Name,
+			"state" =>array()
 		);
+		
+		for($i = 0; $i < 2; $i++)
+		{
+			$t_Roles = array("top", "mid", "support", "marksman", "jungle");
+			foreach($t_Roles as $t_Role)
+			{
+				$t_Player = $this->GetPlayer($i, $t_Role);
+				$t_Event["state"][$i][$t_Role] = array
+				(
+					"active"=>$t_Player->IsActive() ? 1 : 0,
+					"efficiency"=>$t_Player->GetEfficiency(),
+				);
+				
+			}
+		}
 		
 		if(is_a($a_Player, "Player"))
 		{
@@ -284,8 +388,11 @@ class Game
 	function GetTeamEfficiency($i)
 	{
 		$t_Efficiency = 0;
-		foreach(self::$GameInfo["teams"][$i]["champions"] as $t_Lane)
-			$t_Efficiency += $t_Lane["efficiency"];
+		foreach(self::$GameInfo["teams"][$i]["champions"] as $t_Key=>$t_Lane)
+		{
+			$t_Player = $this->GetPlayer($i, $t_Key);
+			$t_Efficiency += $t_Player->GetEfficiency();
+		}
 			
 		return $t_Efficiency;
 	}
