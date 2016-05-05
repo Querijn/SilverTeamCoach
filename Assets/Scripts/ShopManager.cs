@@ -12,13 +12,9 @@ public class ShopManager : MonoBehaviour
         Done = false;
     }
 
-    public void SetupShop(Champion[] ChampionArray = null)
+    public void SetupShop()
     {
-        if(ChampionArray == null)
-        {
-            ChampionArray = Champion.GetSortedBy(Champion.SortValue.Name, Champion.SortType.ASC);
-        }
-        ChampionArray = Champion.Filter(Champion.FilterType.NotOwned, ChampionArray);
+        Champion[] ChampionArray = Champion.Filter(Champion.FilterType.NotOwned, FilteredArray);
         // ChampionArray = Champion.Filter(Champion.FilterType.Buyable, ChampionArray); // Too confusing?
 
         GameObject Prefab = Resources.Load("Prefabs/ShopListObject") as GameObject;
@@ -73,6 +69,7 @@ public class ShopManager : MonoBehaviour
     {
         if (Champion.All.Length != 0 && Done == false)
         {
+            FilteredArray = Champion.All;
             SetupShop();
             Done = true;
         }
@@ -116,6 +113,7 @@ public class ShopManager : MonoBehaviour
         Message.Create("You've bought a champion!", "Congratulations, " + Info.Player.Name + "! You've just strengthened your forces by buying " + BoughtChampion.Name + ". Have fun playing!", false);
     }
 
+    Champion[] FilteredArray = Champion.All;
     public enum State { ascending, descending, AZ, ZA, none };
     State CurrentState = State.none;
 
@@ -128,14 +126,11 @@ public class ShopManager : MonoBehaviour
             Text text = transform.Find("Sort by Name").GetComponentInChildren<Text>();
             text.text = "Sort by Name";
         }
-        
+
         if (CurrentState == State.ascending)
         {
             Text text = GetComponentInChildren<Text>();
             text.text = "Sort Price (DESC)";
-
-            this.SetupShop(Champion.GetSortedBy(Champion.SortValue.Price, Champion.SortType.DESC));
-
             CurrentState = State.descending;
         }
 
@@ -143,9 +138,6 @@ public class ShopManager : MonoBehaviour
         {
             Text text = GetComponentInChildren<Text>();
             text.text = "Sort Price";
-
-            this.SetupShop();
-
             CurrentState = State.none;
         }
 
@@ -153,12 +145,11 @@ public class ShopManager : MonoBehaviour
         {
             Text text = GetComponentInChildren<Text>();
             text.text = "Sort Price (ASC)";
-
-            this.SetupShop(Champion.GetSortedBy(Champion.SortValue.Price, Champion.SortType.ASC));
-
             CurrentState = State.ascending;
         }
+        OnFilterClicked();
     }
+
     
     public void OnClickSortName()
     {
@@ -173,9 +164,6 @@ public class ShopManager : MonoBehaviour
         {
             Text textName = transform.Find("Sort by Name").GetComponentInChildren<Text>();
             textName.text = "Sort by Name (Z-A)";
-
-            this.SetupShop(Champion.GetSortedBy(Champion.SortValue.Name, Champion.SortType.DESC));
-
             CurrentState = State.ZA;
         }
 
@@ -183,9 +171,6 @@ public class ShopManager : MonoBehaviour
         {
             Text textName = transform.Find("Sort by Name").GetComponentInChildren<Text>();
             textName.text = "Sort by Name (A-Z)";
-
-            this.SetupShop(Champion.GetSortedBy(Champion.SortValue.Name, Champion.SortType.ASC));
-
             CurrentState = State.AZ;
         }
 
@@ -193,36 +178,15 @@ public class ShopManager : MonoBehaviour
         {
             Text textName = transform.Find("Sort by Name").GetComponentInChildren<Text>();
             textName.text = "Sort by Name";
-
-            this.SetupShop(Champion.GetSortedBy(Champion.SortValue.Name, Champion.SortType.ASC));
-
             CurrentState = State.ZA;
         }
+
+        OnFilterClicked();
     }
 
     public void OnFilterClicked()
     {
-        Champion[] FilteredArray = Champion.All;
-
-        if (CurrentState == State.AZ)
-        {
-            FilteredArray = Champion.GetSortedBy(Champion.SortValue.Name, Champion.SortType.ASC);
-        }
-
-        else if (CurrentState == State.ZA)
-        {
-            FilteredArray = Champion.GetSortedBy(Champion.SortValue.Name, Champion.SortType.DESC);
-        }
-
-        else if (CurrentState == State.ascending)
-        {
-            FilteredArray = Champion.GetSortedBy(Champion.SortValue.Price, Champion.SortType.ASC);
-        }
-
-        else if (CurrentState == State.descending)
-        {
-            FilteredArray = Champion.GetSortedBy(Champion.SortValue.Price, Champion.SortType.DESC);
-        }
+        FilteredArray = Champion.All;
 
         Toggle togglebuyable = transform.Find("Buyable").GetComponent<Toggle>();
         if (togglebuyable.isOn == true)
@@ -266,6 +230,26 @@ public class ShopManager : MonoBehaviour
             FilteredArray = Champion.Filter(Champion.FilterType.Jungle, FilteredArray);
         }
 
-        SetupShop(FilteredArray);
+        if (CurrentState == State.AZ)
+        {
+            FilteredArray = Champion.GetSortedBy(Champion.SortValue.Name, Champion.SortType.ASC, FilteredArray);
+        }
+
+        else if (CurrentState == State.ZA)
+        {
+            FilteredArray = Champion.GetSortedBy(Champion.SortValue.Name, Champion.SortType.DESC, FilteredArray);
+        }
+
+        else if (CurrentState == State.ascending)
+        {
+            FilteredArray = Champion.GetSortedBy(Champion.SortValue.Price, Champion.SortType.ASC, FilteredArray);
+        }
+
+        else if (CurrentState == State.descending)
+        {
+            FilteredArray = Champion.GetSortedBy(Champion.SortValue.Price, Champion.SortType.DESC, FilteredArray);
+        }
+
+        SetupShop();
     }
 }

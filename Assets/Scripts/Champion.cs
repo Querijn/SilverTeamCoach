@@ -460,36 +460,37 @@ public class Champion
         else return null;
     }
     
-    public static Champion[] GetSortedBy(SortValue a_Value, SortType a_Type = SortType.DESC)
+    public static Champion[] GetSortedBy(SortValue a_Value, SortType a_Type = SortType.DESC, Champion[] a_ChampionList = null)
     {
-        Champion[] t_Array = Champion.All;
+        if (a_ChampionList == null)
+            a_ChampionList = Champion.All;
 
         switch (a_Value)
         {
             case SortValue.Name:
-                Array.Sort(t_Array, delegate (Champion Champ1, Champion Champ2)
+                Array.Sort(a_ChampionList, delegate (Champion Champ1, Champion Champ2)
                 {
                     return Champ1.Name.CompareTo(Champ2.Name) * (a_Type == SortType.ASC ? 1 : -1);
                 });
                 break;
             case SortValue.Price:
-                Array.Sort(t_Array, delegate (Champion Champ1, Champion Champ2)
+                Array.Sort(a_ChampionList, delegate (Champion Champ1, Champion Champ2)
                 {
                     return Champ1.Price.CompareTo(Champ2.Price) * (a_Type == SortType.ASC ? 1 : -1);
                 });
                 break;
             case SortValue.UserMastery:
-                Array.Sort(t_Array, delegate (Champion Champ1, Champion Champ2)
+                Array.Sort(a_ChampionList, delegate (Champion Champ1, Champion Champ2)
                 {
                     return Champ1.Mastery.Level.CompareTo(Champ2.Mastery.Level) * (a_Type == SortType.ASC ? 1 : -1);
                 });
                 break;
             case SortValue.Efficiency:
-                Array.Sort(t_Array, (Champ1, Champ2) => Champ1.RealEfficiency.CompareTo(Champ2.RealEfficiency) * (a_Type == SortType.ASC ? 1 : -1));
+                Array.Sort(a_ChampionList, (Champ1, Champ2) => Champ1.RealEfficiency.CompareTo(Champ2.RealEfficiency) * (a_Type == SortType.ASC ? 1 : -1));
                 break;
         }
 
-        return t_Array;
+        return a_ChampionList;
     }
 
     public static Champion[] Filter(FilterType a_Value, Champion[] a_ChampionList = null)
