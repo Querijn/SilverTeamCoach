@@ -15,6 +15,12 @@ class Player
 	public $AFKUntil = -1;
 	public $TrollingUntil = -1;
 	public $TiltingUntil = -1;
+	public $DeadUntil = -1;
+	
+	public $Level = 1;
+	
+	public $Kills = 0;
+	public $Deaths = 0;
 	
 	function Player($a_Name, $a_Team, $a_Role, vec2 $a_Position, double $a_Efficiency)
 	{
@@ -32,24 +38,28 @@ class Player
 		$this->Path[$g_Game->Time] = $a_Waypoint;
 	}
 	
-	public function TiltFor(int $a_UntilTime)
+	public function IsAFK()
 	{
-		$this->TiltingUntil = $a_UntilTime;
+		global $g_Game;
+		return ($g_Game->Time <= $this->AFKUntil);
 	}
 	
-	public function IsAFK(int $a_CurrentTime)
+	public function IsTilting()
 	{
-		return ($a_CurrentTime <= $this->AFKUntil);
+		global $g_Game;
+		return ($g_Game->Time <= $this->TiltingUntil);
 	}
 	
-	public function IsTilting(int $a_CurrentTime)
+	public function IsTrolling()
 	{
-		return ($a_CurrentTime <= $this->TiltingUntil);
+		global $g_Game;
+		return ($g_Game->Time <= $this->TrollingUntil);
 	}
 	
-	public function IsTrolling(int $a_CurrentTime)
+	public function IsDead()
 	{
-		return ($a_CurrentTime <= $this->TrollingUntil);
+		global $g_Game;
+		return ($g_Game->Time <= $this->DeadUntil);
 	}
 	
 	public function GetEfficiency()
@@ -57,5 +67,10 @@ class Player
 		global $g_Game;
 		global $g_Settings;
 		return $this->Efficiency * ($this->IsTilting($g_Game->Time) ? $g_Settings["tilt_efficiency_modifier"] : 1.0);
+	}
+	
+	public function IsActive()
+	{
+		return $this->IsDead() == false && $this->IsAFK() == false;
 	}
 };

@@ -10,10 +10,15 @@ $g_Settings["afk_time"] = new vec2(8, 30);
 $g_Settings["tilt_time"] = new vec2(4, 15);
 
 $g_Settings["tilt_efficiency_modifier"] = 0.9;
+$g_Settings["invade_efficiency_modifier"] = 1.03;
+$g_Settings["kill_efficiency_modifier"] = 1.03;
+$g_Settings["death_efficiency_modifier"] = 0.95;
 
 $g_Settings["invade_chance"] = 0.1;
-
 $g_Settings["movement_speed"] = 350.0;
+$g_Settings["invade_efficiency_modifier"] = 1.03;
+
+$g_Settings["invade_kill_efficiency_modifier"] = 2.5;
 
 // You probably shouldn't change anything below here.
 

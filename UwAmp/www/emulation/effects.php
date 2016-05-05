@@ -29,17 +29,48 @@ $g_CouldAFK = function(Player $a_Player)
 	}
 };
 
+$g_ShouldSurrender = function(Player $a_Player)
+{
+	global $g_Events;
+	global $g_Settings;
+	global $g_Game;
+	global $g_CouldAFK;
+	
+	if($g_Game->Time < TimeConv(20,0))
+		return;
+	
+	$t_AFKCount = 0;
+	$t_TrollCount = 0;
+	$t_DeathOverflow = 0;
+	foreach($g_Game->Teams[$a_Player->Team] as $t_Player)
+	{
+		if(($t_Player->AFKUntil - $g_Game->Time) > TimeConv(5,0))
+			$t_AFKCount++;
+		
+		if(($t_Player->TrollingUntil - $g_Game->Time) > TimeConv(5,0))
+			$t_TrollCount++;
+		
+		$t_DeathOverflow += $t_Player->Deaths;
+		$t_DeathOverflow -= $t_Player->Kills;
+	}
+	
+	if($t_AFKCount + $t_TrollCount >= 3 || $t_DeathOverflow >= 20)
+	{
+		$g_Game->AddEvent($g_Events["surrender"], $a_Player->Team);
+	}
+};
+
 $g_CouldTilt = function(Player $a_Player)
 {
 	global $g_Events;
 	global $g_Settings;
 	global $g_Game;
+	global $g_CouldAFK;
 	
 	// You can't be more away from keyboard.
 	if($a_Player->IsAFK($g_Game->Time))
 		return;
 	
-	// Solid for an afk chance here
 	if($a_Player->GetEfficiency() < $g_Settings["mastery_points_level"][2])
 	{
 		$t_Chance = $g_Settings["tilt_chance_0_points"] - $a_Player->GetEfficiency() * ($g_Settings["tilt_chance_0_points"] / $g_Settings["mastery_points_level"][2]);
@@ -48,9 +79,10 @@ $g_CouldTilt = function(Player $a_Player)
 		if($t_Roll < $t_Chance)
 		{
 			$g_Game->AddEvent($g_Events["tilt"], $a_Player);
-			$t_AFKTimer = mt_rand($g_Settings["tilt_time"]->x, $g_Settings["tilt_time"]->y) ** 2;
-			$a_Player->TiltingUntil = $g_Game->Time + $t_AFKTimer;
+			$t_Timer = mt_rand($g_Settings["tilt_time"]->x, $g_Settings["tilt_time"]->y) ** 2;
+			$a_Player->TiltingUntil = $g_Game->Time + $t_Timer;
 		}
+		else $g_CouldAFK($a_Player);
 	}
 };
 

@@ -2,38 +2,41 @@
 if(!defined("INCLUDED")) 
 	die();
 
-$g_MoveToPullOrProtect = function(Player $a_Player)
+$g_Invade = function($a_Player)
 {
 	global $g_Game;
 	global $g_Settings;
-	$t_Invade = (double)(mt_rand(0,1000)) * 0.001;
-	// if($t_Invade < $g_Settings["invade_chance"])
-	// {
-		// //$g_Invade($a_Player);
-	// }
-	// else
+	foreach($g_Game->Teams[$a_Player->Team] as $t_Player)
 	{
-		// Determine jungle start 
-		$t_Start = (double)(mt_rand(0,1000)) * 0.001;
-		if($t_Start >= 0.5)
-		{
-			$t_PathToGolems = new Path($a_Player->Position, $g_Settings["golems"][$a_Player->Team]);
-			foreach($g_Game->Teams[$a_Player->Team] as $t_Player)
-			{
-				switch($t_Player->Role)
-				{
-				case 'support':
-				case 'marksman':
-				case 'jungle':
-					$t_Player->Path = $t_PathToGolems;
-					break;
-				}
-			}
-		}
-		else
-		{
-			
-		}
-		
+		$t_Player->Efficiency *= $g_Settings["invade_efficiency_modifier"];
 	}
+};
+
+$g_Kill = function($a_Player)
+{
+	global $g_Game;
+	global $g_Settings;
+	$a_Player->Efficiency *= $g_Settings["kill_efficiency_modifier"];
+	$a_Player->Kills++;
+};
+
+$g_Death = function($a_Player)
+{
+	global $g_Game;
+	global $g_CouldTilt;
+	global $g_CouldTiltEveryone;
+	global $g_Settings;
+	$a_Player->Efficiency *= $g_Settings["death_efficiency_modifier"];
+	
+	$a_Player->DeadUntil = $g_Game->Time + $a_Player->Level * 2.5 + 7.5;
+	$a_Player->Deaths++;
+	if($g_Game->Time > 10*60 && $g_Game->Time < 60*60)
+		$a_Player->DeadUntil += $a_Player->DeadUntil * 0.01 * (($g_Game->Time/60)-10);
+	else if($g_Game->Time >= 60*60)
+		$a_Player->DeadUntil += $a_Player->DeadUntil * 0.5;
+	
+	$g_CouldTilt($a_Player);
+	
+	if(($a_Player->Kills / ($a_Player->Deaths + 0.01)) < 0.3)
+		$g_CouldTiltEveryone($a_Player);
 };

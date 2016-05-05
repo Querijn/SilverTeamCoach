@@ -69,9 +69,22 @@ try
 		)
 	);
 	
-	$t_Game = new Game($t_GameInfo);
-	var_dump($t_Game->Timeline);
-	//echo json_encode($t_Game);
+	$t_Game = new Game($t_GameInfo);	
+	/* for($i = 0; $i < $t_Game->Time; $i++)
+	{
+		if(isset($t_Game->Timeline[$i]))
+		{
+			foreach($t_Game->Timeline[$i] as $t_Event)
+			{
+				echo $i . ": team ";
+				echo $t_Event['team'];
+				if(isset($t_Event['role']))
+					echo " role: " . $t_Event['role'];
+				echo " -> " . $t_Event['name'] . "<br>";
+			}
+		}
+	} */
+	echo json_encode($t_Game);
 	
 }
 catch(Exception $e)
