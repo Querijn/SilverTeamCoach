@@ -13,6 +13,17 @@ try
 	if(isset($_GET['team']) === false || is_numeric($_GET['team']) == false)
 		throw new Exception("Invalid team!");
 	
+	if(isset($_GET['match']) === false)
+		throw new Exception("Invalid match");
+	if(!(
+			$_GET['match'] == "bot" || 
+			$_GET['match'] == "ranked" || 
+			$_GET['match'] == "challenger" || 
+			$_GET['match'] == "lcs"
+		))
+		throw new Exception("Invalid match (".$_GET['match'].")!");
+	
+	
 	// Get my info
 	$t_DBPlayer = DatabasePlayer::Load(SQLSearch::In(DatabasePlayer::Table)->Where("user")->Is($_SESSION["summoner"]["id"]));
 	$t_DBPlayerTeam = DatabaseTeam::Load(SQLSearch::In(DatabaseTeam::Table)->Where("player")->Is($t_DBPlayer->Id)->Also("id")->Is($_GET["team"]));
@@ -28,7 +39,7 @@ try
 	//$t_EloPlayers = array($_SESSION["summoner"]["id"]);
 	//$t_Elo = GetElos($t_API, $t_EloPlayers);
 	
-	$t_MatchType = "BOT";
+	$t_MatchType = $_GET['match'];
 	
 	// Get opponent information.
 	$t_DBOpponent = GetOpponent($t_API, $t_DBPlayer["db"], $t_MatchType);

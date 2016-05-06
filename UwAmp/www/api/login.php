@@ -13,9 +13,6 @@ function LogIn($a_User, $a_Region, $a_Verify = false)
 		return;
 	
 	$t_Key = preg_replace('/\s+/', '', strtolower($a_User));
-	$t_API = new riotapi($settings["riot_key"], $a_Region, new FileSystemCache(BASE_FOLDER . "cache"));
-	
-	$t_Data = $t_API->getSummoner($t_Key);
 	
 	// Verify region
 	if(in_array($a_Region, $settings["regions"]))
@@ -26,6 +23,9 @@ function LogIn($a_User, $a_Region, $a_Verify = false)
 		$g_Error = "That was an invalid region. How did you even get here?";
 		throw new Exception();
 	}
+	
+	$t_API = new riotapi($settings["riot_key"], $a_Region, new FileSystemCache(BASE_FOLDER . "cache"));
+	$t_Data = $t_API->getSummoner($t_Key);
 		
 	$_SESSION["summoner"] = $t_Data[$t_Key];	
 			
@@ -47,13 +47,9 @@ function LogIn($a_User, $a_Region, $a_Verify = false)
 		foreach($t_Info as $t_Mastery) 
 			$t_Player->Cash += $t_Mastery["championPoints"];
 		$t_Player->Cash *= $settings["starting_cash_per_champion_point"];
-		
-		// TODO create message about cash gain
-		
+				
 		$t_Player->StartingCash = $t_Player->Cash;
-		
 		$t_Player->Admin = 0;
-		
 		$t_Player->Save();
 		
 		$t_Champion = new DatabaseChampion();

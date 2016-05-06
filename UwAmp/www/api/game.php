@@ -8,16 +8,43 @@ function GetOpponent($a_API, DatabasePlayer $a_Player, $a_MatchType)
 	{
 	case "bot":
 		return GetBot($a_API, $a_Player);
+	case "lcs":
+		throw new Exception("Challenger is not setup.");
+		//return GetLCS($a_API, $a_Player);
+	case "ranked":
+		return GetRanked($a_API, $a_Player);
+	case "challenger":
+		throw new Exception("Challenger is not setup.");
+		//return GetChallenger($a_API, $a_Player);
 	}
 }
 
-function SetupGamePlayerArray($a_Name, DatabasePlayer $a_DB)
+function SetupGamePlayerArray($a_Name, DatabasePlayer $a_DB, $a_SummonerInfo = null)
 {
 	return array
 	(
 		"name" => $a_Name,
-		"db" => $a_DB
+		"db" => $a_DB,
+		"summoner" => $a_SummonerInfo
 	);
+}
+
+function GetRanked($a_API, DatabasePlayer $a_Player)
+{
+	$t_Players = DatabasePlayer::Load(SQLSearch::In(DatabasePlayer::Table)->Where("title")->Is('Player')->Also('Developer')->Also('id')->IsNot($a_Player->Id));
+	if(is_object($t_Players))
+	{
+		if($t_Players->LoadFailed)
+			throw new Exception("No other players were found!");
+		
+		$t_Players = array($t_Players);
+	}
+	
+	$t_Player = $t_Players[mt_rand(0, count($t_Players)-1)];
+	
+	var_dump($a_API->GetSummoner($t_Player->User));
+	
+	return SetupGamePlayerArray($t_Player->AlternativeName, $t_Player);
 }
 
 function GetBot($a_API, DatabasePlayer $a_Player)

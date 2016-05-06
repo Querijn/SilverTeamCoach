@@ -7,7 +7,7 @@ function ConvertToElo($a_League, $a_Division, $a_LP = 0)
 	$t_Number = 0;
 	$t_ModifierPerLP = 0.7;
 	$t_LP = $a_LP;
-	switch($a_League)
+	switch(strtoupper($a_League))
 	{
 		case "BRONZE":
 			$t_Number = 800;
@@ -39,15 +39,20 @@ function ConvertToElo($a_League, $a_Division, $a_LP = 0)
 	{
 		switch($a_Division)
 		{
+			case 1:
 			case "I":
 				$t_LP += 100;
+			case 2:
 			case "II":
 				$t_LP += 100;
+			case 3:
 			case "III":
 				$t_LP += 100;
+			case 4:
 			case "IV":
 				$t_LP += 100;
 			case "V":
+			case 5:
 				break;
 		}
 	}

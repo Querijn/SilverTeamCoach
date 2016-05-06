@@ -8,12 +8,14 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Main.unity
   - enabled: 1
-    path: Assets/Scenes/TeamsMenu.unity
+    path: Assets/Scenes/HomeMenu.unity
   - enabled: 1
-    path: Assets/Scenes/ShopMenu.unity
+    path: Assets/Scenes/MatchesMenu.unity
+  - enabled: 1
+    path: Assets/Scenes/TeamsMenu.unity
   - enabled: 1
     path: Assets/Scenes/ChampionsMenu.unity
   - enabled: 1
-    path: Assets/Scenes/HomeMenu.unity
+    path: Assets/Scenes/ShopMenu.unity
   - enabled: 1
     path: Assets/Scenes/Windows.unity

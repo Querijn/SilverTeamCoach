@@ -69,4 +69,9 @@ public class Team
     {
         return Array.Find(All, t => t.ID == a_ID);
     }
+
+    public static Team Get(string a_Name)
+    {
+        return Array.Find(All, t => t.Name == a_Name);
+    }
 }

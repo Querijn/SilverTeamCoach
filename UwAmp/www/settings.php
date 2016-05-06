@@ -20,7 +20,7 @@ $settings["regions"]		= array
 							);
 			
 // Testing settings
-$settings["testing"] = true;
+$settings["testing"] = false;
 $settings["testing_account"] = 22929336;
 $settings["testing_region"] = 'euw';
 

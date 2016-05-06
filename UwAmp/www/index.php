@@ -54,18 +54,7 @@ if(!isset($_SESSION["user"]))
 			
 			$_SESSION["summoner"] = $t_Data[$t_Key];	
 			
-			$t_Players = DatabasePlayer::Load(SQLSearch::In(DatabasePlayer::Table)->Where("user")->Is($_SESSION["summoner"]["id"]));
-			
-			// Do we exist?
-			if(!is_object($t_Players) && !is_array($t_Players)) 
-			{
-				$t_Player = new DatabasePlayer();
-			
-				$t_Player->User = $_SESSION["summoner"]["id"];
-				$t_Player->Admin = 0;
-				
-				$t_Player->Save();
-			}
+			LogIn($_SESSION["summoner"]["id"], $_SESSION["region"], $a_Verify = false);
 			
 			// Go to stage 3.
 			require_once(BASE_FOLDER . "verify_user.php");
