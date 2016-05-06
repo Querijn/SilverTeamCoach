@@ -62,6 +62,13 @@ public class Settings : MonoBehaviour
     public string m_ChampionImageDirectory = "http://ddragon.leagueoflegends.com/cdn/6.8.1/img/sprite/";
     public static string ChampionImageDirectory { get { return Singleton.m_ChampionImageDirectory; } }
 
+    public class PassThroughInfo
+    {
+        WWW Request = null;
+    }
+
+    public static PassThroughInfo PassThrough;
+
     public static string FormAjaxURL(string a_API)
     {
         return Host + AjaxFolder + a_API;
@@ -77,18 +84,25 @@ public class Settings : MonoBehaviour
     public static void OpenRequiredScenes()
     {
         List<int> t_InBuild = new List<int>();
+        List<Scene> t_Exclude = new List<Scene>();
+
+        if(SceneManager.GetSceneByName("Game") != null)
+            t_Exclude.Add(SceneManager.GetSceneByName("Game"));
 
         if (m_FirstTime == false)
             return;
         
         for(int i = 0; i < SceneManager.sceneCount; i++)
         {
-            t_InBuild.Add(SceneManager.GetSceneAt(i).buildIndex);
-        }
+            var t_Index = SceneManager.GetSceneAt(i).buildIndex;
+            if (t_Index == -1)
+                continue;
 
+            t_InBuild.Add(t_Index);
+        }        
         for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
         {
-            if(t_InBuild.Contains(i) == false)
+            if(t_InBuild.Contains(i) == false && t_Exclude.Find(s=>s.buildIndex==i) == null)
             {
                 SceneManager.LoadScene(i, LoadSceneMode.Additive);
             }

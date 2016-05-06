@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using System;
+using UnityEngine.SceneManagement;
 
 public class Matchmaking : MonoBehaviour 
 {
@@ -102,6 +103,13 @@ public class Matchmaking : MonoBehaviour
         HTTP.Request(Settings.FormAjaxURL(t_CommandString), delegate (WWW a_Request)
         {
             // Match gotten
+            for(int i = 0; i < SceneManager.sceneCount; i++)
+            {
+                Scene t_Scene = SceneManager.GetSceneAt(i);
+                if (t_Scene.name == "Main")
+                    continue;
+                else SceneManager.UnloadScene(t_Scene.name);
+            }
         }, true);
     }
 
