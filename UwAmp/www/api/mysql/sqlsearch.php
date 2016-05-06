@@ -56,6 +56,18 @@ if(!class_exists("SQLSearch"))
 			return false;
 		}
 		
+		public function orderByAsc($a_Column) { return $this->orderBy($a_Column, true); }
+		public function orderByDesc($a_Column) { return $this->orderBy($a_Column, false); }
+		
+		public function orderBy($a_Column, $a_Ascending = true)
+		{
+			global $settings;
+			if($this->m_Opened) $this->m_Query .= ")";
+			$this->m_Opened = false;
+			$this->m_Query .= " ORDER BY ".ELEFORM_SQL_QUOTE.$settings["mysql_connection"]->real_escape_string($a_Column).ELEFORM_SQL_QUOTE." ".($a_Ascending?"ASC":"DESC");
+			return $this;
+		}
+		
 		public function Where($a_Column)
 		{
 			global $settings;

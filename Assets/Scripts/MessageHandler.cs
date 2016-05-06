@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System;
 
 public class MessageHandler : MonoBehaviour {
 
@@ -51,6 +52,7 @@ public class MessageHandler : MonoBehaviour {
                 Instance.transform.localPosition = new Vector3(0, (I * - 120), 0);
 
                 Instance.name = NewMessage.Title;
+                Instance.transform.Find("ID").GetComponent<Text>().text = NewMessage.ID.ToString();
                 Instance.transform.Find("Message Title").GetComponent<Text>().text = NewMessage.Title;
                 Instance.transform.Find("Message Time").GetComponent<Text>().text = NewMessage.Time.ToString();
 
@@ -59,22 +61,26 @@ public class MessageHandler : MonoBehaviour {
                 if(NewMessage.Content.Length > 70)
                 {
                     Message = Message.Substring(0, 70) + "...";
-                    Instance.transform.Find("Read More Button").GetComponent<Button>().onClick.AddListener(delegate ()
-                    {
-                        Confirmation.Show(NewMessage.Title, NewMessage.Content, delegate (bool a_Delete)
-                        {
-                            if (a_Delete)
-                                NewMessage.Delete();
-                            else
-                                NewMessage.MarkAsRead();
-                        }, "Delete", "Close");
-                    });
                 }
 
                 else
                 {
-                   // Instance.transform.Find("Read More Button").gameObject.SetActive(false); 
+                    // Instance.transform.Find("Read More Button").gameObject.SetActive(false); 
                 }
+
+                Instance.transform.Find("Read More Button").GetComponent<Button>().onClick.AddListener(delegate ()
+                {
+                    var t_Element = Instance.transform.Find("ID");
+                    int t_ID = Int32.Parse(t_Element.GetComponent<Text>().text);
+                    Message t_Message = Array.Find(Messages.All, m => m.ID == t_ID);
+                    Confirmation.Show(t_Message.Title, t_Message.Content, delegate (bool a_Delete)
+                    {
+                        if (a_Delete)
+                            t_Message.Delete();
+                        else
+                            t_Message.MarkAsRead();
+                    }, "Delete", "Close");
+                });
 
                 Instance.transform.Find("Message Content").GetComponent<Text>().text = Message;
 

@@ -112,11 +112,11 @@ function GetMessages($a_Count = 30)
 	if(!IsLoggedIn())
 		return array();
 	
-	$t_Player = DatabasePlayer::Load(SQLSearch::In(DatabasePlayer::Table)->Where("user")->Is($_SESSION['summoner']['id'])->Limit($a_Count));
+	$t_Player = DatabasePlayer::Load(SQLSearch::In(DatabasePlayer::Table)->Where("user")->Is($_SESSION['summoner']['id']));
 	if(is_object($t_Player) && $t_Player->LoadFailed)
 		return array();
 	
-	$t_Messages = DatabaseMessage::Load(SQLSearch::In(DatabaseMessage::Table)->Where("player_id")->Is($t_Player->Id));
+	$t_Messages = DatabaseMessage::Load(SQLSearch::In(DatabaseMessage::Table)->Where("player_id")->Is($t_Player->Id)->OrderBy("time", false)->Limit($a_Count));
 	if(is_object($t_Messages))
 	{
 		if($t_Messages->LoadFailed)
