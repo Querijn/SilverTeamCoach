@@ -28,14 +28,19 @@ $g_Death = function($a_Player)
 	global $g_Settings;
 	$a_Player->Efficiency *= $g_Settings["death_efficiency_modifier"];
 	
-	$a_Player->DeadUntil = $g_Game->Time + $a_Player->Level * 2.5 + 7.5;
 	$a_Player->Deaths++;
 	
+	$t_Minutes = ($g_Game->Time/60);
+	
+	$t_DeathTimer = $a_Player->Level * 2.5 + 7.5;
+	
 	if($g_Game->Time > 10*60 && $g_Game->Time < 60*60)
-		$a_Player->DeadUntil += $a_Player->DeadUntil * 0.01 * (($g_Game->Time/60)-10);
+		$t_DeathTimer += ($t_DeathTimer * $g_Settings["death_timer_increase_modifier"]) * ($t_Minutes-10);
 	
 	else if($g_Game->Time >= 60*60)
-		$a_Player->DeadUntil += $a_Player->DeadUntil * 0.5;
+		$t_DeathTimer += $t_DeathTimer * 0.5;
+	
+	$a_Player->DeadUntil = $g_Game->Time + $t_DeathTimer;
 	
 	$g_CouldTilt($a_Player);
 	if(($a_Player->Kills / ($a_Player->Deaths + 0.01)) < 0.3)

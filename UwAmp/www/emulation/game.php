@@ -23,6 +23,7 @@ class Game
 	public $Teams = array();
 	
 	public $Time = 0;
+	public $HighestTime = 0;
 	public $GameOver = false;
 	public $Winner = -1;
 	
@@ -71,6 +72,7 @@ class Game
 		$this->AddEvent($g_Events["post_laning_phase"]);
 		$this->PostLaningPhaseAction();
 		
+		$this->Time = $this->HighestTime;
 		$this->AddEvent($g_Events["end_of_timeline"]);
 	}
 	
@@ -207,10 +209,8 @@ class Game
 		
 		$this->Time += 45;
 		
-		$t_Tries = 0;
-		while($this->GameOver == false && $t_Tries <= 30)
+		while($this->GameOver == false)
 		{
-			$t_Tries++;
 			for($i = 0; $i < 2; $i++)
 			{
 				if($this->Towers[$i]["base"]["count"]==0)
@@ -254,16 +254,16 @@ class Game
 			}
 			else
 			{
-				$t_Lanes = array("top", "mid", "bot");
+				$t_Lanes = array("top", "mid", "support", "marksman", "jungle");
 				
 				// Just take a tower then geez
 				// Or take wraiths, idk im not silver
-				if(mt_rand(0,1)==1)
+				if(mt_rand(0,4)==0)
 				{
 					$this->AddEvent($g_Events["useless_objective"], $t_TeamfightWinner);
 					$this->Time += 45;
 				}
-				else $this->AttackTower($t_TeamfightWinner, $t_Lanes[mt_rand(0, count($t_Lanes) - 1)], mt_rand(30, 60));
+				else $this->AttackTower($t_TeamfightWinner, $t_Lanes[mt_rand(0, count($t_Lanes) - 1)], mt_rand(10, 20 + (int)($this->Time/60)));
 			}
 		}
 	}
@@ -279,6 +279,9 @@ class Game
 	
 	function Kill($a_Killer, $a_Feeder)
 	{
+		if($this->GameOver)
+			return;
+		
 		global $g_Events;
 		if(is_null($a_Killer) || is_null($a_Feeder))
 			return false;
@@ -292,6 +295,9 @@ class Game
 	
 	function AttackTower($a_Team, $a_Lane, $a_For)
 	{
+		if($this->GameOver)
+			return;
+		
 		global $g_Events;
 		$t_TowersKilled = array(0,0);
 		$t_Opponent = ($a_Team + 1)%2;
@@ -309,9 +315,15 @@ class Game
 				$t_AddTime = $a_For;
 				$this->Time += $t_AddTime;
 				$t_DPS = (4000/45);
-				if($this->Towers[$t_Opponent][$t_LaneName] == 0)
+				
+				// Push a lane
+				$t_Tower = &$this->Towers[$t_Opponent][$t_LaneName];
+				if($t_Tower['count'] == 0)
 				{
-					$t_Lane = 'base';
+					$t_LaneName = 'base';
+					$t_Tower = &$this->Towers[$t_Opponent]['base'];
+					if($t_Tower['count'] == 0) 
+						return $t_TowersKilled;
 					$t_DPS = (3500/45);
 				}
 				
@@ -323,12 +335,13 @@ class Game
 				$t_OpponentPlayer = $this->GetPlayer($t_Opponent , $t_OppKey);
 				$t_DPS *= ($t_OpponentPlayer->IsActive() ? 1.0 : 3.0);
 				
-				$this->Towers[$t_Opponent][$t_LaneName]["health"] -= $t_DPS*$t_AddTime;
-				if($this->Towers[$t_Opponent][$t_LaneName]["health"] <= 0)
+				
+				$t_Tower["health"] -= $t_DPS*$t_AddTime;
+				if($t_Tower["health"] <= 0)
 				{
 					$t_TowersKilled[$a_Team]++;
-					$this->Towers[$t_Opponent][$t_LaneName]["health"] = $this->Towers[$t_Opponent][$t_LaneName]["base"];
-					$this->Towers[$t_Opponent][$t_LaneName]["count"]--;
+					$t_Tower["health"] = $t_Tower["base"];
+					$t_Tower["count"]--;
 					$this->AddEvent($g_Events[$t_LaneName. "_tower"], $this->GetPlayer($a_Team, $a_Lane));
 				}
 				else $this->AddEvent($g_Events[$t_LaneName. "_tower_attack"], $this->GetPlayer($a_Team, $a_Lane));
@@ -342,8 +355,12 @@ class Game
 		$t_Event = array
 		(
 			"name" =>$a_Event->Name,
-			"state" =>array()
+			"state" =>array(),
+			"towers" => $this->Towers,
 		);
+		
+		if(is_a($a_Player, "Player"))
+			$a_Event->ApplyTo($a_Player);
 		
 		for($i = 0; $i < 2; $i++)
 		{
@@ -377,11 +394,12 @@ class Game
 		}	
 		
 		$this->Time += $a_ToFuture;
+		
+		if($this->Time > $this->HighestTime)
+			$this->HighestTime = $this->Time;
+		
 		$this->Timeline[$this->Time][] = $t_Event;
 		$this->Time -= $a_ToFuture;
-		
-		if(is_a($a_Player, "Player"))
-			$a_Event->ApplyTo($a_Player);
 	}
 		
 	function AddEvent(Event $a_Event, $a_Player = null)
