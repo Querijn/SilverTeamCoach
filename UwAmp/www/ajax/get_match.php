@@ -69,8 +69,8 @@ try
 		)
 	);
 	
-	$t_Game = new Game($t_GameInfo);	
-	/* for($i = 0; $i < $t_Game->Time; $i++)
+	$t_Game = new Game($t_GameInfo);
+	/*for($i = 0; $i < 9999; $i++)
 	{
 		if(isset($t_Game->Timeline[$i]))
 		{
@@ -81,6 +81,12 @@ try
 				if(isset($t_Event['role']))
 					echo " role: " . $t_Event['role'];
 				echo " -> " . $t_Event['name'] . "<br>";
+				
+				if($t_Event['name'] == 'end_of_timeline')
+				{
+					$i = 9999;
+					break;
+				}
 			}
 		}
 	} */

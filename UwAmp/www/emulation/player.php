@@ -78,6 +78,9 @@ class Player
 		if($this->IsActive() == false)
 			return 0.0;
 		
+		if($this->IsTrolling())
+			return $this->Efficiency * $g_Settings["troll_efficiency_modifier"];
+		
 		$t_Efficiency = $this->Efficiency * ($this->IsTilting() ? $g_Settings["tilt_efficiency_modifier"] : 1.0);
 		$t_Efficiency *= ($this->HasBaron() ? $g_Settings["baron_efficiency_modifier"] : 1.0);
 		return $t_Efficiency;

@@ -37,11 +37,16 @@ CreateEvent("invade");
 CreateEvent("empty_jungle");
 CreateEvent("executed");
 CreateEvent("tower_destroyed");
+CreateEvent("useless_objective");
 CreateEvent("inhibitor_destroyed");
 CreateEvent("game_over", $g_EndGame);
 CreateEvent("kill", $g_Kill);
 CreateEvent("death", $g_Death);
+CreateEvent("surrender", $g_EndGame);
 CreateEvent("play");
+CreateEvent("end_of_timeline");
+CreateEvent("laning_phase");
+CreateEvent("post_laning_phase");
 
 CreateEvent("bot_tower_attack");
 CreateEvent("mid_tower_attack");

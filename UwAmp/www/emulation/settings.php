@@ -10,9 +10,10 @@ $g_Settings["afk_time"] = new vec2(8, 30);
 $g_Settings["tilt_time"] = new vec2(4, 15);
 
 $g_Settings["tilt_efficiency_modifier"] = 0.9;
+$g_Settings["troll_efficiency_modifier"] = -0.5;
 $g_Settings["invade_efficiency_modifier"] = 1.03;
-$g_Settings["kill_efficiency_modifier"] = 1.03;
-$g_Settings["death_efficiency_modifier"] = 0.95;
+$g_Settings["kill_efficiency_modifier"] = 1.1;
+$g_Settings["death_efficiency_modifier"] = 0.85;
 $g_Settings["baron_efficiency_modifier"] = 1.33;
 $g_Settings["dragon_efficiency_modifier"] = 1.05;
 

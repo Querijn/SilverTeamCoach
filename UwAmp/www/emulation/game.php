@@ -37,6 +37,7 @@ class Game
 		global $g_Settings;
 		global $t_TowerInfo;
 		global $g_Game;
+		global $g_Events;
 		$g_Game = $this;
 		
 		self::$GameInfo = $a_GameInfo;
@@ -64,9 +65,13 @@ class Game
 		// Determine action
 		$this->PreLaningPhaseAction();
 		
+		$this->AddEvent($g_Events["laning_phase"]);
 		$this->LaningPhaseAction();
 
+		$this->AddEvent($g_Events["post_laning_phase"]);
 		$this->PostLaningPhaseAction();
+		
+		$this->AddEvent($g_Events["end_of_timeline"]);
 	}
 	
 	function GameStartAction()
@@ -198,63 +203,68 @@ class Game
 	{
 		global $g_Events;
 		global $g_Settings;
+		global $g_ShouldSurrender;
 		
 		$this->Time += 45;
 		
-		while($this->GameOver == false)
+		$t_Tries = 0;
+		while($this->GameOver == false && $t_Tries <= 30)
 		{
+			$t_Tries++;
 			for($i = 0; $i < 2; $i++)
 			{
 				if($this->Towers[$i]["base"]["count"]==0)
 				{
 					$this->Winner = ($i + 1)%2;
-					$this->AddEvent($g_Events["game_over"]);
+					$this->AddEvent($g_Events["game_over"], $this->GetPlayer($i, 'top'));
 					return;
 				}	
 			}
 			
+			$this->AddEvent($g_Events['teamfight'], $this->GetPlayer(0, 'top'));
+			
 			$t_AvailableObjectives = array();
 			// Baron, Teamfight or dragon
-			if($this->GetTeamEfficiency(0) != 0 && $this->GetTeamEfficiency(1) != 0)
-				$t_AvailableObjectives[] = "teamfight";
+			$t_AvailableObjectives[] = "tower";
 			
-			if($this->DragonUpAt <= $this->Time)
-				$t_AvailableObjectives[] = "dragon";
+			// if($this->DragonUpAt <= $this->Time)
+				// $t_AvailableObjectives[] = "dragon";
 			
-			if($this->BaronUpAt <= $this->Time)
-				$t_AvailableObjectives[] = "baron";
+			// if($this->BaronUpAt <= $this->Time)
+				// $t_AvailableObjectives[] = "baron";
 						
-			// Teamfight is not available?
-			if(count($t_AvailableObjectives) == 0)
+			$t_Event = mt_rand(0, count($t_AvailableObjectives) - 1);
+			
+			// Determine winner
+			$t_TeamfightWinner = 0;
+			for($i = 0; $i < 2; $i++)
 			{
-				$t_Lanes = array("top", "mid", "bot");
-								
-				// Just take a tower then geez
-				// Or take wraiths, idk im not silver
-				if($this->GetTeamEfficiency(0) == 0)
+				if($this->GetTeamEfficiency($i) <= 0.01)
 				{
-					if(mt_rand(0,1)==1)
-					{
-						$this->AddEvent($g_Events["useless_objective"], 0);
-						$this->Time += 45;
-					}
-					else $this->AttackTower(1, $t_Lanes[mt_rand(0, count($t_Lanes) - 1)], mt_rand(30, 60));
-				}
-				
-				else if($this->GetTeamEfficiency(1) == 0)
-				{
-					if(mt_rand(0,1)==1)
-					{
-						$this->AddEvent($g_Events["useless_objective"], 1);
-						$this->Time += 45;
-					}
-					else $this->AttackTower(0, $t_Lanes[mt_rand(0, count($t_Lanes) - 1)], mt_rand(30, 60));
+					$t_TeamFightWinner = ($i+1)%2;
+					$g_ShouldSurrender($this->GetPlayer($i, 'top'));
+					break;
 				}
 			}
-			else $this->AddEvent($g_Events[$t_AvailableObjectives[mt_rand(0, count($t_AvailableObjectives) - 1)]]);
-			// This event should take care of advancing time
 			
-			return;
+			if($t_Event != "tower")
+			{
+				$this->AddEvent($g_Events[$t_AvailableObjectives[$t_Event]]);
+				// This event should take care of advancing time
+			}
+			else
+			{
+				$t_Lanes = array("top", "mid", "bot");
+				
+				// Just take a tower then geez
+				// Or take wraiths, idk im not silver
+				if(mt_rand(0,1)==1)
+				{
+					$this->AddEvent($g_Events["useless_objective"], $t_TeamfightWinner);
+					$this->Time += 45;
+				}
+				else $this->AttackTower($t_TeamfightWinner, $t_Lanes[mt_rand(0, count($t_Lanes) - 1)], mt_rand(30, 60));
+			}
 		}
 	}
 	
@@ -345,6 +355,7 @@ class Game
 				(
 					"active"=>$t_Player->IsActive() ? 1 : 0,
 					"efficiency"=>$t_Player->GetEfficiency(),
+					"death_timer"=>max(0, $t_Player->DeadUntil - $this->Time),
 				);
 				
 			}
