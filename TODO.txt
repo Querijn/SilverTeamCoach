@@ -22,9 +22,9 @@
 		[x] Last played
 		[ ] Correct lane
 	[ ] Map
-	[ ] Generate ingame occurences
+	[x] Generate ingame occurences
 		[x] Laning
-		[ ] Teamfights
+		[x] Teamfights
 		[x] Objectives
 	[ ] Post Game info
 	[ ] Gaining cash

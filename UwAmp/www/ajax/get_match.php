@@ -70,7 +70,7 @@ try
 	);
 	
 	$t_Game = new Game($t_GameInfo);
-	for($i = 0; $i < 9999; $i++)
+	/*for($i = 0; $i < 9999; $i++)
 	{
 		if(isset($t_Game->Timeline[$i]))
 		{
@@ -89,8 +89,8 @@ try
 				}
 			}
 		}
-	} 
-	//echo json_encode($t_Game);
+	} */
+	echo json_encode($t_Game);
 	
 }
 catch(Exception $e)
