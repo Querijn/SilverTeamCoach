@@ -70,7 +70,7 @@ public class ShopManager : MonoBehaviour
         if (Champion.All.Length != 0 && Done == false)
         {
             FilteredArray = Champion.All;
-            SetupShop();
+            OnFilterClicked();
             Done = true;
         }
 

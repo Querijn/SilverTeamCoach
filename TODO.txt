@@ -1,5 +1,5 @@
 [ ] Matches
-	[ ] Find match
+	[x] Find match
 	[ ] Matchmaking
 
 [x] Teams
@@ -13,8 +13,6 @@
 	[x] Champion sorting
 	[x] Champion filtering
 	[x] Data mining
-	[ ] Change champion settings
-		[ ] Aggressive/Passive
 	
 [ ] Game
 	[ ] Calculate winrate
@@ -48,7 +46,7 @@
 	
 [ ] Sounds
 [ ] Music
-[ ] Background
-	[ ] Static
+[x] Background
+	[x] Static
 	[ ] Dynamic
 	
