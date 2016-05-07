@@ -370,11 +370,13 @@ class Game
 				$t_Player = $this->GetPlayer($i, $t_Role);
 				$t_Event["state"][$i][$t_Role] = array
 				(
-					"active"=>$t_Player->IsActive() ? 1 : 0,
+					"active"=> $t_Player->IsActive() ? 1 : 0,
 					"efficiency"=>$t_Player->GetEfficiency(),
 					"death_timer"=>max(0, $t_Player->DeadUntil - $this->Time),
 				);
-				
+				$t_Event["state"][$i][$t_Role]["tilt"] = $t_Player->IsTilting() ? 1 : 0;
+				$t_Event["state"][$i][$t_Role]["afk"] = $t_Player->IsAFK() ? 1 : 0;
+				$t_Event["state"][$i][$t_Role]["troll"] = $t_Player->IsTrolling() ? 1 : 0;
 			}
 		}
 		

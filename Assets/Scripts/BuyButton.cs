@@ -20,7 +20,7 @@ public class BuyButton : MonoBehaviour
 
         BuyWindow.Instance.transform.Find("Content/Price").GetComponent<Text>().text = Cash.Format(ClickedChampion.Price);
 
-        foreach(Lane t_Lane in Enum.GetValues(typeof(Lane)))
+        foreach(Role t_Lane in Enum.GetValues(typeof(Role)))
         {
             Transform t_ProgressBar = BuyWindow.Instance.transform.Find("Content/" + t_Lane.ToString());
 

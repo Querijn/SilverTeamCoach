@@ -5,9 +5,14 @@ using SimpleJSON;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum Lane
+public enum Role
 {
     Top, Mid, Support, Jungle, Marksman
+}
+
+public enum Lane
+{
+    Top, Mid, Bot
 }
 
 public class Champion
@@ -70,7 +75,7 @@ public class Champion
         }
     }
 
-    public double GetViabilityByLane(Lane a_Lane)
+    public double GetViabilityByLane(Role a_Lane)
     {
         return Viability.GetViabilityByLane(a_Lane);
     }
@@ -116,7 +121,7 @@ public class Champion
         }
     }
 
-    public double GetLaneEfficiency(Lane a_Lane)
+    public double GetLaneEfficiency(Role a_Lane)
     {
         double t_Efficiency = Efficiency;
         double t_Viability = GetViabilityByLane(a_Lane) - 0.5;
@@ -129,7 +134,7 @@ public class Champion
         return (double)Mathf.Clamp01((float)t_Efficiency);
     }
 
-    public double GetRealLaneEfficiency(Lane a_Lane)
+    public double GetRealLaneEfficiency(Role a_Lane)
     {
         double t_Efficiency = Efficiency;
         double t_Viability = GetViabilityByLane(a_Lane) - 0.5;
@@ -142,12 +147,12 @@ public class Champion
         return t_Efficiency;
     }
 
-    public double GetBestLaneEfficiency(out Lane a_Lane)
+    public double GetBestLaneEfficiency(out Role a_Lane)
     {
         double t_HighestEfficiency = 0.0;
-        a_Lane = Lane.Top; // Just to get rid of the error
+        a_Lane = Role.Top; // Just to get rid of the error
 
-        foreach (Lane t_Lane in Enum.GetValues(typeof(Lane)))
+        foreach (Role t_Lane in Enum.GetValues(typeof(Role)))
         {
             double t_Efficiency = GetLaneEfficiency(t_Lane);
             if (t_HighestEfficiency < t_Efficiency)
@@ -160,12 +165,12 @@ public class Champion
         return t_HighestEfficiency;
     }
 
-    public double GetWorstLaneEfficiency(out Lane a_Lane)
+    public double GetWorstLaneEfficiency(out Role a_Lane)
     {
         double t_LowestEfficiency = 9e9;
-        a_Lane = Lane.Top; // Just to get rid of the error
+        a_Lane = Role.Top; // Just to get rid of the error
 
-        foreach (Lane t_Lane in Enum.GetValues(typeof(Lane)))
+        foreach (Role t_Lane in Enum.GetValues(typeof(Role)))
         {
             double t_Efficiency = GetLaneEfficiency(t_Lane);
             if (t_LowestEfficiency > t_Efficiency)
@@ -178,9 +183,9 @@ public class Champion
         return t_LowestEfficiency;
     }
 
-    public double GetRelativeLaneEfficiency(Lane a_Lane)
+    public double GetRelativeLaneEfficiency(Role a_Lane)
     {
-        Lane t_Lane; // To get rid of the out
+        Role t_Lane; // To get rid of the out
         double t_Worst = GetWorstLaneEfficiency(out t_Lane);
         double t_Best = GetBestLaneEfficiency(out t_Lane);
         double t_Current = GetLaneEfficiency(a_Lane);
@@ -201,19 +206,19 @@ public class Champion
             Support = a_Support;
         }
 
-        public double GetViabilityByLane(Lane a_Lane)
+        public double GetViabilityByLane(Role a_Lane)
         {
             switch (a_Lane)
             {
-                case Lane.Top:
+                case Role.Top:
                     return Top;
-                case Lane.Mid:
+                case Role.Mid:
                     return Mid;
-                case Lane.Marksman:
+                case Role.Marksman:
                     return Marksman;
-                case Lane.Support:
+                case Role.Support:
                     return Support;
-                case Lane.Jungle:
+                case Role.Jungle:
                     return Jungle;
                 default:
                     return 0.0f;

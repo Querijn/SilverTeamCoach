@@ -7,7 +7,7 @@ using System;
 public class CreateChampionDropdown : MonoBehaviour 
 {
     public static List<CreateChampionDropdown> m_UIElements = new List<CreateChampionDropdown>();
-    public Lane m_Type;
+    public Role m_Type;
 
     Dropdown m_Dropdown;
     Toggle m_ShowAllChampionsToggle;
@@ -106,15 +106,15 @@ public class CreateChampionDropdown : MonoBehaviour
     {
         switch (m_Type)
         {
-            case Lane.Top:
+            case Role.Top:
                 return a_Viability.Top >= 0.5;
-            case Lane.Mid:
+            case Role.Mid:
                 return a_Viability.Mid >= 0.5;
-            case Lane.Jungle:
+            case Role.Jungle:
                 return a_Viability.Jungle >= 0.5;
-            case Lane.Marksman:
+            case Role.Marksman:
                 return a_Viability.Marksman >= 0.5;
-            case Lane.Support:
+            case Role.Support:
                 return a_Viability.Support >= 0.5;
             default:
                 return false;

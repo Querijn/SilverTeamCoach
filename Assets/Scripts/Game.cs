@@ -7,12 +7,35 @@ using System;
 
 public class Game : MonoBehaviour
 {
+    void Start ()
+	{
+        gameObject.AddComponent<Timeline>();
+	}
+
+    void Update()
+    {
+        if (m_ReadyToPlay == false)
+        {
+            CheckSetup();
+            return;
+        }
+    }
+
+    public class Team
+    {
+        public GameChampion Top = null;
+        public GameChampion Mid = null;
+        public GameChampion Support = null;
+        public GameChampion Marksman = null;
+        public GameChampion Jungle = null;
+    }
+    static Team[] Teams = { new Team(), new Team() };
+
     Settings.PassThroughInfo m_GameInfo = null;
     static bool m_Setup = false;
     float m_WaitAtLoading = 10.0f;
 
     bool m_ReadyToPlay = false;
-
     public Sprite[] m_MasteryLevels = null;
 
     public static void Reset()
@@ -20,13 +43,8 @@ public class Game : MonoBehaviour
         m_Setup = false;
     }
 
-    void Start ()
-	{
-	
-	}
-	
-	void Update () 
-	{
+    void CheckSetup()
+    {
         if (Settings.PassThrough != null && m_Setup == false)
         {
             m_GameInfo = Settings.PassThrough;
@@ -106,10 +124,30 @@ public class Game : MonoBehaviour
                         }
                     i++;
 
+                    switch (t_RoleString)
+                    {
+                        case "support":
+                            Teams[(t_Team["is_player"].AsBool) ? 0 : 1].Support = t_Instance.GetComponent<GameChampion>();
+                            break;
+                        case "marksman":
+                            Teams[(t_Team["is_player"].AsBool) ? 0 : 1].Marksman = t_Instance.GetComponent<GameChampion>();
+                            break;
+                        case "mid":
+                            Teams[(t_Team["is_player"].AsBool) ? 0 : 1].Mid = t_Instance.GetComponent<GameChampion>();
+                            break;
+                        case "top":
+                            Teams[(t_Team["is_player"].AsBool) ? 0 : 1].Top = t_Instance.GetComponent<GameChampion>();
+                            break;
+                        case "jungle":
+                            Teams[(t_Team["is_player"].AsBool) ? 0 : 1].Jungle = t_Instance.GetComponent<GameChampion>();
+                            break;
+                    }
+
+
                     JSONNode t_Role = t_Team["champions"][t_RoleString];
                     t_Instance.name = t_Role["name"].Value;
 
-                    t_Instance.GetComponent<Image>().sprite = Champion.Get(t_Role["id"].AsInt).Image;
+                    t_Instance.GetComponent<Image>().sprite = GetFlipped(Champion.Get(t_Role["id"].AsInt).Image);
 
                 }
             }
@@ -128,46 +166,55 @@ public class Game : MonoBehaviour
         if(m_Setup == true && m_ReadyToPlay == false)
         {
             m_WaitAtLoading -= Time.deltaTime;
-
             if (GameObject.FindGameObjectWithTag("GameLoadingScreen") == null)
-                m_ReadyToPlay = true;
-            else if (m_WaitAtLoading < 0.0f)
+                m_ReadyToPlay = Timeline.Ready;
+
+            else if (m_WaitAtLoading <= 0.0f)
             {
-                Image t_Background = GameObject.FindGameObjectWithTag("GameLoadingScreen").GetComponent<Image>();
-                m_ReadyToPlay = Fade(t_Background);
-
-                foreach (Image t_Image in t_Background.GetComponentsInChildren<Image>())
+                if (m_WaitAtLoading < -1.0f)
                 {
-                    Fade(t_Image);
+                    m_ReadyToPlay = Timeline.Ready;
+                    GameObject.FindGameObjectWithTag("GameLoadingScreen").SetActive(false);
                 }
-
-                foreach (Text t_Text in t_Background.GetComponentsInChildren<Text>())
+                else
                 {
-                    Fade(t_Text);
+                    Image t_Background = GameObject.FindGameObjectWithTag("GameLoadingScreen").GetComponent<Image>();
+
+                    foreach (Image t_Image in t_Background.GetComponentsInChildren<Image>())
+                    {
+                        Fade(t_Image);
+                    }
+
+                    foreach (Text t_Text in t_Background.GetComponentsInChildren<Text>())
+                    {
+                        Fade(t_Text);
+                    }
                 }
             }
         }
     }
 
-    bool Fade(Image a_Image)
+    private Sprite GetFlipped(Sprite a_Image)
     {
+        Rect rect = a_Image.rect;
+        rect.x += rect.width;
+        rect.width = -rect.width;
+        return Sprite.Create(a_Image.texture, rect, a_Image.pivot);
+    }
 
+    void Fade(Image a_Image)
+    {
         Color t_Colour = a_Image.color;
 
         t_Colour.a -= 2.0f * Time.deltaTime;
         a_Image.color = t_Colour;
-
-        return (t_Colour.a == 0.0);
     }
 
-    bool Fade(Text a_Text)
+    void Fade(Text a_Text)
     {
-
         Color t_Colour = a_Text.color;
 
         t_Colour.a -= 2.0f*Time.deltaTime;
         a_Text.color = t_Colour;
-
-        return (t_Colour.a == 0.0);
     }
 }

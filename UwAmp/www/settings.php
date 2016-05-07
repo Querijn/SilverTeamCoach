@@ -33,4 +33,5 @@ $settings["meta_coefficient"] = 0.1;
 $settings["max_week_modifier"] = 3;
 $settings["efficiency_loss_per_week"] = 0.1;
 
+$settings["game_speed"] = 5;
 ?>

@@ -75,6 +75,10 @@ public class Settings : MonoBehaviour
     public int m_WallpaperCount = 8;
     public static int WallpaperCount { get { return Singleton.m_WallpaperCount; } }
 
+    // Wallpaper count
+    public int m_TimelineFetchSize = 30;
+    public static int TimelineFetchSize { get { return Singleton.m_TimelineFetchSize; } }
+
     // Where do I find the champion images?
     public string m_ChampionImageDirectory = "http://ddragon.leagueoflegends.com/cdn/6.8.1/img/sprite/";
     public static string ChampionImageDirectory { get { return Singleton.m_ChampionImageDirectory; } }
@@ -94,6 +98,11 @@ public class Settings : MonoBehaviour
         {
             return Host + WallpaperFolder + Random.Range(0, WallpaperCount).ToString() + ".jpg";
         }
+    }
+
+    public static string TimelineURL(int a_Time)
+    {
+        return Settings.FormAjaxURL("get_timeline_test.php?start=" + a_Time.ToString() + "&sec=" + TimelineFetchSize.ToString());
     }
 
     public static PassThroughInfo PassThrough;

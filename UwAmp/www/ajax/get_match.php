@@ -27,6 +27,7 @@ function AsArray ($a_Object)
 
 try
 {
+	unset($_SESSION["game"]);
 	$t_Game = null;
 	if(isset($_SESSION["game"]) == false)
 	{
