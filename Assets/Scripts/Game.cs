@@ -4,14 +4,21 @@ using UnityEngine.SceneManagement;
 using SimpleJSON;
 using UnityEngine.UI;
 using System;
+using System.Collections.Generic;
 
 public class Game : MonoBehaviour
 {
+    public float m_SkipSpeed = 3.0f;
+    float m_Timer = 0.0f;
+    Text m_TimerText;
+
     void Start ()
 	{
         gameObject.AddComponent<Timeline>();
+        m_TimerText = GameObject.FindGameObjectWithTag("GameTimer").GetComponent<Text>();
 	}
 
+    static int m_HandledTime = -1;
     void Update()
     {
         if (m_ReadyToPlay == false)
@@ -19,6 +26,65 @@ public class Game : MonoBehaviour
             CheckSetup();
             return;
         }
+        
+        HandleTimer();
+        
+        int t_Timer = Mathf.FloorToInt(m_Timer);
+        // Did we do this time already
+        if(m_HandledTime != t_Timer)
+        {
+            var t_Events = Timeline.GetEvents(t_Timer);
+            if (t_Events == null)
+                return;
+
+            foreach (TimelineEvent t_Event in t_Events)
+            {
+                Debug.Log("An event called " + t_Event.Type.ToString() + " just occurred.");
+            }
+            m_HandledTime = t_Timer;
+        }
+    }
+
+    static bool m_Skipping = false;
+    public static bool Skipping { get { return m_Skipping; } }
+    static List<int> m_StartSkipping = new List<int>();
+    static List<int> m_StopSkipping = new List<int>();
+
+    public static void AddSkip(int a_StartTime, int a_StopTime)
+    {
+        Debug.Log("Added skipping between " + a_StartTime.ToString() + " and " + a_StopTime.ToString());
+        m_StartSkipping.Add(a_StartTime);
+        m_StopSkipping.Add(a_StopTime);
+    }
+
+    void HandleTimer()
+    {
+        m_Skipping = false;
+        int t_Time = Mathf.FloorToInt(m_Timer / 60.0f);
+        for (int i = 0; i < m_StopSkipping.Count; i++)
+        { 
+            if(t_Time < m_StopSkipping[i])
+            {
+                if(t_Time > m_StartSkipping[i])
+                {
+                    m_Skipping = true;
+                    Debug.Log("Skipping");
+                    break;
+                }
+            }
+            else
+            {
+                m_StopSkipping.RemoveAt(i);
+                m_StartSkipping.RemoveAt(i);
+            }
+        }
+
+        m_Timer += (float)Settings.GameSpeed * Time.deltaTime;
+        int t_Minutes = Mathf.FloorToInt(m_Timer / 60.0f);
+        string t_Seconds = ((int)m_Timer % 60).ToString();
+        if (t_Seconds.Length == 1)
+            t_Seconds = "0" + t_Seconds;
+        m_TimerText.text = t_Minutes.ToString() + ":" + t_Seconds;
     }
 
     public class Team

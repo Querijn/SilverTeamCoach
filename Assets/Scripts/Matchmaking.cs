@@ -38,7 +38,7 @@ public class Matchmaking : MonoBehaviour
         {
             m_Test = true;
             m_TestEnv = this;
-            Debug.Log("Test detected");
+            // Debug.Log("Test detected");
             Settings t_Settings = gameObject.AddComponent<Settings>();
             t_Settings.m_LoadEverything = false;
             gameObject.AddComponent<TeamManager>();

@@ -56,28 +56,32 @@ public class Settings : MonoBehaviour
     [Header("Network")]
     // Where is our network?
     // This is the base root where the ajax, api and sql folder is.
-    public string m_Host = "http://localhost/";
-    public static string Host { get { return Singleton.m_Host; } }
+    private static string m_Host = "http://localhost/";
+    public static string Host { get { return m_Host; } }
 
     // API folder
-    public string m_APIFolder = "api/";
-    public static string APIFolder { get { return Singleton.m_APIFolder; } }
+    private static string m_APIFolder = "api/";
+    public static string APIFolder { get { return m_APIFolder; } }
 
     // AJAX folder
-    public string m_AjaxFolder = "ajax/";
-    public static string AjaxFolder { get { return Singleton.m_AjaxFolder; } }
+    private static string m_AjaxFolder = "ajax/";
+    public static string AjaxFolder { get { return m_AjaxFolder; } }
 
     // wallpaper folder
-    public string m_WallpaperFolder = "wallpapers/";
-    public static string WallpaperFolder { get { return Singleton.m_WallpaperFolder; } }
+    private static string m_WallpaperFolder = "wallpapers/";
+    public static string WallpaperFolder { get { return m_WallpaperFolder; } }
 
     // Wallpaper count
     public int m_WallpaperCount = 8;
     public static int WallpaperCount { get { return Singleton.m_WallpaperCount; } }
 
-    // Wallpaper count
-    public int m_TimelineFetchSize = 30;
-    public static int TimelineFetchSize { get { return Singleton.m_TimelineFetchSize; } }
+    // Timeline fetching
+    private static int m_TimelineFetchSize = 30;
+    public static int TimelineFetchSize { get { return m_TimelineFetchSize; } }
+
+    // How many match seconds pass in a real second?
+    private static int m_GameSpeed = 10;
+    public static int GameSpeed { get { return m_GameSpeed; } }
 
     // Where do I find the champion images?
     public string m_ChampionImageDirectory = "http://ddragon.leagueoflegends.com/cdn/6.8.1/img/sprite/";
