@@ -6,9 +6,13 @@ using System.Collections.Generic;
 public class Settings : MonoBehaviour
 {
     [Header("Actual Settings")]
-    // How many points do you need for full efficiency
-    public float m_Volume = 1.0f;
-    public static float Volume { get { return Singleton.m_Volume; } }
+    // music volume
+    public float music_Volume = 1.0f;
+    public static float MusicVolume { get { return Singleton.music_Volume; } set { Singleton.music_Volume = value; } }
+
+    // sound effects volume
+    public float SE_Volume = 1.0f;
+    public static float SEVolume { get { return Singleton.SE_Volume; } set { Singleton.SE_Volume = value; } }
 
     [Header("Balance")]
     // How many points do you need for full efficiency

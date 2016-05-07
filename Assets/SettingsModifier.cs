@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class SettingsModifier : MonoBehaviour {
 
@@ -9,14 +10,14 @@ public class SettingsModifier : MonoBehaviour {
 	}
 
 
-    void OnSlideMusicVolume()
+    public void OnSlideMusicVolume(Single Volume)
     {
-
+        Settings.MusicVolume = Volume;
     }
 
-    void OnSlideSEVolume ()
+    public void OnSlideSEVolume (Single Volume)
     {
-
+        Settings.SEVolume = Volume;
     }
 	
 	// Update is called once per frame
