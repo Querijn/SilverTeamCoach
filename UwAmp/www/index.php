@@ -17,6 +17,9 @@ if(isset($_GET["reset"]) || isset($_POST["reset"]))
 	if(isset($_SESSION["summoner"])) unset($_SESSION["summoner"]);
 	if(isset($_SESSION["verification"])) unset($_SESSION["verification"]);
 	
+	if(isset($_SESSION["game_info"])) unset($_SESSION["game_info"]);
+	if(isset($_SESSION["game"])) unset($_SESSION["game"]);
+	
 	header("Location: http://localhost");
 }
 

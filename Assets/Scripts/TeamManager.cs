@@ -31,8 +31,8 @@ public class TeamManager : MonoBehaviour
                 m_Array = t_JSON.AsArray;
 
                 Team.Setup(m_Array);
-                
-                //t_JSON
+
+                Debug.Log("Teams loaded.");
                 m_Setup = true;
             }, true);
             m_InProgress = true;

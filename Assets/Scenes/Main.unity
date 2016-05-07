@@ -602,6 +602,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f773c7885c14ea4186cc9b1615bc955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_DesiredColour: {r: 1, g: 1, b: 1, a: 0.3137255}
 --- !u!1 &809925688
 GameObject:
   m_ObjectHideFlags: 0
@@ -1364,7 +1365,10 @@ MonoBehaviour:
   m_Host: http://localhost/
   m_APIFolder: api/
   m_AjaxFolder: ajax/
+  m_WallpaperFolder: wallpapers/
+  m_WallpaperCount: 8
   m_ChampionImageDirectory: http://ddragon.leagueoflegends.com/cdn/6.8.1/img/sprite/
+  m_LoadEverything: 1
 --- !u!114 &1472075808
 MonoBehaviour:
   m_ObjectHideFlags: 0

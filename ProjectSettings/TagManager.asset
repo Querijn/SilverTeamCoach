@@ -17,6 +17,9 @@ TagManager:
   - UnreadMessages
   - Message
   - MessageContent
+  - GameTeamPlayer
+  - GameTeamOpponent
+  - GameLoadingScreen
   layers:
   - Default
   - TransparentFX

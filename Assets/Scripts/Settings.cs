@@ -3,8 +3,13 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 
-public class Settings : MonoBehaviour 
+public class Settings : MonoBehaviour
 {
+    [Header("Actual Settings")]
+    // How many points do you need for full efficiency
+    public float m_Volume = 1.0f;
+    public static float Volume { get { return Singleton.m_Volume; } }
+
     [Header("Balance")]
     // How many points do you need for full efficiency
     public float m_PointsForFullEfficiency = 21600;
@@ -58,13 +63,33 @@ public class Settings : MonoBehaviour
     public string m_AjaxFolder = "ajax/";
     public static string AjaxFolder { get { return Singleton.m_AjaxFolder; } }
 
+    // wallpaper folder
+    public string m_WallpaperFolder = "wallpapers/";
+    public static string WallpaperFolder { get { return Singleton.m_WallpaperFolder; } }
+
+    // Wallpaper count
+    public int m_WallpaperCount = 8;
+    public static int WallpaperCount { get { return Singleton.m_WallpaperCount; } }
+
     // Where do I find the champion images?
     public string m_ChampionImageDirectory = "http://ddragon.leagueoflegends.com/cdn/6.8.1/img/sprite/";
     public static string ChampionImageDirectory { get { return Singleton.m_ChampionImageDirectory; } }
 
+    // Where do I find the champion images?
+    public string m_ChampionLoadingImageDirectory = "http://ddragon.leagueoflegends.com/cdn/img/champion/loading/";
+    public static string ChampionLoadingImageDirectory { get { return Singleton.m_ChampionLoadingImageDirectory; } }
+
     public class PassThroughInfo
     {
-        WWW Request = null;
+        public WWW Request = null;
+    }
+
+    public static string WallpaperURL
+    {
+        get
+        {
+            return Host + WallpaperFolder + Random.Range(0, WallpaperCount).ToString() + ".jpg";
+        }
     }
 
     public static PassThroughInfo PassThrough;
@@ -73,7 +98,7 @@ public class Settings : MonoBehaviour
     {
         return Host + AjaxFolder + a_API;
     }
-    
+
     public static Settings Singleton
     {
         get;
@@ -100,6 +125,7 @@ public class Settings : MonoBehaviour
 
             t_InBuild.Add(t_Index);
         }        
+
         for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
         {
             if(t_InBuild.Contains(i) == false && t_Exclude.Find(s=>s.buildIndex==i) == null)
@@ -110,16 +136,31 @@ public class Settings : MonoBehaviour
         m_FirstTime = false;
     }
 
+    public bool m_LoadEverything = true;
+
     void Start ()
 	{
 	    if(Singleton == null)
             Singleton = this;
-        
+
+        if (m_LoadEverything == false)
+        {
+            Info.Setup();
+            return;
+        }
+
         //if(Application.isEditor == false)
         {
             OpenRequiredScenes();
         }
 
         Info.Setup();
+    }
+
+    void OnDestroy()
+    {
+        // Allow Game settings to take over
+        if (Singleton == this)
+            Singleton = null;
     }
 }

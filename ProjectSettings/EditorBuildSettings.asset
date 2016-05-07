@@ -19,3 +19,5 @@ EditorBuildSettings:
     path: Assets/Scenes/ShopMenu.unity
   - enabled: 1
     path: Assets/Scenes/Windows.unity
+  - enabled: 1
+    path: Assets/Scenes/Game.unity

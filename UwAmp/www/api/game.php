@@ -42,7 +42,7 @@ function GetRanked($a_API, DatabasePlayer $a_Player)
 	
 	$t_Player = $t_Players[mt_rand(0, count($t_Players)-1)];
 	
-	var_dump($a_API->GetSummoner($t_Player->User));
+	// var_dump($a_API->GetSummoner($t_Player->User));
 	
 	return SetupGamePlayerArray($t_Player->AlternativeName, $t_Player);
 }
@@ -171,6 +171,7 @@ function GetTeamChampions(riotapi $a_API, DatabaseTeam $a_Team, DatabasePlayer $
 		$t_Champion["key"] = $t_RiotChampion["key"];
 		$t_Champion["name"] = ($t_DBChampion->SkinId == 0) ? $t_RiotChampion["name"] : $t_RiotChampion["skins"][$t_DBChampion->SkinId]["name"];
 		$t_Champion["role"] = "Unknown";
+		$t_Champion["skin"] = $t_DBChampion->SkinId;
 		switch($t_DBChampion->ChampionId)
 		{
 		case $a_Team->Top:

@@ -3,12 +3,10 @@ using System.Collections;
 
 public class DebuffIcon : MonoBehaviour 
 {
-    Vector3 m_Scale = Vector3.one;
     float m_Time = 0.0f;
 
 	void Start ()
 	{
-        m_Scale = transform.localScale;   
 	}
 	
 	void Update () 
