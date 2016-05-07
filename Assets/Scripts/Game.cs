@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 using SimpleJSON;
 using UnityEngine.UI;
+using System;
 
 public class Game : MonoBehaviour
 {
@@ -42,6 +43,7 @@ public class Game : MonoBehaviour
 
                 string[] t_Roles = { "support", "marksman", "mid", "top", "jungle" };
 
+                // Setup games below
                 int i = 0;
                 if (GameObject.FindGameObjectWithTag("GameLoadingScreen") != null)
                 {
@@ -82,7 +84,34 @@ public class Game : MonoBehaviour
                 }
                 else m_WaitAtLoading = 3.0f;
 
+                i = 0;
+                GameObject[] t_TeamObjects = GameObject.FindGameObjectsWithTag("GameTeamUI");
+                GameTeamUI t_TeamUI = Array.Find(t_TeamObjects, g => g.GetComponent<GameTeamUI>().Team == (t_Team["is_player"].AsBool ? 0 : 1)).GetComponent<GameTeamUI>();
+                Transform t_ChampContainer = t_TeamUI.transform.Find("Champs");
+                t_TeamUI.transform.Find("Name").GetComponent<Text>().text = t_Team["team"]["Name"].Value;
+                foreach (string t_RoleString in t_Roles)
+                {
+                    GameObject t_Prefab = Resources.Load("Prefabs/GameTeamUIChampion") as GameObject;
+                    GameObject t_Instance = Instantiate(t_Prefab) as GameObject;
+                    
+                    t_Instance.transform.SetParent(t_ChampContainer.transform);
+                    t_Instance.transform.localScale = Vector3.one;
+                    Vector3 t_BasePosition = new Vector3(-450, 350);
+                    t_Instance.transform.localPosition = t_BasePosition + new Vector3(((float)i) * t_Instance.GetComponent<RectTransform>().rect.width, ((float)-i) * t_Instance.GetComponent<RectTransform>().rect.height * 1.1f);
+                    if (t_Team["is_player"].AsBool == false)
+                        foreach (Text t_Text in t_Instance.GetComponentsInChildren<Text>())
+                        {
+                            t_Text.transform.localScale = new Vector3(-1, 1);
+                            t_Text.transform.localPosition -= new Vector3(t_Text.GetComponent<RectTransform>().rect.width*0.5f, 0);
+                        }
+                    i++;
 
+                    JSONNode t_Role = t_Team["champions"][t_RoleString];
+                    t_Instance.name = t_Role["name"].Value;
+
+                    t_Instance.GetComponent<Image>().sprite = Champion.Get(t_Role["id"].AsInt).Image;
+
+                }
             }
 
             if (Matchmaking.IsTesting() == false)
@@ -100,7 +129,9 @@ public class Game : MonoBehaviour
         {
             m_WaitAtLoading -= Time.deltaTime;
 
-            if(m_WaitAtLoading < 0.0f)
+            if (GameObject.FindGameObjectWithTag("GameLoadingScreen") == null)
+                m_ReadyToPlay = true;
+            else if (m_WaitAtLoading < 0.0f)
             {
                 Image t_Background = GameObject.FindGameObjectWithTag("GameLoadingScreen").GetComponent<Image>();
                 m_ReadyToPlay = Fade(t_Background);
@@ -115,10 +146,6 @@ public class Game : MonoBehaviour
                     Fade(t_Text);
                 }
             }
-        }
-        if(m_ReadyToPlay)
-        {
-            Debug.Log("Ready2play");
         }
     }
 

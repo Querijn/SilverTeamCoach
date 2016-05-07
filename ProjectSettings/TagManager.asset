@@ -20,6 +20,7 @@ TagManager:
   - GameTeamPlayer
   - GameTeamOpponent
   - GameLoadingScreen
+  - GameTeamUI
   layers:
   - Default
   - TransparentFX

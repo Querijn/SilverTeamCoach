@@ -3,10 +3,8 @@ using System.Collections;
 
 public class GameTeamUI : MonoBehaviour 
 {
-	void Start ()
-	{
-	
-	}
+    public int Team = 0;
+
 	
 	void Update () 
 	{
