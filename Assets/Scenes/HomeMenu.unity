@@ -462,7 +462,7 @@ MonoBehaviour:
     efficiency percentage, the better they perform in your team.\r\n\r\nShop\r\nHere
     you can buy champions. Because we're nice guys, we have given you Annie, but the
     rest of the champions you'll have to buy yourself. \r\n\r\nSettings\r\nSo you
-    don't like how things look? Then you can change the settings here. \r\n\r\nGet
+    don't like how things are? Then you can change the settings here. \r\n\r\nGet
     it? Then it's time to start winning!"
 --- !u!222 &493728246
 CanvasRenderer:
@@ -1073,7 +1073,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 665894516}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.99999976
+  m_Size: 0
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
