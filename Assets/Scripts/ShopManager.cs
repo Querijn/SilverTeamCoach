@@ -6,6 +6,7 @@ public class ShopManager : MonoBehaviour
 {
     static bool Done = false;
     bool SpawnImages = false;
+    public Sprite[] MasteryIcons;
 
     public static void Reset()
     {
@@ -41,6 +42,18 @@ public class ShopManager : MonoBehaviour
             {
                 J = J - 1;
                 I = 0;
+            }
+
+            Transform t_Masteryimage = Instance.transform.Find("Mastery");
+
+            if (CurrentChampion.Mastery.Level != 0)
+            {
+                t_Masteryimage.GetComponent<Image>().sprite = MasteryIcons[CurrentChampion.Mastery.Level - 1];
+            }
+
+            else if (CurrentChampion.Mastery.Level == 0)
+            {
+                t_Masteryimage.GetComponent<Image>().color = Color.clear;
             }
 
             if (CurrentChampion.Price > Info.Player.Cash)
@@ -114,7 +127,7 @@ public class ShopManager : MonoBehaviour
     }
 
     Champion[] FilteredArray = Champion.All;
-    public enum State { ascending, descending, AZ, ZA, none };
+    public enum State { priceascending, pricedescending, AZ, ZA, none, masterydescending, masteryascending };
     State CurrentState = State.none;
 
     public void OnClickSortPrice()
@@ -127,25 +140,25 @@ public class ShopManager : MonoBehaviour
             text.text = "Sort by Name";
         }
 
-        if (CurrentState == State.ascending)
+        if (CurrentState == State.priceascending)
         {
-            Text text = GetComponentInChildren<Text>();
-            text.text = "Sort Price (DESC)";
-            CurrentState = State.descending;
+            Text text = transform.Find("SortByPrice").GetComponentInChildren<Text>();
+            text.text = "Sort by Price (DESC)";
+            CurrentState = State.pricedescending;
         }
 
-        else if (CurrentState == State.descending)
+        else if (CurrentState == State.pricedescending)
         {
-            Text text = GetComponentInChildren<Text>();
-            text.text = "Sort Price";
+            Text text = transform.Find("SortByPrice").GetComponentInChildren<Text>();
+            text.text = "Sort by Price";
             CurrentState = State.none;
         }
 
         else if (CurrentState == State.none)
         {
-            Text text = GetComponentInChildren<Text>();
-            text.text = "Sort Price (ASC)";
-            CurrentState = State.ascending;
+            Text text = transform.Find("SortByPrice").GetComponentInChildren<Text>();
+            text.text = "Sort by Price (ASC)";
+            CurrentState = State.priceascending;
         }
         OnFilterClicked();
     }
@@ -153,11 +166,11 @@ public class ShopManager : MonoBehaviour
     
     public void OnClickSortName()
     {
-        if (CurrentState == State.ascending || CurrentState == State.descending)
+        if (CurrentState == State.priceascending || CurrentState == State.pricedescending)
         {
             CurrentState = State.none;
             Text text = transform.Find("SortByPrice").GetComponentInChildren<Text>();
-            text.text = "Sort Price";
+            text.text = "Sort by Price";
         }
 
         if (CurrentState == State.none || CurrentState == State.AZ)
@@ -179,6 +192,46 @@ public class ShopManager : MonoBehaviour
             Text textName = transform.Find("Sort by Name").GetComponentInChildren<Text>();
             textName.text = "Sort by Name";
             CurrentState = State.ZA;
+        }
+
+        OnFilterClicked();
+    }
+
+    public void OnClickSortMastery()
+    {
+        if (CurrentState == State.AZ || CurrentState == State.ZA)
+        {
+            CurrentState = State.none;
+            Text text = transform.Find("Sort by Name").GetComponentInChildren<Text>();
+            text.text = "Sort by Name";
+        }
+
+        if (CurrentState == State.priceascending || CurrentState == State.pricedescending)
+        {
+            CurrentState = State.none;
+            Text text = transform.Find("SortByPrice").GetComponentInChildren<Text>();
+            text.text = "Sort by Price";
+        }
+
+        if (CurrentState == State.none)
+        {
+            Text textName = transform.Find("Sort by Mastery").GetComponentInChildren<Text>();
+            textName.text = "Sort by Mastery (DSC)";
+            CurrentState = State.masterydescending;
+        }
+
+        else if (CurrentState == State.masterydescending)
+        {
+            Text textName = transform.Find("Sort by Mastery").GetComponentInChildren<Text>();
+            textName.text = "Sort by Mastery (ASC)";
+            CurrentState = State.masteryascending;
+        }
+
+        else if (CurrentState == State.masteryascending)
+        {
+            Text textName = transform.Find("Sort by Mastery").GetComponentInChildren<Text>();
+            textName.text = "Sort by Mastery";
+            CurrentState = State.none;
         }
 
         OnFilterClicked();
@@ -240,14 +293,24 @@ public class ShopManager : MonoBehaviour
             FilteredArray = Champion.GetSortedBy(Champion.SortValue.Name, Champion.SortType.DESC, FilteredArray);
         }
 
-        else if (CurrentState == State.ascending)
+        else if (CurrentState == State.priceascending)
         {
             FilteredArray = Champion.GetSortedBy(Champion.SortValue.Price, Champion.SortType.ASC, FilteredArray);
         }
 
-        else if (CurrentState == State.descending)
+        else if (CurrentState == State.pricedescending)
         {
             FilteredArray = Champion.GetSortedBy(Champion.SortValue.Price, Champion.SortType.DESC, FilteredArray);
+        }
+
+        else if(CurrentState == State.masteryascending)
+        {
+            FilteredArray = Champion.GetSortedBy(Champion.SortValue.UserMastery, Champion.SortType.ASC, FilteredArray);
+        }
+
+        else if (CurrentState == State.masterydescending)
+        {
+            FilteredArray = Champion.GetSortedBy(Champion.SortValue.UserMastery, Champion.SortType.DESC, FilteredArray);
         }
 
         SetupShop();
