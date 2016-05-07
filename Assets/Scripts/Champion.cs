@@ -482,7 +482,7 @@ public class Champion
             case SortValue.UserMastery:
                 Array.Sort(a_ChampionList, delegate (Champion Champ1, Champion Champ2)
                 {
-                    return Champ1.Mastery.Level.CompareTo(Champ2.Mastery.Level) * (a_Type == SortType.ASC ? 1 : -1);
+                    return Champ1.Mastery.Points.CompareTo(Champ2.Mastery.Points) * (a_Type == SortType.ASC ? 1 : -1);
                 });
                 break;
             case SortValue.Efficiency:

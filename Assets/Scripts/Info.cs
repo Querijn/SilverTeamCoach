@@ -71,7 +71,7 @@ public static class Info
             Messages.Reset();
             Messages.Insert(t_JSON["messages"].AsArray);
             MessageHandler.Reset();
-            Debug.Log("Reset complete, username is '" + Player.Name + "', and has " + Player.Cash + " cash.");
+            //  Debug.Log("Reset complete, username is '" + Player.Name + "', and has " + Player.Cash + " cash.");
         }, true);
         return true;
     }
@@ -101,7 +101,7 @@ public static class Info
 
             Player = new PlayerInfo(t_JSON["game_id"].AsInt, t_JSON["name"].Value, t_JSON["cash"].AsDouble, t_JSON["main_team"]["name"].Value);
             Messages.Insert(t_JSON["messages"].AsArray);
-            Debug.Log("Initialisation complete, username is '" + Player.Name + "', and has " + Player.Cash + " cash.");
+            // Debug.Log("Initialisation complete, username is '" + Player.Name + "', and has " + Player.Cash + " cash.");
             m_Setup = true;
             m_InProgress = false;
         }, true);
