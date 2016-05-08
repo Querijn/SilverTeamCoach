@@ -166,7 +166,13 @@ public class ShopManager : MonoBehaviour
     
     public void OnClickSortName()
     {
-        if (CurrentState == State.priceascending || CurrentState == State.pricedescending)
+        if (CurrentState == State.masteryascending || CurrentState == State.masterydescending)
+        {
+            Text textName = transform.Find("Sort by Mastery").GetComponentInChildren<Text>();
+            textName.text = "Sort by Mastery";
+            CurrentState = State.none;
+
+            if (CurrentState == State.priceascending || CurrentState == State.pricedescending)
         {
             CurrentState = State.none;
             Text text = transform.Find("SortByPrice").GetComponentInChildren<Text>();
