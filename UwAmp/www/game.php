@@ -2,6 +2,7 @@
 global $g_Error;
 if(!defined("INCLUDED")) 
 	die();
+
 ?><!doctype html>
 <html lang="en-us">
   <head>
@@ -24,12 +25,12 @@ if(!defined("INCLUDED"))
     <p class="footer">&laquo; created with <a href="http://unity3d.com/" title="Go to unity3d.com">Unity</a> &raquo;</p>
     <script type='text/javascript'>
   var Module = {
-    TOTAL_MEMORY: 268435456,
+    TOTAL_MEMORY: 536870912,
     errorhandler: null,			// arguments: err, url, line. This function must return 'true' if the error is handled, otherwise 'false'
     compatibilitycheck: null,
-    dataUrl: "Release/www.data",
-    codeUrl: "Release/www.js",
-    memUrl: "Release/www.mem",
+    dataUrl: "<?php echo $settings["build_path"]; ?>/www.data",
+    codeUrl: "<?php echo $settings["build_path"]; ?>/www.js",
+    memUrl: "<?php echo $settings["build_path"]; ?>/www.mem",
   };
 </script>
 <script src="Release/UnityLoader.js"></script>

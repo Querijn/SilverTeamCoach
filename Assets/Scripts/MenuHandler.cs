@@ -26,7 +26,7 @@ public class MenuHandler : MonoBehaviour
         if(t_Menu != Menus.None)
             m_Menus.Add(t_Menu, a_Menu);
 
-        //Debug.Log("Filed new menu '" + a_Menu.name + "' under '" + t_Menu.ToString() + "'");
+        //Debugger.Log("Filed new menu '" + a_Menu.name + "' under '" + t_Menu.ToString() + "'");
     }
 
     public static Menus GetMenuTypeByName(string a_Name)
@@ -37,7 +37,7 @@ public class MenuHandler : MonoBehaviour
         }
         catch (Exception e)
         {
-            Debug.Log("Unable to convert string to menu '" + a_Name + "': " + e.Message);
+            Debugger.Log("Unable to convert string to menu '" + a_Name + "': " + e.Message);
         }
         return Menus.None;
     }

@@ -105,7 +105,7 @@ public class Game : MonoBehaviour
 
     public static void AddSkip(int a_StartTime, int a_StopTime)
     {
-        Debug.Log("Added skipping between " + a_StartTime.ToString() + " and " + a_StopTime.ToString());
+        Debugger.Log("Added skipping between " + a_StartTime.ToString() + " and " + a_StopTime.ToString());
         m_StartSkipping.Add(a_StartTime);
         m_StopSkipping.Add(a_StopTime);
     }
@@ -121,7 +121,7 @@ public class Game : MonoBehaviour
                 if(t_Time > m_StartSkipping[i])
                 {
                     m_Skipping = true;
-                    Debug.Log("Skipping");
+                    Debugger.Log("Skipping");
                     break;
                 }
             }
@@ -189,7 +189,7 @@ public class Game : MonoBehaviour
         {
             m_GameInfo = Settings.PassThrough;
 
-            // Debug.Log("Match is loaded, displaying.");
+            // Debugger.Log("Match is loaded, displaying.");
 
             JSONNode t_GameInfo = JSON.Parse(m_GameInfo.Request.text);
             foreach (JSONNode t_Team in t_GameInfo["teams"].AsArray)
@@ -299,7 +299,7 @@ public class Game : MonoBehaviour
 
             if (Matchmaking.IsTesting() == false)
             {
-                SceneManager.UnloadScene("Main");
+                SceneManager.UnloadScene("Combined");
             }
             else
             {

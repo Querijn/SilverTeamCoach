@@ -15,7 +15,11 @@ public class Error : MonoBehaviour
 	
 	public static void Show(string a_Message, string a_OKButtonText = "OK")
     {
-        Debug.LogError(a_Message);
+        Debugger.LogError(a_Message);
+
+        if (m_Error == null)
+            return;
+
         m_Error.transform.Find("Content/Context").GetComponent<Text>().text = a_Message;
         m_Error.transform.Find("Content/Button/Text").GetComponent<Text>().text = a_OKButtonText;
         m_Error.gameObject.SetActive(true);
@@ -23,6 +27,9 @@ public class Error : MonoBehaviour
 
     public void Close()
     {
+        if (m_Error == null)
+            return;
+
         m_Error.gameObject.SetActive(false);
         m_Error.transform.Find("Content/Context").GetComponent<Text>().text = "";
         m_Error.transform.Find("Content/Button/Text").GetComponent<Text>().text = "OK";

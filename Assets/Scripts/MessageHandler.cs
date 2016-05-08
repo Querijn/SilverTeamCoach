@@ -42,7 +42,7 @@ public class MessageHandler : MonoBehaviour {
             GameObject Prefab = Resources.Load("Prefabs/Message") as GameObject;
 
             int I = 0;
-            // Debug.Log(Messages.All.Length);
+            // Debugger.Log(Messages.All.Length);
 
             foreach (Message NewMessage in Messages.All)
             {

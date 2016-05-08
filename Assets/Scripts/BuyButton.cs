@@ -27,7 +27,7 @@ public class BuyButton : MonoBehaviour
             t_ProgressBar.Find("Role").GetComponent<Text>().text = t_Lane.ToString();
 
             float t_Efficiency = (float)ClickedChampion.GetLaneEfficiency(t_Lane);
-            // Debug.Log(t_Efficiency);
+            // Debugger.Log(t_Efficiency);
 
             t_ProgressBar.Find("Fill").GetComponent<RectTransform>().sizeDelta = new Vector2(t_Efficiency * 595, t_ProgressBar.Find("Fill").GetComponent<RectTransform>().sizeDelta.y);
             t_ProgressBar.Find("Percentage").GetComponent<Text>().text = (t_Efficiency*100.0).ToString("F2") + "%";

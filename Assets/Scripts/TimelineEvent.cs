@@ -127,7 +127,7 @@ public class TimelineEvent
 
     public IEnumerator PlayAfter(float a_Seconds)
     {
-        Debug.Log("Waiting " + a_Seconds + " for "+Type.ToString());
+        Debugger.Log("Waiting " + a_Seconds + " for "+Type.ToString());
         yield return new WaitForSeconds(a_Seconds);
 
         Play();
@@ -136,7 +136,7 @@ public class TimelineEvent
     static bool m_Connected = false;
     public void Play()
     {
-        //Debug.Log("Playing " + Type.ToString());
+        //Debugger.Log("Playing " + Type.ToString());
 
         for(int i = 0; i < 2; i++)
         {

@@ -32,7 +32,7 @@ public class TeamManager : MonoBehaviour
 
                 Team.Setup(m_Array);
 
-                // Debug.Log("Teams loaded.");
+                // Debugger.Log("Teams loaded.");
                 m_Setup = true;
             }, true);
             m_InProgress = true;

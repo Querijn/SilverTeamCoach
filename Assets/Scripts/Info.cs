@@ -57,7 +57,7 @@ public static class Info
 
             if (t_JSON["error"].Value != "")
             {
-                Debug.LogError("'" + t_JSON["error"] + "'");
+                Debugger.LogError("'" + t_JSON["error"] + "'");
                 return;
             }
             
@@ -71,7 +71,7 @@ public static class Info
             Messages.Reset();
             Messages.Insert(t_JSON["messages"].AsArray);
             MessageHandler.Reset();
-            //  Debug.Log("Reset complete, username is '" + Player.Name + "', and has " + Player.Cash + " cash.");
+            //  Debugger.Log("Reset complete, username is '" + Player.Name + "', and has " + Player.Cash + " cash.");
         }, true);
         return true;
     }
@@ -87,7 +87,7 @@ public static class Info
 
             if (t_JSON["error"].Value != "")
             {
-                Debug.LogError("'" + t_JSON["error"] + "'");
+                Debugger.LogError("'" + t_JSON["error"] + "'");
                 switch(t_JSON["error"])
                 {
                     case "NOT_LOGGED_IN":
@@ -101,7 +101,7 @@ public static class Info
 
             Player = new PlayerInfo(t_JSON["game_id"].AsInt, t_JSON["name"].Value, t_JSON["cash"].AsDouble, t_JSON["main_team"]["name"].Value);
             Messages.Insert(t_JSON["messages"].AsArray);
-            // Debug.Log("Initialisation complete, username is '" + Player.Name + "', and has " + Player.Cash + " cash.");
+            // Debugger.Log("Initialisation complete, username is '" + Player.Name + "', and has " + Player.Cash + " cash.");
             m_Setup = true;
             m_InProgress = false;
         }, true);

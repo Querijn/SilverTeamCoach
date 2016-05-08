@@ -30,7 +30,7 @@ if(!isset($settings["mysql_connection"]))
 	{
 		while($t_Row = $t_Result->fetch_array(MYSQLI_NUM)) // For every table
 		{
-			if(strpos($t_Row[0], $settings['mysql_prefix']) === false)
+			if(strlen($settings['mysql_prefix']) != 0 && strpos($t_Row[0], $settings['mysql_prefix']) === false)
 				continue;
 			
 			$t_Row[0] = preg_replace('/[^0-9A-Za-z_]/', '', $t_Row[0]); // Clean the name

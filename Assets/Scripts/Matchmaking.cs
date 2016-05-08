@@ -38,7 +38,7 @@ public class Matchmaking : MonoBehaviour
         {
             m_Test = true;
             m_TestEnv = this;
-            // Debug.Log("Test detected");
+            // Debugger.Log("Test detected");
             Settings t_Settings = gameObject.AddComponent<Settings>();
             t_Settings.m_LoadEverything = false;
             gameObject.AddComponent<TeamManager>();
@@ -76,7 +76,7 @@ public class Matchmaking : MonoBehaviour
         {
             if (m_Setup == false && Team.All.Length != 0 && Info.Player != null)
             {
-                //  Debug.Log("Requesting battle against bot..");
+                //  Debugger.Log("Requesting battle against bot..");
                 BattleAgainst(BattleType.Bot);
                 m_Setup = true;
             }
@@ -102,7 +102,7 @@ public class Matchmaking : MonoBehaviour
         }
         catch(Exception e)
         {
-            Debug.LogError("Error when requesting battle: "+e.Message);
+            Debugger.LogError("Error when requesting battle: "+e.Message);
         }
     }
 
@@ -141,7 +141,7 @@ public class Matchmaking : MonoBehaviour
         }
         t_CommandString = t_CommandString.Substring(0, t_CommandString.Length - 1);
 
-        // Debug.Log(t_CommandString);
+        // Debugger.Log(t_CommandString);
         HTTP.Request(Settings.FormAjaxURL(t_CommandString), delegate (WWW a_Request)
         {
             // Match gotten
@@ -149,21 +149,14 @@ public class Matchmaking : MonoBehaviour
             // Are we not in Game?
             if (m_Test == false)
             {
-                for (int i = 0; i < SceneManager.sceneCount && SceneManager.sceneCount > 1; i++)
-                {
-                    Scene t_Scene = SceneManager.GetSceneAt(i);
-                    if (t_Scene.name == "Main")
-                        continue;
-                    else SceneManager.UnloadScene(t_Scene.name);
-                }
-
                 // All scenes are now unloaded, load Game
-                SceneManager.LoadScene("Game");
+                if(SceneManager.GetActiveScene().name != "Game")
+                    SceneManager.LoadScene("Game", LoadSceneMode.Additive);
             }
 
             Settings.PassThrough = new Settings.PassThroughInfo();
             Settings.PassThrough.Request = a_Request;
-            // Debug.Log("Match received. Waiting for Game to hold.");
+            // Debugger.Log("Match received. Waiting for Game to hold.");
 
         }, true);
     }
