@@ -76,9 +76,9 @@ public static class Info
         return true;
     }
 
-    public static bool Setup()
+    public static bool Setup(bool a_Force = false)
 	{
-        if (m_Setup == true || m_InProgress == true)
+        if((m_Setup == true && a_Force != true) || m_InProgress == true)
             return m_Setup;
 
         HTTP.Request(Settings.FormAjaxURL("init.php"), delegate (WWW a_Request)

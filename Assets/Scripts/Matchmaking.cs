@@ -35,7 +35,7 @@ public class Matchmaking : MonoBehaviour
 
 	void Start ()
 	{
-        Reset();
+        m_Setup = false;
         if (SceneManager.GetActiveScene().name == "Game")
         {
             m_Test = true;
@@ -46,8 +46,14 @@ public class Matchmaking : MonoBehaviour
             gameObject.AddComponent<TeamManager>();
             return;
         }
+        else
+        {
+            m_Test = false;
+            m_TestEnv = null;
+        }
 
         m_TeamSelector = GetComponentInChildren<Dropdown>();
+        Reset();
     }
 	
 	void Update () 

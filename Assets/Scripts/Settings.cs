@@ -56,7 +56,7 @@ public class Settings : MonoBehaviour
     [Header("Network")]
     // Where is our network?
     // This is the base root where the ajax, api and sql folder is.
-    private static string m_Host = "http://localhost/";//"http://querijn.codes/silver/team/coach/";
+    private static string m_Host = "http://querijn.codes/silver/team/coach/"; // "http://localhost/";
     public static string Host { get { return m_Host; } }
 
     // API folder
@@ -133,8 +133,8 @@ public class Settings : MonoBehaviour
 
     void Start ()
 	{
-	    if(Singleton == null)
-            Singleton = this;
+        m_FirstTime = true;
+	    Singleton = this;
 
         if (m_LoadEverything == false)
         {
@@ -147,13 +147,12 @@ public class Settings : MonoBehaviour
             OpenRequiredScenes();
         }
 
-        Info.Setup();
+        Info.Setup(true);
     }
 
     void OnDestroy()
     {
         // Allow Game settings to take over
-        if (Singleton == this)
-            Singleton = null;
+        Singleton = null;
     }
 }
