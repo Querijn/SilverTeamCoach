@@ -83,7 +83,7 @@ public class GameEventMessage : MonoBehaviour
             return;
 
         if(m_FadeWait < -1.0f)
-            Destroy(gameObject, 1.0f / Settings.GameSpeed   );
+            Destroy(gameObject, 1.0f / Settings.GameSpeed);
 
         if (GetComponent<Image>() != null)
             Fade(GetComponent<Image>());

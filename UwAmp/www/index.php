@@ -1,4 +1,3 @@
-<a href="?reset">Reset</a><br><br>
 <?php
 $g_Error = "";
 
@@ -20,7 +19,12 @@ if(isset($_GET["reset"]) || isset($_POST["reset"]))
 	if(isset($_SESSION["game_info"])) unset($_SESSION["game_info"]);
 	if(isset($_SESSION["game"])) unset($_SESSION["game"]);
 	
-	header("Location: http://localhost");
+	header("Location: ".$settings["url"]);
+}
+
+if($settings["testing"])
+{
+	echo "<a href=\"?reset\">Reset</a><br><br>";
 }
 
 // If we haven't logged in

@@ -17,7 +17,7 @@ require_once(API_FOLDER . "hacks.php");
 require_once(MYSQL_FOLDER . "mysql.php");
 
 $t_InsertBots = false;
-if(!class_exists("DatabasePlayer"))
+if(!class_exists("DatabaseChampion"))
 {
 	//echo "<!--";
 	print_r(RunSQL(BASE_FOLDER."sql/database.sql"));

@@ -88,12 +88,13 @@ public class Game : MonoBehaviour
             // Determine outcome
             HTTP.Request(Settings.FormAjaxURL("get_match_result.php"), delegate (WWW a_Request)
             {
-                Debug.Log(a_Request.text);
+                JSONNode t_Results = JSON.Parse(a_Request.text);
+                m_Winner = t_Results["Winner"].AsInt;
             }, false);
         }
         else if(m_Winner != -1)
         {
-
+            m_TimerText.text = Teams[m_Winner] + " has won!";
         }
     }
 

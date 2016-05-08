@@ -30,8 +30,12 @@ if(!isset($settings["mysql_connection"]))
 	{
 		while($t_Row = $t_Result->fetch_array(MYSQLI_NUM)) // For every table
 		{
+			if(strpos($t_Row[0], $settings['mysql_prefix']) === false)
+				continue;
+			
 			$t_Row[0] = preg_replace('/[^0-9A-Za-z_]/', '', $t_Row[0]); // Clean the name
 			$t_Clean = $t_Row[0];
+			$t_Row[0] = str_replace($settings['mysql_prefix'], '', $t_Row[0]); // Remove the prefix
 			$t_Exp = explode("_", $t_Row[0]); $t_Row[0] =""; // Changes name_type_stuff_things into
 			foreach($t_Exp as $a) $t_Row[0] .= ucfirst($a);  // NameTypeStuffThings				
 			
@@ -109,8 +113,8 @@ if(!isset($settings["mysql_connection"]))
 			$codex .= $code[$i];
 		}
 
-		//var_dump($t_Table);
-		//echo preg_replace('/\s+/', "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", preg_replace('/\n+/', '<br>', $codex));
+		//echo preg_replace('/\s+/', "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", preg_replace('/\n+/', '<br>', print_r($t_Table, true)));
+		// echo preg_replace('/\s+/', "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", preg_replace('/\n+/', '<br>', $codex));
 		eval($codex); // Eval the code, making it run in
 
 		$g_EleTables = $t_Table;

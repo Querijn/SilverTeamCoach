@@ -3,7 +3,7 @@ SET time_zone = "+00:00";
 CREATE DATABASE IF NOT EXISTS `stc` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
 USE `stc`;
 
-CREATE TABLE `champions` (
+CREATE TABLE `PREFIXGOESHEREchampions` (
   `id` int(11) NOT NULL,
   `champion_id` int(11) NOT NULL,
   `player_id` int(11) NOT NULL,
@@ -16,7 +16,7 @@ CREATE TABLE `champions` (
   `creep_score` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-CREATE TABLE `matches` (
+CREATE TABLE `PREFIXGOESHEREmatches` (
   `id` int(11) NOT NULL,
   `team1` int(11) NOT NULL,
   `team2` int(11) NOT NULL,
@@ -24,7 +24,7 @@ CREATE TABLE `matches` (
   `team2_stats` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-CREATE TABLE `match_champion_stats` (
+CREATE TABLE `PREFIXGOESHEREmatch_champion_stats` (
   `id` int(11) NOT NULL,
   `champion_id` int(11) NOT NULL,
   `kills` int(11) NOT NULL,
@@ -32,16 +32,17 @@ CREATE TABLE `match_champion_stats` (
   `creep_score` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-CREATE TABLE `match_stats` (
+CREATE TABLE `PREFIXGOESHEREmatch_stats` (
   `id` int(11) NOT NULL,
   `team_id` int(11) NOT NULL,
   `top` int(11) NOT NULL,
   `mid` int(11) NOT NULL,
   `support` int(11) NOT NULL,
-  `marksman` int(11) NOT NULL
+  `marksman` int(11) NOT NULL,
+  `jungle` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-CREATE TABLE `messages` (
+CREATE TABLE `PREFIXGOESHEREmessages` (
   `id` int(11) NOT NULL,
   `player_id` int(11) NOT NULL,
   `title` text NOT NULL,
@@ -50,7 +51,7 @@ CREATE TABLE `messages` (
   `unread` int(11) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-CREATE TABLE `players` (
+CREATE TABLE `PREFIXGOESHEREplayers` (
   `id` int(11) NOT NULL,
   `user` int(11) NOT NULL,
   `alternative_name` text NOT NULL,
@@ -63,7 +64,7 @@ CREATE TABLE `players` (
   `admin` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-CREATE TABLE `teams` (
+CREATE TABLE `PREFIXGOESHEREteams` (
   `id` int(11) NOT NULL,
   `name` text NOT NULL,
   `player` int(11) NOT NULL,
@@ -82,39 +83,39 @@ CREATE TABLE `teams` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
-ALTER TABLE `champions`
+ALTER TABLE `PREFIXGOESHEREchampions`
   ADD PRIMARY KEY (`id`);
 
-ALTER TABLE `matches`
+ALTER TABLE `PREFIXGOESHEREmatches`
   ADD PRIMARY KEY (`id`);
 
-ALTER TABLE `match_champion_stats`
+ALTER TABLE `PREFIXGOESHEREmatch_champion_stats`
   ADD PRIMARY KEY (`id`);
 
-ALTER TABLE `match_stats`
+ALTER TABLE `PREFIXGOESHEREmatch_stats`
   ADD PRIMARY KEY (`id`);
 
-ALTER TABLE `messages`
+ALTER TABLE `PREFIXGOESHEREmessages`
   ADD PRIMARY KEY (`id`);
 
-ALTER TABLE `players`
+ALTER TABLE `PREFIXGOESHEREplayers`
   ADD PRIMARY KEY (`id`);
 
-ALTER TABLE `teams`
+ALTER TABLE `PREFIXGOESHEREteams`
   ADD PRIMARY KEY (`id`);
 
 
-ALTER TABLE `champions`
+ALTER TABLE `PREFIXGOESHEREchampions`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-ALTER TABLE `matches`
+ALTER TABLE `PREFIXGOESHEREmatches`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-ALTER TABLE `match_champion_stats`
+ALTER TABLE `PREFIXGOESHEREmatch_champion_stats`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-ALTER TABLE `match_stats`
+ALTER TABLE `PREFIXGOESHEREmatch_stats`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-ALTER TABLE `messages`
+ALTER TABLE `PREFIXGOESHEREmessages`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-ALTER TABLE `players`
+ALTER TABLE `PREFIXGOESHEREplayers`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-ALTER TABLE `teams`
+ALTER TABLE `PREFIXGOESHEREteams`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
