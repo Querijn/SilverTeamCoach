@@ -27,7 +27,6 @@ function AsArray ($a_Object)
 
 try
 {
-	unset($_SESSION["game"]);
 	$t_Game = null;
 	if(isset($_SESSION["game"]) == false)
 	{
@@ -103,14 +102,9 @@ try
 		
 		$t_Game = new Game($t_GameInfo);
 		
-		
 		$_SESSION["game"] = str_replace('*\\u0000', "", json_encode($t_Game));
 		$_SESSION["game_info"] = str_replace('*\\u0000', "", json_encode($t_GameInfo));
 	}
-	else
-	{
-		//$t_Game = json_decode($_SESSION["game"]);
-	}	
 	
 	$t_GameInfo = $_SESSION["game_info"];
 	if(isset($_GET["var_dump"]))

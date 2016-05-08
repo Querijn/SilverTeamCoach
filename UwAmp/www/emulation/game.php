@@ -400,7 +400,8 @@ class Game
 		if($this->Time > $this->HighestTime)
 			$this->HighestTime = $this->Time;
 		
-		$this->Timeline[$this->Time][] = $t_Event;
+		$t_Event["time"] = $this->Time;
+		$this->Timeline[] = $t_Event;
 		$this->Time -= $a_ToFuture;
 	}
 		

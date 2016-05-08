@@ -8,17 +8,50 @@ using System.Collections.Generic;
 
 public class Game : MonoBehaviour
 {
+    public int m_Winner = -1;
+    public bool m_WinnerRequested = false;
+
     public float m_SkipSpeed = 3.0f;
     float m_Timer = 0.0f;
     Text m_TimerText;
+    public static AudioSource Audio = null;
+    public static Game Instance { get { return Audio.GetComponent<Game>(); } }
+    public AudioClip m_Music = null;
+    public static float CurrentTime { get { return Instance.m_Timer; }  }
+
+    [Serializable]
+    public struct SoundReference
+    {
+        public TimelineEvent.EventType Type;
+        public AudioClip Clip;
+    }
+
+    public SoundReference[] m_Sounds;
+    public static SoundReference[] Sounds { get { return Instance.m_Sounds; } }
+    public static SoundReference GetSound(TimelineEvent.EventType a_Type)
+    {
+        return Array.Find(Sounds, s => s.Type == a_Type);
+    }
 
     void Start ()
 	{
+
         gameObject.AddComponent<Timeline>();
+
+        Audio = gameObject.AddComponent<AudioSource>();
+        if (m_Music != null) Sound.Play(m_Music, a_Looping: true);
         m_TimerText = GameObject.FindGameObjectWithTag("GameTimer").GetComponent<Text>();
 	}
 
+    static bool m_Over = false;
+    public static void End()
+    {
+        m_Over = true;
+    }
+
+
     static int m_HandledTime = -1;
+    static int m_HandledIndex = -1;
     void Update()
     {
         if (m_ReadyToPlay == false)
@@ -26,22 +59,40 @@ public class Game : MonoBehaviour
             CheckSetup();
             return;
         }
-        
-        HandleTimer();
-        
-        int t_Timer = Mathf.FloorToInt(m_Timer);
-        // Did we do this time already
-        if(m_HandledTime != t_Timer)
+        else if(m_Over == false)
         {
-            var t_Events = Timeline.GetEvents(t_Timer);
-            if (t_Events == null)
-                return;
+            HandleTimer();
 
-            foreach (TimelineEvent t_Event in t_Events)
+            int t_Timer = Mathf.FloorToInt(m_Timer);
+            if (m_HandledTime != t_Timer)
             {
-                Debug.Log("An event called " + t_Event.Type.ToString() + " just occurred.");
+                int i = m_HandledIndex + 1;
+                for (; true; i++)
+                {
+                    if (Timeline.Events[i].Time > t_Timer)
+                    {
+                        m_HandledIndex = i - 1;
+                        break;
+                    }
+                    else if (Timeline.Events[i].Time > m_HandledTime)
+                    {
+                        Timeline.Events[i].Play();
+                    }
+                }
+                m_HandledTime = i;
             }
-            m_HandledTime = t_Timer;
+        }
+        else if(m_Winner == -1 && m_WinnerRequested == false)
+        {
+            // Determine outcome
+            HTTP.Request(Settings.FormAjaxURL("get_match_results.php"), delegate (WWW a_Request)
+            {
+                Debug.Log(a_Request);
+            }, false);
+        }
+        else if(m_Winner != -1)
+        {
+
         }
     }
 
@@ -89,13 +140,34 @@ public class Game : MonoBehaviour
 
     public class Team
     {
+        public string Name;
+
         public GameChampion Top = null;
         public GameChampion Mid = null;
         public GameChampion Support = null;
         public GameChampion Marksman = null;
         public GameChampion Jungle = null;
+
+        public GameChampion GetChampion(Role a_Role)
+        {
+            switch(a_Role)
+            {
+                case Role.Top:
+                    return Top;
+                case Role.Mid:
+                    return Mid;
+                case Role.Marksman:
+                    return Marksman;
+                case Role.Support:
+                    return Support;
+                case Role.Jungle:
+                    return Jungle;
+                default:
+                    return null;
+            }
+        }
     }
-    static Team[] Teams = { new Team(), new Team() };
+    public static Team[] Teams = { new Team(), new Team() };
 
     Settings.PassThroughInfo m_GameInfo = null;
     static bool m_Setup = false;
@@ -190,6 +262,7 @@ public class Game : MonoBehaviour
                         }
                     i++;
 
+                    Teams[(t_Team["is_player"].AsBool) ? 0 : 1].Name = t_Team["team"]["Name"].Value;
                     switch (t_RoleString)
                     {
                         case "support":
@@ -213,10 +286,14 @@ public class Game : MonoBehaviour
                     JSONNode t_Role = t_Team["champions"][t_RoleString];
                     t_Instance.name = t_Role["name"].Value;
 
-                    t_Instance.GetComponent<Image>().sprite = GetFlipped(Champion.Get(t_Role["id"].AsInt).Image);
+                    var t_GameChamp = t_Instance.GetComponent<GameChampion>();
+                    t_GameChamp.Champion = Champion.Get(t_Role["id"].AsInt);
+                    t_Instance.GetComponent<Image>().sprite = GetFlipped(t_GameChamp.Champion.Image);
 
                 }
             }
+
+            Timeline.Fetch();
 
             if (Matchmaking.IsTesting() == false)
             {

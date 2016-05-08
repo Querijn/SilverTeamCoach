@@ -80,7 +80,7 @@ public class Settings : MonoBehaviour
     public static int TimelineFetchSize { get { return m_TimelineFetchSize; } }
 
     // How many match seconds pass in a real second?
-    private static int m_GameSpeed = 10;
+    private static int m_GameSpeed = 30;
     public static int GameSpeed { get { return m_GameSpeed; } }
 
     // Where do I find the champion images?

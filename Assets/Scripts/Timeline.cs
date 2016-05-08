@@ -5,7 +5,8 @@ using SimpleJSON;
 
 public class Timeline : MonoBehaviour 
 {
-    static Dictionary<int, List<TimelineEvent>> m_Events = new Dictionary<int, List<TimelineEvent>>();
+    static List<TimelineEvent> m_Events = new List<TimelineEvent>();
+    public static List<TimelineEvent> Events { get { return m_Events; } }
 
     bool m_Ready = false;
     static Timeline m_Singleton = null;
@@ -19,13 +20,6 @@ public class Timeline : MonoBehaviour
         }
     }
 
-    public static List<TimelineEvent> GetEvents(int a_Time)
-    {
-        if (m_Events.ContainsKey(a_Time))
-            return m_Events[a_Time];
-        else return null;
-    }
-
     void Start()
     {
         m_Singleton = this;
@@ -33,50 +27,37 @@ public class Timeline : MonoBehaviour
 
     void Update()
     {
-        Prefetch();
+        Get();
     }
-
-    float m_NextFetch = 0.0f;
-    int m_FetchIndex = 0;
-	void Prefetch()
+    
+    static bool FetchRequested = false;
+    public static void Fetch()
+    {
+        FetchRequested = true;
+    }
+    
+	void Get()
 	{
-        if(m_NextFetch <= 0.0f)
+        if(FetchRequested == true && m_Ready == false)
         {
-            m_Ready = false;
-            m_NextFetch = (float)Settings.TimelineFetchSize * 0.8f; // Be slightly ahead (give 20% error)
-            Debug.Log("Next fetch in " + m_NextFetch + " seconds.");
-            int t_From = m_FetchIndex * Settings.GameSpeed * Settings.TimelineFetchSize;
-            int t_Until = (m_FetchIndex + 1) * Settings.GameSpeed * Settings.TimelineFetchSize;
-            Debug.Log("Fetching Timeline ("+m_FetchIndex+") from  " + (t_From / 60).ToString() + ":" + (t_From % 60).ToString() + " until " + (t_Until / 60).ToString() + ":" + (t_Until % 60).ToString());
-            Debug.Log(Settings.TimelineURL(m_FetchIndex));
-            HTTP.Request(Settings.TimelineURL(m_FetchIndex), delegate (WWW a_Request)
+            HTTP.Request(Settings.TimelineURL(0), delegate (WWW a_Request)
             {
                 JSONNode t_Timeline = JSON.Parse(a_Request.text);
 
                 int t_EventCount = 0;
-                foreach (JSONNode t_TimeJSON in t_Timeline.AsArray)
+                foreach (JSONNode t_Event in t_Timeline.AsArray)
                 {
-                    int t_Time = t_TimeJSON["time"].AsInt;
-                    var t_EventList = new List<TimelineEvent>();
-                    foreach (JSONNode t_Event in t_TimeJSON["events"].AsArray)
-                    {
-                        t_EventList.Add(new TimelineEvent(t_Time, t_Event));
-                        t_EventCount++;
-                    }
-                    m_Events.Add(t_Time, t_EventList);
+                    int t_Time = t_Event["time"].AsInt;
+                    t_EventCount++;
+                    m_Events.Add(new TimelineEvent(t_Time, t_Event));
                 }
 
-                if (t_EventCount == 0)
-                {
-                    Game.AddSkip(t_From, t_Until);
-                    m_NextFetch = -1.0f;
-                }
 
-                Debug.Log(t_EventCount + " events pushed.");
+                m_Events.Sort((E1, E2) => E1.Time.CompareTo(E2.Time));
                 m_Ready = true;
+                Debug.Log(t_EventCount + " events pushed.");
             }, false);
-            m_FetchIndex++;
+            FetchRequested = false;
         }
-        m_NextFetch -= Time.deltaTime;
 	}
 }
