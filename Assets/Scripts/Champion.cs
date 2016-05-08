@@ -28,6 +28,10 @@ public class Champion
     public bool Owned { get; private set; }
     public string Title { get; private set; }
     public double Price { get; private set; }
+    public int kill { get; private set; }
+    public int death { get; private set; }
+    public float winrate { get; private set; }
+    public int CS { get; private set; }
     public ViabilityInfo Viability { get; private set; }
     public MasteryInfo Mastery { get; private set; }
 

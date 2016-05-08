@@ -85,6 +85,9 @@ public class MessageHandler : MonoBehaviour {
                 Instance.transform.localScale = Vector3.one;
             }
             MessageContent.transform.localPosition = new Vector3(0, 0, 0);
+
+            MessageContent.GetComponent<RectTransform>().sizeDelta = new Vector2(MessageContent.GetComponent<RectTransform>().sizeDelta.x, (Mathf.Abs(I) + 1) * 120);
+
             SetUp = true;
         } 
     }
