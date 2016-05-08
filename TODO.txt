@@ -3,6 +3,7 @@
 - Match stats needs to be saved
 - Optimisation
 - Messages on winning/losing
-- Bug on end game surrender fix
 - Liane's drawing needs to be inserted
 - improve messages for events ingame
+- Fix bug where names are not shown when going ranked
+- log in / log out

@@ -27,6 +27,7 @@ function AsArray ($a_Object)
 
 try
 {
+	unset($_SESSION["game"]);
 	if($settings["testing"]==true && file_exists(AJAX_FOLDER. "data/game.json"))
 	{
 		$_SESSION["game"] = file_get_contents(AJAX_FOLDER. "data/game.json");
@@ -108,7 +109,6 @@ try
 		
 		$t_Game = new Game($t_GameInfo);
 		
-		var_dump($t_Game);
 		$_SESSION["game"] = str_replace('*\\u0000', "", json_encode($t_Game));
 		$_SESSION["game_info"] = str_replace('*\\u0000', "", json_encode($t_GameInfo));
 		

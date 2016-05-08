@@ -42,9 +42,7 @@ function GetRanked($a_API, DatabasePlayer $a_Player)
 	
 	$t_Player = $t_Players[mt_rand(0, count($t_Players)-1)];
 	
-	// var_dump($a_API->GetSummoner($t_Player->User));
-	
-	return SetupGamePlayerArray($t_Player->AlternativeName, $t_Player);
+	return SetupGamePlayerArray($a_API->GetSummoner($t_Player->User)[$t_Player->User]["name"], $t_Player);
 }
 
 function GetBot($a_API, DatabasePlayer $a_Player)
