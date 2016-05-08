@@ -1,6 +1,6 @@
-[ ] Matches
+[x] Matches
 	[x] Find match
-	[ ] Matchmaking
+	[x] Matchmaking
 
 [x] Teams
 	[x] Create teams
@@ -8,24 +8,26 @@
 	[x] Edit teams
 	[x] Delete team
 	
-[ ] Champions
+[x] Champions
 	[x] Champion performance
 	[x] Champion sorting
 	[x] Champion filtering
 	[x] Data mining
 	
-[ ] Game
-	[ ] Calculate winrate
+[x] Game
+	[x] Calculate winrate
 		[x] Champion points
 		[x] Last played
 		[ ] Correct lane
-	[ ] Map
+	[x] Map
 	[x] Generate ingame occurences
 		[x] Laning
 		[x] Teamfights
 		[x] Objectives
 	[ ] Post Game info
 	[ ] Gaining cash
+	[ ] Saving match
+	[x] Events
 	
 [x] Shop
 	[x] Shop Main UI
@@ -35,17 +37,13 @@
 [ ] Messages
 	[x] Buying
 	[ ] Wins and losses
-	[ ] Events
 	
-[ ] Statistics overview
-	[ ] Winrate per champion
-
-[ ] Settings
-	[ ] Volume
+[x] Settings
+	[x] Volume
 	[ ] Testing
 	
-[ ] Sounds
-[ ] Music
+[x] Sounds
+[x] Music
 [x] Background
 	[x] Static
 	[ ] Dynamic
