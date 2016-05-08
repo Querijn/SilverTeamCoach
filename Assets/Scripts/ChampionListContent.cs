@@ -1,10 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class ChampionListContent : MonoBehaviour 
 {
     static bool m_Setup = false;
     static ChampionListContent m_Element = null;
+    public Sprite[] MasteryIcons;
+    bool SpawnImages = false;
+
     static public void Reset()
     {
         foreach (Transform t_Child in m_Element.transform)
@@ -36,8 +40,37 @@ public class ChampionListContent : MonoBehaviour
                 t_Instance.transform.localPosition = new Vector3(0, (-y * t_PrefabTransform.sizeDelta.y));
                 t_Instance.transform.localScale = Vector3.one;
                 y++;
+
+                Transform t_Masteryimage = t_Instance.transform.Find("Mastery");
+
+                if (t_Champion.Mastery.Level != 0)
+                {
+                    t_Masteryimage.GetComponent<Image>().sprite = MasteryIcons[t_Champion.Mastery.Level - 1];
+                }
+
+                else if (t_Champion.Mastery.Level == 0)
+                {
+                    t_Masteryimage.GetComponent<Image>().color = Color.clear;
+                }
+
+                if (t_Champion.Price > Info.Player.Cash)
+                {
+                    t_Instance.transform.Find("Price").GetComponent<Text>().color = Color.red;
+                }
+
+                if (t_Champion.Image != null)
+                {
+                    Transform t_ImageObject = t_Instance.transform.Find("Image");
+                    if (t_ImageObject != null)
+                        t_ImageObject.GetComponent<Image>().sprite = t_Champion.Image;
+                }
+                else
+                {
+                    // Spawn them later
+                    SpawnImages = true;
+                }
             }
-            
+
             GetComponent<RectTransform>().sizeDelta = new Vector2(0, 40 + (y * t_PrefabTransform.sizeDelta.y));
             m_Setup = true;
         }
