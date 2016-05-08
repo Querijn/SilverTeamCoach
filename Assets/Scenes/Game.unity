@@ -578,7 +578,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &572795780
 RectTransform:
   m_ObjectHideFlags: 0
@@ -882,7 +882,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 730533304}
-  m_LocalRotation: {x: -0.3371847, y: -0.54637694, z: 0.2547798, w: -0.7230948}
+  m_LocalRotation: {x: -0.33718467, y: -0.5463769, z: 0.25477976, w: -0.72309476}
   m_LocalPosition: {x: -7.2505383, y: 10.61, z: 0.6359128}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -2766,13 +2766,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95e2d4cfa817dc545a48bf78309d126e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Winner: -1
+  m_WinnerRequested: 0
   m_SkipSpeed: 3
   m_Music: {fileID: 8300000, guid: 87b4bf8d3d96bdd4f80c19453d9c47cf, type: 3}
   m_Sounds:
   - Type: 0
     Clip: {fileID: 8300000, guid: fa18a8d75d5adfd4cb262ee8f129c750, type: 3}
-  - Type: 14
+  - Type: 12
     Clip: {fileID: 8300000, guid: 33b87cbb13a27d64bbd85822fc42fc10, type: 3}
+  - Type: 9
+    Clip: {fileID: 8300000, guid: 6b6d0095e7ab44a47a07caf0c1260f9d, type: 3}
+  - Type: 2
+    Clip: {fileID: 8300000, guid: af2e0868ac447ed448002d62b2d51efd, type: 3}
+  - Type: 19
+    Clip: {fileID: 8300000, guid: 2deb4232438b31c41a99ca462010a3e3, type: 3}
+  - Type: 23
+    Clip: {fileID: 8300000, guid: 5f25878b9a8bf3844add3b08793d3993, type: 3}
+  - Type: 22
+    Clip: {fileID: 8300000, guid: 1779d2172a844664aaa0e6c535e70482, type: 3}
+  - Type: 25
+    Clip: {fileID: 8300000, guid: 57e2faaf0a30a0248aad72d875d15eb1, type: 3}
+  - Type: 26
+    Clip: {fileID: 8300000, guid: cb30f30ae72937f46a358acc04ae8051, type: 3}
   m_MasteryLevels:
   - {fileID: 21300000, guid: 4c6dcd9cd518f3f41aac3f63e2898e5b, type: 3}
   - {fileID: 21300000, guid: 53d5fbd1fcc6ddb4aaa73439ffacfe3c, type: 3}
