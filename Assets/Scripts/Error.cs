@@ -15,7 +15,7 @@ public class Error : MonoBehaviour
 	
 	public static void Show(string a_Message, string a_OKButtonText = "OK")
     {
-        Debugger.LogError(a_Message);
+        Debug.LogError(a_Message);
 
         if (m_Error == null)
             return;

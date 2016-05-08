@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using System;
 using UnityEngine.SceneManagement;
+using SimpleJSON;
 
 public class Matchmaking : MonoBehaviour 
 {    
@@ -34,11 +35,12 @@ public class Matchmaking : MonoBehaviour
 
 	void Start ()
 	{
+        Reset();
         if (SceneManager.GetActiveScene().name == "Game")
         {
             m_Test = true;
             m_TestEnv = this;
-            // Debugger.Log("Test detected");
+            // Debug.Log("Test detected");
             Settings t_Settings = gameObject.AddComponent<Settings>();
             t_Settings.m_LoadEverything = false;
             gameObject.AddComponent<TeamManager>();
@@ -76,7 +78,7 @@ public class Matchmaking : MonoBehaviour
         {
             if (m_Setup == false && Team.All.Length != 0 && Info.Player != null)
             {
-                //  Debugger.Log("Requesting battle against bot..");
+                //  Debug.Log("Requesting battle against bot..");
                 BattleAgainst(BattleType.Bot);
                 m_Setup = true;
             }
@@ -102,7 +104,7 @@ public class Matchmaking : MonoBehaviour
         }
         catch(Exception e)
         {
-            Debugger.LogError("Error when requesting battle: "+e.Message);
+            Debug.LogError("Error when requesting battle: "+e.Message);
         }
     }
 
@@ -141,22 +143,21 @@ public class Matchmaking : MonoBehaviour
         }
         t_CommandString = t_CommandString.Substring(0, t_CommandString.Length - 1);
 
-        // Debugger.Log(t_CommandString);
+        // Debug.Log(t_CommandString);
         HTTP.Request(Settings.FormAjaxURL(t_CommandString), delegate (WWW a_Request)
         {
             // Match gotten
+            var t_JSON = JSON.Parse(a_Request.text);
+            if (t_JSON["error"].Value != "")
+                Error.Show(t_JSON["error"].Value);
 
             // Are we not in Game?
-            if (m_Test == false)
-            {
-                // All scenes are now unloaded, load Game
-                if(SceneManager.GetActiveScene().name != "Game")
-                    SceneManager.LoadScene("Game", LoadSceneMode.Additive);
-            }
+            if (SceneManager.GetActiveScene().name != "Game")
+                SceneManager.LoadScene("Game", LoadSceneMode.Additive);
 
             Game.Info = new Settings.PassThroughInfo();
             Game.Info.Request = a_Request;
-            // Debugger.Log("Match received. Waiting for Game to hold.");
+            Debug.Log("Match received. Waiting for Game to hold.");
 
         }, true);
     }

@@ -7,7 +7,7 @@ public class Sound
     {
         if (Game.Audio == null)
         {
-            Debugger.LogError("Cannot play sound! Game Audio missing!");
+            Debug.LogError("Cannot play sound! Game Audio missing!");
             return;
         }
 

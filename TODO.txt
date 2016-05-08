@@ -5,3 +5,4 @@
 - Messages on winning/losing
 - Bug on end game surrender fix
 - Liane's drawing needs to be inserted
+- improve messages for events ingame

@@ -130,7 +130,7 @@ public class Champion
 
         t_Efficiency *= t_LaneModifier;
 
-        // Debugger.Log(Name + "'s efficiency in " + a_Lane.ToString() + " is " + t_Efficiency);
+        // Debug.Log(Name + "'s efficiency in " + a_Lane.ToString() + " is " + t_Efficiency);
         return (double)Mathf.Clamp01((float)t_Efficiency);
     }
 
@@ -143,7 +143,7 @@ public class Champion
 
         t_Efficiency *= t_LaneModifier;
 
-        //Debugger.Log(Name + "'s efficiency in " + a_Lane.ToString() + " is " + t_Efficiency);
+        //Debug.Log(Name + "'s efficiency in " + a_Lane.ToString() + " is " + t_Efficiency);
         return t_Efficiency;
     }
 
@@ -336,7 +336,7 @@ public class Champion
             }
             else t_Mastery = MasteryInfo.NoMastery;
 
-            //Debugger.Log("You are level " + t_Mastery.Level + " with " + a_Champion["name"] + ".");
+            //Debug.Log("You are level " + t_Mastery.Level + " with " + a_Champion["name"] + ".");
 
             Champion t_Champion = new Champion
             (
@@ -387,7 +387,7 @@ public class Champion
                 Translation.Add(t_Champion.Name, t_Champion.ID);
         }
 
-        //Debugger.Log(Champions.Values.Count + " champions added.");
+        //Debug.Log(Champions.Values.Count + " champions added.");
         m_Setup = true;
         return true;
     }

@@ -10,6 +10,24 @@ public class Game : MonoBehaviour
 {
     int m_Winner = -1;
     bool m_WinnerRequested = false;
+    static int m_HandledTime = -1;
+    static int m_HandledIndex = -1;
+    static bool m_Over = false;
+
+    static bool m_Skipping = false;
+    public static bool Skipping { get { return m_Skipping; } }
+    static List<int> m_StartSkipping = new List<int>();
+    static List<int> m_StopSkipping = new List<int>();
+
+    public static Team[] Teams = { new Team(), new Team() };
+
+    public static Settings.PassThroughInfo Info = null;
+    static bool m_Setup = false;
+    float m_WaitAtLoading = 10.0f;
+
+    bool m_ReadyToPlay = false;
+    public Sprite[] m_MasteryLevels = null;
+
 
     public float m_SkipSpeed = 3.0f;
     float m_Timer = 0.0f;
@@ -37,23 +55,36 @@ public class Game : MonoBehaviour
 
     void Start ()
 	{
+        m_Winner = -1;
+        m_WinnerRequested = false;
+        m_HandledTime = -1;
+        m_HandledIndex = -1;
+        m_Over = false;
 
-        gameObject.AddComponent<Timeline>();
+        m_Skipping = false;
+        m_StartSkipping = new List<int>();
+        m_StopSkipping = new List<int>();
+
+        Teams[0] = new Team();
+        Teams[1] =  new Team();
+        
+        m_Setup = false;
+        m_WaitAtLoading = 10.0f;
+        m_ReadyToPlay = false;
+        m_Timer = 0.0f;
+        Audio = null;
 
         Audio = gameObject.AddComponent<AudioSource>();
         if (m_Music != null) Sound.Play(m_Music, a_Looping: true);
         m_TimerText = GameObject.FindGameObjectWithTag("GameTimer").GetComponent<Text>();
 	}
 
-    static bool m_Over = false;
+
     public static void End()
     {
         m_Over = true;
     }
 
-
-    static int m_HandledTime = -1;
-    static int m_HandledIndex = -1;
     void Update()
     {
         if (m_ReadyToPlay == false)
@@ -88,6 +119,7 @@ public class Game : MonoBehaviour
         else if(m_Winner == -1 && m_WinnerRequested == false)
         {
             // Determine outcome
+            m_WinnerRequested = true;
             HTTP.Request(Settings.FormAjaxURL("get_match_result.php"), delegate (WWW a_Request)
             {
                 JSONNode t_Results = JSON.Parse(a_Request.text);
@@ -113,17 +145,13 @@ public class Game : MonoBehaviour
         yield return new WaitForSeconds(5);
         
         SceneManager.LoadScene("Combined");
-        SceneManager.UnloadScene("Game");
+        //SceneManager.UnloadScene("Game");
+        Info = null;
     }
-
-    static bool m_Skipping = false;
-    public static bool Skipping { get { return m_Skipping; } }
-    static List<int> m_StartSkipping = new List<int>();
-    static List<int> m_StopSkipping = new List<int>();
 
     public static void AddSkip(int a_StartTime, int a_StopTime)
     {
-        Debugger.Log("Added skipping between " + a_StartTime.ToString() + " and " + a_StopTime.ToString());
+        Debug.Log("Added skipping between " + a_StartTime.ToString() + " and " + a_StopTime.ToString());
         m_StartSkipping.Add(a_StartTime);
         m_StopSkipping.Add(a_StopTime);
     }
@@ -139,7 +167,7 @@ public class Game : MonoBehaviour
                 if(t_Time > m_StartSkipping[i])
                 {
                     m_Skipping = true;
-                    Debugger.Log("Skipping");
+                    Debug.Log("Skipping");
                     break;
                 }
             }
@@ -187,14 +215,6 @@ public class Game : MonoBehaviour
             }
         }
     }
-    public static Team[] Teams = { new Team(), new Team() };
-
-    public static Settings.PassThroughInfo Info = null;
-    static bool m_Setup = false;
-    float m_WaitAtLoading = 10.0f;
-
-    bool m_ReadyToPlay = false;
-    public Sprite[] m_MasteryLevels = null;
 
     public static void Reset()
     {
@@ -203,9 +223,9 @@ public class Game : MonoBehaviour
 
     void CheckSetup()
     {
-        if (m_Setup == false)
+        if (m_Setup == false && Info != null)
         {
-            // Debugger.Log("Match is loaded, displaying.");
+            Debug.Log(Info.Request.text);
 
             JSONNode t_GameInfo = JSON.Parse(Info.Request.text);
             foreach (JSONNode t_Team in t_GameInfo["teams"].AsArray)
@@ -263,6 +283,8 @@ public class Game : MonoBehaviour
                 GameTeamUI t_TeamUI = Array.Find(t_TeamObjects, g => g.GetComponent<GameTeamUI>().Team == (t_Team["is_player"].AsBool ? 0 : 1)).GetComponent<GameTeamUI>();
                 Transform t_ChampContainer = t_TeamUI.transform.Find("Champs");
                 t_TeamUI.transform.Find("Name").GetComponent<Text>().text = t_Team["team"]["Name"].Value;
+
+                Debug.Log("Teamname: "+t_Team["team"]["Name"].Value);
                 foreach (string t_RoleString in t_Roles)
                 {
                     GameObject t_Prefab = Resources.Load("Prefabs/GameTeamUIChampion") as GameObject;

@@ -35,7 +35,7 @@ public class Stats : MonoBehaviour
                         t_Transform.GetComponent<Text>().text = Info.Player.Team;
                         break;
                     default:
-                        Debugger.LogError("Unknown transform: "+t_Transform.name);
+                        Debug.LogError("Unknown transform: "+t_Transform.name);
                         break;
 
                 }

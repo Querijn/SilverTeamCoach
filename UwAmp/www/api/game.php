@@ -52,7 +52,7 @@ function GetBot($a_API, DatabasePlayer $a_Player)
 	$t_Bots = DatabasePlayer::Load(SQLSearch::In(DatabasePlayer::Table)->Where("title")->Is('Bot'));
 	if(is_object($t_Bots))
 	{
-		if($t_Bot->LoadFailed)
+		if($t_Bots->LoadFailed)
 			throw new Exception("No bots were found!");
 		
 		$t_Bots = array($t_Bots);

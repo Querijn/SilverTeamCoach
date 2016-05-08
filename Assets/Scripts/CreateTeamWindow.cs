@@ -38,7 +38,7 @@ public class CreateTeamWindow : MonoBehaviour
         }
         t_CommandString = t_CommandString.Substring(0, t_CommandString.Length - 1);
 
-        //Debugger.Log(t_CommandString);
+        //Debug.Log(t_CommandString);
         HTTP.Request(Settings.FormAjaxURL(t_CommandString), delegate (WWW a_Request)
         {
             if (a_Request.text == "true")

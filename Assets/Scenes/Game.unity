@@ -882,7 +882,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 730533304}
-  m_LocalRotation: {x: -0.3371847, y: -0.54637694, z: 0.2547798, w: -0.7230948}
+  m_LocalRotation: {x: -0.33718467, y: -0.5463769, z: 0.25477976, w: -0.72309476}
   m_LocalPosition: {x: -7.2505383, y: 10.61, z: 0.6359128}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -2693,6 +2693,7 @@ GameObject:
   - 114: {fileID: 2073012497}
   - 114: {fileID: 2073012495}
   - 114: {fileID: 2073012496}
+  - 114: {fileID: 2073012494}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2755,6 +2756,17 @@ Camera:
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
   m_StereoMirrorMode: 0
+--- !u!114 &2073012494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2073012489}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50c77317191854f4bbdfb2bcd4e38901, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &2073012495
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2766,6 +2778,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95e2d4cfa817dc545a48bf78309d126e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_MasteryLevels:
+  - {fileID: 21300000, guid: 4c6dcd9cd518f3f41aac3f63e2898e5b, type: 3}
+  - {fileID: 21300000, guid: 53d5fbd1fcc6ddb4aaa73439ffacfe3c, type: 3}
+  - {fileID: 21300000, guid: a49b14b72df49cc47b07b22b2a79390a, type: 3}
+  - {fileID: 21300000, guid: e657792962d50c9478b4d522ed09b1a7, type: 3}
+  - {fileID: 21300000, guid: e93cf0472340e8245b30fb265ab0b1ad, type: 3}
   m_SkipSpeed: 3
   m_Music: {fileID: 8300000, guid: 87b4bf8d3d96bdd4f80c19453d9c47cf, type: 3}
   m_Victory: {fileID: 8300000, guid: 439f1d2c7db99ce45b7d15703e3f17f2, type: 3}
@@ -2789,12 +2807,6 @@ MonoBehaviour:
     Clip: {fileID: 8300000, guid: 57e2faaf0a30a0248aad72d875d15eb1, type: 3}
   - Type: 26
     Clip: {fileID: 8300000, guid: cb30f30ae72937f46a358acc04ae8051, type: 3}
-  m_MasteryLevels:
-  - {fileID: 21300000, guid: 4c6dcd9cd518f3f41aac3f63e2898e5b, type: 3}
-  - {fileID: 21300000, guid: 53d5fbd1fcc6ddb4aaa73439ffacfe3c, type: 3}
-  - {fileID: 21300000, guid: a49b14b72df49cc47b07b22b2a79390a, type: 3}
-  - {fileID: 21300000, guid: e657792962d50c9478b4d522ed09b1a7, type: 3}
-  - {fileID: 21300000, guid: e93cf0472340e8245b30fb265ab0b1ad, type: 3}
 --- !u!114 &2073012496
 MonoBehaviour:
   m_ObjectHideFlags: 0

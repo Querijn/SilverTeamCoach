@@ -127,7 +127,7 @@ public class TimelineEvent
 
     public IEnumerator PlayAfter(float a_Seconds)
     {
-        Debugger.Log("Waiting " + a_Seconds + " for "+Type.ToString());
+        Debug.Log("Waiting " + a_Seconds + " for "+Type.ToString());
         yield return new WaitForSeconds(a_Seconds);
 
         Play();
@@ -136,7 +136,7 @@ public class TimelineEvent
     static bool m_Connected = false;
     public void Play()
     {
-        //Debugger.Log("Playing " + Type.ToString());
+        //Debug.Log("Playing " + Type.ToString());
 
         for(int i = 0; i < 2; i++)
         {
@@ -272,7 +272,8 @@ public class TimelineEvent
                     break;
                 }
             case EventType.EndOfTimeline:
-            	break;
+                Game.End();
+                return;
             case EventType.LaningPhase:
                 {
                     if (Team == 1)
@@ -298,7 +299,13 @@ public class TimelineEvent
                     if (Game.GetSound(Type).Clip != null)
                         Sound.Play(Game.GetSound(EventType.BaseTowerAttack).Clip);
 
-                    if(Team != 1)
+                    var t_Tower = Tower.Get((Team + 1) % 2, Tower.Location.Bot);
+                    if (t_Tower != null)
+                    {
+                        t_Tower.Shake();
+                    }
+
+                    if (Team != 1)
                         GameEventMessage.Spawn("Your team is attacking the tower at bottom lane.", GameEventMessage.MessageType.Positive);
                     else
                         GameEventMessage.Spawn("Your bottom tower is under attack.", GameEventMessage.MessageType.Negative);
@@ -308,6 +315,12 @@ public class TimelineEvent
                 {
                     if (Game.GetSound(Type).Clip != null)
                         Sound.Play(Game.GetSound(EventType.BaseTowerAttack).Clip);
+
+                    var t_Tower = Tower.Get((Team + 1) % 2, Tower.Location.Mid);
+                    if (t_Tower != null)
+                    {
+                        t_Tower.Shake();
+                    }
 
                     if (Team != 1)
                         GameEventMessage.Spawn("Your team is attacking the tower at middle lane.", GameEventMessage.MessageType.Positive);
@@ -320,6 +333,12 @@ public class TimelineEvent
                     if (Game.GetSound(Type).Clip != null)
                         Sound.Play(Game.GetSound(EventType.BaseTowerAttack).Clip);
 
+                    var t_Tower = Tower.Get((Team + 1) % 2, Tower.Location.Top);
+                    if (t_Tower != null)
+                    {
+                        t_Tower.Shake();
+                    }
+
                     if (Team != 1)
                         GameEventMessage.Spawn("Your team is attacking the tower at top lane.", GameEventMessage.MessageType.Positive);
                     else
@@ -331,6 +350,12 @@ public class TimelineEvent
                     if (Game.GetSound(Type).Clip != null)
                         Sound.Play(Game.GetSound(EventType.BaseTowerAttack).Clip);
 
+                    var t_Tower = Tower.Get((Team + 1) % 2, Tower.Location.Base);
+                    if (t_Tower != null)
+                    {
+                        t_Tower.Shake();
+                    }
+
                     if (Team != 1)
                         GameEventMessage.Spawn("Your team is sieging their base!", GameEventMessage.MessageType.Positive);
                     else
@@ -338,12 +363,65 @@ public class TimelineEvent
                     break;
                 }
             case EventType.BaseTowerDestroyed:
+                {
+                    if (Game.GetSound(Type).Clip != null)
+                        Sound.Play(Game.GetSound((Team == 1) ? EventType.BaseTowerDestroyed : EventType.TopTowerDestroyed).Clip);
+
+                    var t_Tower = Tower.Get((Team + 1) % 2, Tower.Location.Base);
+                    if (t_Tower != null)
+                    {
+                        t_Tower.Destroy();
+                    }
+
+                    if (Team != 1)
+                        GameEventMessage.Spawn("Your team has destroyed a turret.", GameEventMessage.MessageType.Positive);
+                    else
+                        GameEventMessage.Spawn("A turret has been destroyed.", GameEventMessage.MessageType.Negative);
+                    break;
+                }
             case EventType.TopTowerDestroyed:
+                {
+                    if (Game.GetSound(Type).Clip != null)
+                        Sound.Play(Game.GetSound((Team == 1) ? EventType.BaseTowerDestroyed : EventType.TopTowerDestroyed).Clip);
+
+                    var t_Tower = Tower.Get((Team + 1) % 2, Tower.Location.Top);
+                    if (t_Tower != null)
+                    {
+                        t_Tower.Destroy();
+                    }
+
+                    if (Team != 1)
+                        GameEventMessage.Spawn("Your team has destroyed a turret.", GameEventMessage.MessageType.Positive);
+                    else
+                        GameEventMessage.Spawn("A turret has been destroyed.", GameEventMessage.MessageType.Negative);
+                    break;
+                }
             case EventType.MidTowerDestroyed:
+                {
+                    if (Game.GetSound(Type).Clip != null)
+                        Sound.Play(Game.GetSound((Team == 1) ? EventType.BaseTowerDestroyed : EventType.TopTowerDestroyed).Clip);
+
+                    var t_Tower = Tower.Get((Team + 1) % 2, Tower.Location.Mid);
+                    if (t_Tower != null)
+                    {
+                        t_Tower.Destroy();
+                    }
+                    if (Team != 1)
+                        GameEventMessage.Spawn("Your team has destroyed a turret.", GameEventMessage.MessageType.Positive);
+                    else
+                        GameEventMessage.Spawn("A turret has been destroyed.", GameEventMessage.MessageType.Negative);
+                    break;
+                }
             case EventType.BotTowerDestroyed:
                 {
                     if (Game.GetSound(Type).Clip != null)
                         Sound.Play(Game.GetSound((Team == 1) ? EventType.BaseTowerDestroyed : EventType.TopTowerDestroyed).Clip);
+
+                    var t_Tower = Tower.Get((Team + 1) % 2, Tower.Location.Bot);
+                    if (t_Tower != null)
+                    {
+                        t_Tower.Destroy();
+                    }
 
                     if (Team != 1)
                         GameEventMessage.Spawn("Your team has destroyed a turret.", GameEventMessage.MessageType.Positive);

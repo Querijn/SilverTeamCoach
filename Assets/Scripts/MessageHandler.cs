@@ -24,9 +24,7 @@ public class MessageHandler : MonoBehaviour {
     {
         t_UnreadMessages.GetComponentInChildren<Text>().text = Messages.Unread.Length.ToString();
         t_UnreadMessages.SetActive(Messages.Unread.Length != 0);
-
         
-
         if (Messages.All.Length != 0 && Menu.Open == MenuHandler.Menus.Main && SetUp == false)
         {
             // When clicked on the unread messages you mark them all as read
@@ -42,7 +40,7 @@ public class MessageHandler : MonoBehaviour {
             GameObject Prefab = Resources.Load("Prefabs/Message") as GameObject;
 
             int I = 0;
-            // Debugger.Log(Messages.All.Length);
+            // Debug.Log(Messages.All.Length);
 
             foreach (Message NewMessage in Messages.All)
             {

@@ -22,6 +22,7 @@ public class Timeline : MonoBehaviour
 
     void Start()
     {
+        m_Events = new List<TimelineEvent>();
         m_Singleton = this;
     }
 
@@ -42,6 +43,7 @@ public class Timeline : MonoBehaviour
         {
             HTTP.Request(Settings.TimelineURL(0), delegate (WWW a_Request)
             {
+                Debug.Log(a_Request);
                 JSONNode t_Timeline = JSON.Parse(a_Request.text);
 
                 int t_EventCount = 0;
@@ -55,7 +57,7 @@ public class Timeline : MonoBehaviour
 
                 m_Events.Sort((E1, E2) => E1.Time.CompareTo(E2.Time));
                 m_Ready = true;
-                Debugger.Log(t_EventCount + " events pushed.");
+                Debug.Log(t_EventCount + " events pushed.");
             }, false);
             FetchRequested = false;
         }

@@ -9,6 +9,12 @@ if(!IsLoggedIn())
 
 try
 {
+	if($settings["testing"]==true && file_exists(AJAX_FOLDER. "data/game.json"))
+	{
+		$_SESSION["game"] = file_get_contents(AJAX_FOLDER. "data/game.json");
+		$_SESSION["game_info"] = file_get_contents(AJAX_FOLDER. "data/game_info.json");
+	}
+	
 	$t_Game = null;
 	if(isset($_SESSION["game"]) == false)
 		throw new Exception("You need to be in a match to get its resources");

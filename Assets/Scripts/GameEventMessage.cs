@@ -68,22 +68,22 @@ public class GameEventMessage : MonoBehaviour
 
     void OnDestroy()
     {
-        m_Messages--;
     }
 
     void Start()
     {
+        m_Messages--;
     }
 
     float m_FadeWait = 3.0f;
     void Update()
     {
-        m_FadeWait -= Time.deltaTime * Settings.GameSpeed;
+        m_FadeWait -= Time.deltaTime;// * Settings.GameSpeed;
         if (m_FadeWait >= 0.0f)
             return;
 
         if(m_FadeWait < -1.0f)
-            Destroy(gameObject, 1.0f / Settings.GameSpeed);
+            Destroy(gameObject, 1.0f);
 
         if (GetComponent<Image>() != null)
             Fade(GetComponent<Image>());
