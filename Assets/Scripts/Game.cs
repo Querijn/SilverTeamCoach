@@ -67,8 +67,9 @@ public class Game : MonoBehaviour
             if (m_HandledTime != t_Timer)
             {
                 int i = m_HandledIndex + 1;
-                for (; true; i++)
+                for (; i < Timeline.Events.Count; i++)
                 {
+
                     if (Timeline.Events[i].Time > t_Timer)
                     {
                         m_HandledIndex = i - 1;
@@ -85,9 +86,9 @@ public class Game : MonoBehaviour
         else if(m_Winner == -1 && m_WinnerRequested == false)
         {
             // Determine outcome
-            HTTP.Request(Settings.FormAjaxURL("get_match_results.php"), delegate (WWW a_Request)
+            HTTP.Request(Settings.FormAjaxURL("get_match_result.php"), delegate (WWW a_Request)
             {
-                Debug.Log(a_Request);
+                Debug.Log(a_Request.text);
             }, false);
         }
         else if(m_Winner != -1)

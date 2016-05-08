@@ -298,7 +298,7 @@ public class TimelineEvent
                     if (Game.GetSound(Type).Clip != null)
                         Sound.Play(Game.GetSound(EventType.BaseTowerAttack).Clip);
 
-                    if(Team == 1)
+                    if(Team != 1)
                         GameEventMessage.Spawn("Your team is attacking the tower at bottom lane.", GameEventMessage.MessageType.Positive);
                     else
                         GameEventMessage.Spawn("Your bottom tower is under attack.", GameEventMessage.MessageType.Negative);
@@ -309,7 +309,7 @@ public class TimelineEvent
                     if (Game.GetSound(Type).Clip != null)
                         Sound.Play(Game.GetSound(EventType.BaseTowerAttack).Clip);
 
-                    if (Team == 1)
+                    if (Team != 1)
                         GameEventMessage.Spawn("Your team is attacking the tower at middle lane.", GameEventMessage.MessageType.Positive);
                     else
                         GameEventMessage.Spawn("Your middle tower is under attack.", GameEventMessage.MessageType.Negative);
@@ -320,7 +320,7 @@ public class TimelineEvent
                     if (Game.GetSound(Type).Clip != null)
                         Sound.Play(Game.GetSound(EventType.BaseTowerAttack).Clip);
 
-                    if (Team == 1)
+                    if (Team != 1)
                         GameEventMessage.Spawn("Your team is attacking the tower at top lane.", GameEventMessage.MessageType.Positive);
                     else
                         GameEventMessage.Spawn("Your top tower is under attack.", GameEventMessage.MessageType.Negative);
@@ -331,7 +331,7 @@ public class TimelineEvent
                     if (Game.GetSound(Type).Clip != null)
                         Sound.Play(Game.GetSound(EventType.BaseTowerAttack).Clip);
 
-                    if (Team == 1)
+                    if (Team != 1)
                         GameEventMessage.Spawn("Your team is sieging their base!", GameEventMessage.MessageType.Positive);
                     else
                         GameEventMessage.Spawn("Your opponents are destroying your base!", GameEventMessage.MessageType.Negative);
@@ -345,7 +345,7 @@ public class TimelineEvent
                     if (Game.GetSound(Type).Clip != null)
                         Sound.Play(Game.GetSound((Team == 1) ? EventType.BaseTowerDestroyed : EventType.TopTowerDestroyed).Clip);
 
-                    if (Team == 1)
+                    if (Team != 1)
                         GameEventMessage.Spawn("Your team has destroyed a turret.", GameEventMessage.MessageType.Positive);
                     else
                         GameEventMessage.Spawn("A turret has been destroyed.", GameEventMessage.MessageType.Negative);

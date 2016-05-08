@@ -51,7 +51,6 @@ public class GameChampion : MonoBehaviour
 	void ResetUI() 
 	{
         m_Info.text = "Kills: " + m_Kills + "\nDeaths: " + m_Deaths + "\nCS: " + m_CS;
-        m_OriginalScale = m_Info.transform.localScale;
         m_ScaleTimer = 1.0f;
     }
 
