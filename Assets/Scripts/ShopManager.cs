@@ -133,11 +133,18 @@ public class ShopManager : MonoBehaviour
     public void OnClickSortPrice()
 
     {
+        if (CurrentState == State.masteryascending || CurrentState == State.masterydescending)
+        {
+            CurrentState = State.none;
+            Text textMastery = transform.Find("Sort by Mastery").GetComponentInChildren<Text>();
+            textMastery.text = "Sort by Mastery";
+        }
+
         if (CurrentState == State.AZ || CurrentState == State.ZA)
         {
             CurrentState = State.none;
-            Text text = transform.Find("Sort by Name").GetComponentInChildren<Text>();
-            text.text = "Sort by Name";
+            Text textName = transform.Find("Sort by Name").GetComponentInChildren<Text>();
+            textName.text = "Sort by Name";
         }
 
         if (CurrentState == State.priceascending)
@@ -163,14 +170,21 @@ public class ShopManager : MonoBehaviour
         OnFilterClicked();
     }
 
-    
+
     public void OnClickSortName()
     {
+        if (CurrentState == State.masteryascending || CurrentState == State.masterydescending)
+        {
+            Text textmastery = transform.Find("Sort by Mastery").GetComponentInChildren<Text>();
+            textmastery.text = "Sort by Mastery";
+            CurrentState = State.none;
+        }
+
         if (CurrentState == State.priceascending || CurrentState == State.pricedescending)
         {
-            CurrentState = State.none;
-            Text text = transform.Find("SortByPrice").GetComponentInChildren<Text>();
-            text.text = "Sort by Price";
+             CurrentState = State.none;
+             Text text = transform.Find("SortByPrice").GetComponentInChildren<Text>();
+             text.text = "Sort by Price";
         }
 
         if (CurrentState == State.none || CurrentState == State.AZ)
@@ -194,7 +208,7 @@ public class ShopManager : MonoBehaviour
             CurrentState = State.ZA;
         }
 
-        OnFilterClicked();
+            OnFilterClicked();
     }
 
     public void OnClickSortMastery()
@@ -202,8 +216,8 @@ public class ShopManager : MonoBehaviour
         if (CurrentState == State.AZ || CurrentState == State.ZA)
         {
             CurrentState = State.none;
-            Text text = transform.Find("Sort by Name").GetComponentInChildren<Text>();
-            text.text = "Sort by Name";
+            Text textName = transform.Find("Sort by Name").GetComponentInChildren<Text>();
+            textName.text = "Sort by Name";
         }
 
         if (CurrentState == State.priceascending || CurrentState == State.pricedescending)
@@ -215,22 +229,22 @@ public class ShopManager : MonoBehaviour
 
         if (CurrentState == State.none)
         {
-            Text textName = transform.Find("Sort by Mastery").GetComponentInChildren<Text>();
-            textName.text = "Sort by Mastery (DSC)";
+            Text textMastery = transform.Find("Sort by Mastery").GetComponentInChildren<Text>();
+            textMastery.text = "Sort by Mastery (DSC)";
             CurrentState = State.masterydescending;
         }
 
         else if (CurrentState == State.masterydescending)
         {
-            Text textName = transform.Find("Sort by Mastery").GetComponentInChildren<Text>();
-            textName.text = "Sort by Mastery (ASC)";
+            Text textMastery = transform.Find("Sort by Mastery").GetComponentInChildren<Text>();
+            textMastery.text = "Sort by Mastery (ASC)";
             CurrentState = State.masteryascending;
         }
 
         else if (CurrentState == State.masteryascending)
         {
-            Text textName = transform.Find("Sort by Mastery").GetComponentInChildren<Text>();
-            textName.text = "Sort by Mastery";
+            Text textMastery = transform.Find("Sort by Mastery").GetComponentInChildren<Text>();
+            textMastery.text = "Sort by Mastery";
             CurrentState = State.none;
         }
 
