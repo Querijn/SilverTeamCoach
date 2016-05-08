@@ -17,7 +17,15 @@ public class Sound
         t_Object.transform.parent = Camera.main.transform;
         t_Audio.clip = a_Clip;
 
-        if(a_AdjustPitch)
+        
+
+        if(a_Looping == false)
+            t_Audio.volume = Settings.SEVolume;
+
+        else 
+            t_Audio.volume = Settings.MusicVolume;
+
+        if (a_AdjustPitch)
             t_Audio.pitch = UnityEngine.Random.Range(0.8f, 1.3f);
 
         t_Audio.PlayDelayed(a_Wait);
