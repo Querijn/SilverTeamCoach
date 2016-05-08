@@ -138,7 +138,7 @@ public class Settings : MonoBehaviour
 
         if (m_LoadEverything == false)
         {
-            Info.Setup();
+            Info.Setup(true);
             return;
         }
 
