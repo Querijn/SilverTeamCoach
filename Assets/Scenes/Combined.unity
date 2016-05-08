@@ -7734,17 +7734,17 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "You're coaching a Silver Team! It's your job to lead your team to victory.
-    Everyone likes winning, so let's get started!\r\n\r\n<b>How does it work?</b>\r\nMatches\r\nThis
+    Everyone likes winning, so let's get started!\r\n\r\n<b>How does it work?</b>\r\n<i>Matches\r</i>\nThis
     is where you can view your match history, or start another match against players.
-    \r\n\r\nTeams\r\nThis is where you make and view your teams. Each champion has
-    the same roles as they have in the actual game, but it's up to you to see where
-    they fit best.\r\n\r\nChampions\r\nThis is where you can view which champions
-    you own and their stats. It's important to look at how well your champion performs.
-    This is based on how well you play the actual champion in game. The higher their
-    efficiency percentage, the better they perform in your team.\r\n\r\nShop\r\nHere
+    \r\n\r\n<i>Teams</i>\r\nThis is where you make and view your teams. Each champion
+    has the same roles as they have in the actual game, but it's up to you to see
+    where they fit best.\r\n\r\n<i>Champions</i>\nThis is where you can view which
+    champions you own and their stats. It's important to look at how well your champion
+    performs. This is based on the mastery level of your champions in League of Legends.
+    The higher their mastery, the better they perform in your team.\r\n\r\n<i>Shop\r</i>\nHere
     you can buy champions. Because we're nice guys, we have given you Annie, but the
-    rest of the champions you'll have to buy yourself. \r\n\r\nSettings\r\nSo you
-    don't like how things are? Then you can change the settings here. \r\n\r\nGet
+    rest of the champions you'll have to buy yourself. \r\n\r\n<i>Settings\r</i>\nSo
+    you don't like how things are? Then you can change the settings here. \r\n\r\nGet
     it? Then it's time to start winning!"
 --- !u!222 &493728246
 CanvasRenderer:
