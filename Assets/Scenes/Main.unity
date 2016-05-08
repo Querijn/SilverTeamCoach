@@ -570,14 +570,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.316}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.316}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 8ebb01f471e64684bac49856733e5498, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1353,6 +1353,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de4deb2a2f534164ba171335f1bb71c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  music_Volume: 1
+  SE_Volume: 1
   m_PointsForFullEfficiency: 21600
   m_MetaCoefficient: 0.1
   m_MaxWeekModifier: 3
@@ -1362,12 +1364,9 @@ MonoBehaviour:
   m_PriceComparedToOriginal: 1
   m_CashSign: 402
   m_DefaultMenu: 1
-  m_Host: http://localhost/
-  m_APIFolder: api/
-  m_AjaxFolder: ajax/
-  m_WallpaperFolder: wallpapers/
   m_WallpaperCount: 8
   m_ChampionImageDirectory: http://ddragon.leagueoflegends.com/cdn/6.8.1/img/sprite/
+  m_ChampionLoadingImageDirectory: http://ddragon.leagueoflegends.com/cdn/img/champion/loading/
   m_LoadEverything: 1
 --- !u!114 &1472075808
 MonoBehaviour:
