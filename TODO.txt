@@ -1,50 +1,7 @@
-[x] Matches
-	[x] Find match
-	[x] Matchmaking
-
-[x] Teams
-	[x] Create teams
-	[x] Team overview
-	[x] Edit teams
-	[x] Delete team
-	
-[x] Champions
-	[x] Champion performance
-	[x] Champion sorting
-	[x] Champion filtering
-	[x] Data mining
-	
-[x] Game
-	[x] Calculate winrate
-		[x] Champion points
-		[x] Last played
-		[ ] Correct lane
-	[x] Map
-	[x] Generate ingame occurences
-		[x] Laning
-		[x] Teamfights
-		[x] Objectives
-	[ ] Post Game info
-	[ ] Gaining cash
-	[ ] Saving match
-	[x] Events
-	
-[x] Shop
-	[x] Shop Main UI
-	[x] Shop Pop-up
-	[x] Shop buying
-	
-[ ] Messages
-	[x] Buying
-	[ ] Wins and losses
-	
-[x] Settings
-	[x] Volume
-	[ ] Testing
-	
-[x] Sounds
-[x] Music
-[x] Background
-	[x] Static
-	[ ] Dynamic
-	
+- Better role compatibility
+- Stats in Team window needs to update
+- Match stats needs to be saved
+- Optimisation
+- Messages on winning/losing
+- Bug on end game surrender fix
+- Liane's drawing needs to be inserted

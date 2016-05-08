@@ -56,7 +56,7 @@ public class Settings : MonoBehaviour
     [Header("Network")]
     // Where is our network?
     // This is the base root where the ajax, api and sql folder is.
-    private static string m_Host = "http://localhost/";
+    private static string m_Host = "http://querijn.codes/silver/team/coach/";
     public static string Host { get { return m_Host; } }
 
     // API folder
@@ -106,10 +106,8 @@ public class Settings : MonoBehaviour
 
     public static string TimelineURL(int a_Time)
     {
-        return Settings.FormAjaxURL("get_timeline_test.php?start=" + a_Time.ToString() + "&sec=" + TimelineFetchSize.ToString());
+        return Settings.FormAjaxURL("get_timeline.php?start=" + a_Time.ToString() + "&sec=" + TimelineFetchSize.ToString());
     }
-
-    public static PassThroughInfo PassThrough;
 
     public static string FormAjaxURL(string a_API)
     {
@@ -124,32 +122,10 @@ public class Settings : MonoBehaviour
 
     static bool m_FirstTime = true;
     public static void OpenRequiredScenes()
-    {
-        List<int> t_InBuild = new List<int>();
-        List<Scene> t_Exclude = new List<Scene>();
-
-        if(SceneManager.GetSceneByName("Game") != null)
-            t_Exclude.Add(SceneManager.GetSceneByName("Game"));
-
+    {   
         if (m_FirstTime == false)
             return;
-        
-        for(int i = 0; i < SceneManager.sceneCount; i++)
-        {
-            var t_Index = SceneManager.GetSceneAt(i).buildIndex;
-            if (t_Index == -1)
-                continue;
 
-            t_InBuild.Add(t_Index);
-        }        
-
-        for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
-        {
-            if(t_InBuild.Contains(i) == false && t_Exclude.Find(s=>s.buildIndex==i) == null)
-            {
-                SceneManager.LoadScene(i, LoadSceneMode.Additive);
-            }
-        }
         m_FirstTime = false;
     }
 

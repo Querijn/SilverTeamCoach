@@ -2,6 +2,10 @@
 if(!defined("INCLUDED")) 
 	die();
 
+// Site settings
+$settings["url"] = "http://querijn.codes/silver/team/coach/";
+$settings["build_path"] = "Release"; //"Development"; //  If "Development Build" was checked, please change this to "Development"
+
 // MySQL settings
 $settings["mysql_server"]	= "127.0.0.1";
 $settings["mysql_database"]	= "stc";
@@ -20,8 +24,8 @@ $settings["regions"]		= array
 							);
 			
 // Testing settings
-$settings["testing"] = true;
-$settings["testing_account"] = 22929336;
+$settings["testing"] = false;
+$settings["testing_account"] = 0;
 $settings["testing_region"] = 'euw';
 
 // Balance settings

@@ -98,8 +98,7 @@ public class Game : MonoBehaviour
                     Sound.Play(t_Sound, a_Wait: 1.0f);
                 }
 
-                SceneManager.LoadScene("Combined");
-                SceneManager.UnloadScene("Game");
+                StartCoroutine(BackToMenu());
             }, false);
         }
         else if(m_Winner != -1)
@@ -107,6 +106,14 @@ public class Game : MonoBehaviour
             m_TimerText.text = Teams[m_Winner].Name + " has won!";
 
         }
+    }
+
+    IEnumerator BackToMenu()
+    {
+        yield return new WaitForSeconds(5);
+        
+        SceneManager.LoadScene("Combined");
+        SceneManager.UnloadScene("Game");
     }
 
     static bool m_Skipping = false;
