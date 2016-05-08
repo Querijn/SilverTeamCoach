@@ -154,8 +154,8 @@ public class Matchmaking : MonoBehaviour
                     SceneManager.LoadScene("Game", LoadSceneMode.Additive);
             }
 
-            Settings.PassThrough = new Settings.PassThroughInfo();
-            Settings.PassThrough.Request = a_Request;
+            Game.Info = new Settings.PassThroughInfo();
+            Game.Info.Request = a_Request;
             // Debugger.Log("Match received. Waiting for Game to hold.");
 
         }, true);

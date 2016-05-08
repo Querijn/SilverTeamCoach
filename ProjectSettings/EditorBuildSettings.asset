@@ -6,18 +6,22 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Main.unity
-  - enabled: 1
-    path: Assets/Scenes/HomeMenu.unity
-  - enabled: 1
-    path: Assets/Scenes/MatchesMenu.unity
-  - enabled: 1
-    path: Assets/Scenes/TeamsMenu.unity
-  - enabled: 1
-    path: Assets/Scenes/ChampionsMenu.unity
-  - enabled: 1
-    path: Assets/Scenes/ShopMenu.unity
-  - enabled: 1
-    path: Assets/Scenes/Windows.unity
+    path: Assets/Scenes/Combined.unity
   - enabled: 1
     path: Assets/Scenes/Game.unity
+  - enabled: 0
+    path: Assets/Scenes/Main.unity
+  - enabled: 0
+    path: Assets/Scenes/HomeMenu.unity
+  - enabled: 0
+    path: Assets/Scenes/MatchesMenu.unity
+  - enabled: 0
+    path: Assets/Scenes/TeamsMenu.unity
+  - enabled: 0
+    path: Assets/Scenes/ChampionsMenu.unity
+  - enabled: 0
+    path: Assets/Scenes/ShopMenu.unity
+  - enabled: 0
+    path: Assets/Scenes/SettingsMenu.unity
+  - enabled: 0
+    path: Assets/Scenes/Windows.unity

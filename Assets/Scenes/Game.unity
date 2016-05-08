@@ -882,7 +882,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 730533304}
-  m_LocalRotation: {x: -0.33718467, y: -0.5463769, z: 0.25477976, w: -0.72309476}
+  m_LocalRotation: {x: -0.3371847, y: -0.54637694, z: 0.2547798, w: -0.7230948}
   m_LocalPosition: {x: -7.2505383, y: 10.61, z: 0.6359128}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -2766,10 +2766,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95e2d4cfa817dc545a48bf78309d126e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Winner: -1
-  m_WinnerRequested: 0
   m_SkipSpeed: 3
   m_Music: {fileID: 8300000, guid: 87b4bf8d3d96bdd4f80c19453d9c47cf, type: 3}
+  m_Victory: {fileID: 8300000, guid: 439f1d2c7db99ce45b7d15703e3f17f2, type: 3}
+  m_Defeat: {fileID: 8300000, guid: 39995985513f94749bdb4f599f2815e9, type: 3}
   m_Sounds:
   - Type: 0
     Clip: {fileID: 8300000, guid: fa18a8d75d5adfd4cb262ee8f129c750, type: 3}

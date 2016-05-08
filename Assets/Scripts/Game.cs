@@ -8,8 +8,8 @@ using System.Collections.Generic;
 
 public class Game : MonoBehaviour
 {
-    public int m_Winner = -1;
-    public bool m_WinnerRequested = false;
+    int m_Winner = -1;
+    bool m_WinnerRequested = false;
 
     public float m_SkipSpeed = 3.0f;
     float m_Timer = 0.0f;
@@ -17,6 +17,8 @@ public class Game : MonoBehaviour
     public static AudioSource Audio = null;
     public static Game Instance { get { return Audio.GetComponent<Game>(); } }
     public AudioClip m_Music = null;
+    public AudioClip m_Victory = null;
+    public AudioClip m_Defeat = null;
     public static float CurrentTime { get { return Instance.m_Timer; }  }
 
     [Serializable]
@@ -90,11 +92,20 @@ public class Game : MonoBehaviour
             {
                 JSONNode t_Results = JSON.Parse(a_Request.text);
                 m_Winner = t_Results["Winner"].AsInt;
+                var t_Sound = (m_Winner == 0 ? m_Victory : m_Defeat);
+                if (t_Sound != null)
+                {
+                    Sound.Play(t_Sound, a_Wait: 1.0f);
+                }
+
+                SceneManager.LoadScene("Combined");
+                SceneManager.UnloadScene("Game");
             }, false);
         }
         else if(m_Winner != -1)
         {
-            m_TimerText.text = Teams[m_Winner] + " has won!";
+            m_TimerText.text = Teams[m_Winner].Name + " has won!";
+
         }
     }
 
@@ -171,7 +182,7 @@ public class Game : MonoBehaviour
     }
     public static Team[] Teams = { new Team(), new Team() };
 
-    Settings.PassThroughInfo m_GameInfo = null;
+    public static Settings.PassThroughInfo Info = null;
     static bool m_Setup = false;
     float m_WaitAtLoading = 10.0f;
 
@@ -185,13 +196,11 @@ public class Game : MonoBehaviour
 
     void CheckSetup()
     {
-        if (Settings.PassThrough != null && m_Setup == false)
+        if (m_Setup == false)
         {
-            m_GameInfo = Settings.PassThrough;
-
             // Debugger.Log("Match is loaded, displaying.");
 
-            JSONNode t_GameInfo = JSON.Parse(m_GameInfo.Request.text);
+            JSONNode t_GameInfo = JSON.Parse(Info.Request.text);
             foreach (JSONNode t_Team in t_GameInfo["teams"].AsArray)
             {
                 //if(t_Team["is_player"].AsInt == 1)
