@@ -73,7 +73,9 @@ You can contribute by testing and giving feedback using the [Issues tab of our G
     - Sure, but don't expect me to help you if it doesn't work.
 - **How do I change the prefix of the tables? I can't have multiple databases on my server!**
     - ```$settings["mysql_prefix"]``` is the setting in ```UWamp/www/settings.php``` that you're looking for, make sure you're terminating it with an underscore if you need it to. if you want the ```champions``` table to be called ```stc_champions```, put ```"stc_";``` as your prefix.
+
 ### Questions
+
 - ***If I compile for WebGL, should I tick Development Build?***
     - Not necessary if you're going to just play, if you're going to debug, I suggest increasing the memory, or using the testing settings mentioned in the 'Can I run the game in the Unity editor?' above.
 - **Does UWamp have to run to play the game locally?**
