@@ -2,8 +2,14 @@
 
 ### Description
 Manage your own team of champions based on your own Champion Mastery in League of Legends! This game has been made for the API Challenge of April 2016, competing for the "Entertainment" category.
+##### Try out the demo at: [querijn.codes/silver/team/coach/][SilverTeamCoach] 
+###
+##### Why would you play Silver Team Coach? [Watch the video here!][PlaySilverTeamCoach]
 
+###
 ### How to set up
+[Watch the video on how to set up Silver Team Coach here!][Videoinstructions]
+
 In order to play the game, you will need to do the following steps:
 - Go to [Silver Team Coach on Github][GithubSilverTeamCoach] and download the ZIP (Download ZIP). 
 - [Download UWamp][UWamp], unpack it in "SilverTeamCoach/UWamp/" and run the wamp server
@@ -44,9 +50,12 @@ Unfortunately, due to the nature of the API Challenge, pull requests cannot be a
 
 Special thanks to Abdullah Miraj
 
-##### Try out the demo at: querijn.codes/silver/team/coach/
+
 
    [PHPRiotAPI]: <https://github.com/kevinohashi/php-riot-api>
    [Issues]: <https://github.com/Querijn/SilverTeamCoach/issues>
    [GithubSilverTeamCoach]: <https://github.com/Querijn/SilverTeamCoach>
-   [UWamp]: <http://www.uwamp.com/en>
+   [UWamp]: <http://www.uwamp.com/en/>
+   [Videoinstructions]: <https://www.youtube.com/watch?v=vh8E40t_rSU&feature=youtu.be>
+   [SilverTeamCoach]: <http://querijn.codes/silver/team/coach/>
+   [PlaySilverTeamCoach]: <https://youtu.be/qbKkC_ndMtA>
