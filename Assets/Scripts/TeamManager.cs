@@ -58,6 +58,24 @@ public class TeamManager : MonoBehaviour
                 t_Instance.transform.Find("Name").GetComponent<Text>().text = t_Team["name"].Value;
                 t_Instance.transform.Find("ID").GetComponent<Text>().text = t_Team["id"].Value;
 
+
+
+
+
+                // t_Team.Wins = t_Node["wins"].AsInt;
+                //t_Team.Losses = t_Node["losses"].AsInt;
+                //t_Team.Kills = t_Node["kills"].AsInt;
+                //t_Team.Deaths = t_Node["deaths"].AsInt;
+                //t_Team.CreepScore = t_Node["creep_score"].AsInt;
+
+                Team EditTeam = Team.Get(t_Team["id"].AsInt);
+                t_Instance.transform.Find("Stats/Winrate").GetComponent<Text>().text = (EditTeam.WinRate * 100).ToString() + "% Winrate";
+
+                t_Instance.transform.Find("Stats/KillDeath").GetComponent<Text>().text = (EditTeam.KillDeathRate).ToString("F2") + " KD";
+
+                t_Instance.transform.Find("Stats/CS").GetComponent<Text>().text = (EditTeam.CreepScore / EditTeam.Games).ToString("F0") + " CS Average";
+
+
                 t_Instance.transform.Find("Champions/Top").GetComponentInChildren<Image>().sprite = Champion.Get(t_Team["top"].AsInt).Image;
                 t_Instance.transform.Find("Champions/Mid").GetComponentInChildren<Image>().sprite = Champion.Get(t_Team["mid"].AsInt).Image;
                 t_Instance.transform.Find("Champions/Support").GetComponentInChildren<Image>().sprite = Champion.Get(t_Team["support"].AsInt).Image;
