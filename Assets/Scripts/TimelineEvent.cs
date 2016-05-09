@@ -34,7 +34,7 @@ public class TimelineEvent
             foreach (Role t_Role in Enum.GetValues(typeof(Role)))
             {
                 var t_JSONChampion = a_JSONEvent["state"][t_Team][t_Role.ToString().ToLower()];
-                Teams[t_Team].Champions.Add(t_Role, new ChampionState(t_JSONChampion["death_timer"].AsFloat, t_JSONChampion["troll"].AsBool, t_JSONChampion["afk"].AsBool, t_JSONChampion["tilt"].AsBool));
+                Teams[t_Team].Champions.Add(t_Role, new ChampionState(t_JSONChampion["death_timer"].AsFloat, t_JSONChampion["troll"].AsInt == 1, t_JSONChampion["afk"].AsInt == 1, t_JSONChampion["tilt"].AsInt == 1));
             }
         }
 
@@ -164,23 +164,23 @@ public class TimelineEvent
             if (Teams[i].Champions[Role.Marksman].DeathTimer > 0)
                 Game.Teams[i].Marksman.SetDeathTimer(Teams[i].Champions[Role.Marksman].DeathTimer);
 
-            //Game.Teams[i].Top.Tilting = Teams[i].Champions[Role.Top].Tilting;
-            //Game.Teams[i].Mid.Tilting = Teams[i].Champions[Role.Mid].Tilting;
-            //Game.Teams[i].Jungle.Tilting = Teams[i].Champions[Role.Jungle].Tilting;
-            //Game.Teams[i].Support.Tilting = Teams[i].Champions[Role.Support].Tilting;
-            //Game.Teams[i].Marksman.Tilting = Teams[i].Champions[Role.Marksman].Tilting;
+            Game.Teams[i].Top.Tilting = Teams[i].Champions[Role.Top].Tilting;
+            Game.Teams[i].Mid.Tilting = Teams[i].Champions[Role.Mid].Tilting;
+            Game.Teams[i].Jungle.Tilting = Teams[i].Champions[Role.Jungle].Tilting;
+            Game.Teams[i].Support.Tilting = Teams[i].Champions[Role.Support].Tilting;
+            Game.Teams[i].Marksman.Tilting = Teams[i].Champions[Role.Marksman].Tilting;
 
-            //Game.Teams[i].Top.Trolling = Teams[i].Champions[Role.Top].Trolling;
-            //Game.Teams[i].Mid.Trolling = Teams[i].Champions[Role.Mid].Trolling;
-            //Game.Teams[i].Jungle.Trolling = Teams[i].Champions[Role.Jungle].Trolling;
-            //Game.Teams[i].Support.Trolling = Teams[i].Champions[Role.Support].Trolling;
-            //Game.Teams[i].Marksman.Trolling = Teams[i].Champions[Role.Marksman].Trolling;
+            Game.Teams[i].Top.Trolling = Teams[i].Champions[Role.Top].Trolling;
+            Game.Teams[i].Mid.Trolling = Teams[i].Champions[Role.Mid].Trolling;
+            Game.Teams[i].Jungle.Trolling = Teams[i].Champions[Role.Jungle].Trolling;
+            Game.Teams[i].Support.Trolling = Teams[i].Champions[Role.Support].Trolling;
+            Game.Teams[i].Marksman.Trolling = Teams[i].Champions[Role.Marksman].Trolling;
 
-            //Game.Teams[i].Top.AFK = Teams[i].Champions[Role.Top].AFK;
-            //Game.Teams[i].Mid.AFK = Teams[i].Champions[Role.Mid].AFK;
-            //Game.Teams[i].Jungle.AFK = Teams[i].Champions[Role.Jungle].AFK;
-            //Game.Teams[i].Support.AFK = Teams[i].Champions[Role.Support].AFK;
-            //Game.Teams[i].Marksman.AFK = Teams[i].Champions[Role.Marksman].AFK;
+            Game.Teams[i].Top.AFK = Teams[i].Champions[Role.Top].AFK;
+            Game.Teams[i].Mid.AFK = Teams[i].Champions[Role.Mid].AFK;
+            Game.Teams[i].Jungle.AFK = Teams[i].Champions[Role.Jungle].AFK;
+            Game.Teams[i].Support.AFK = Teams[i].Champions[Role.Support].AFK;
+            Game.Teams[i].Marksman.AFK = Teams[i].Champions[Role.Marksman].AFK;
         }
 
         switch (Type)
@@ -296,7 +296,7 @@ public class TimelineEvent
                 }
             case EventType.BotTowerAttack:
                 {
-                    if (Game.GetSound(Type).Clip != null)
+                    if (Game.GetSound(EventType.BaseTowerAttack).Clip != null)
                         Sound.Play(Game.GetSound(EventType.BaseTowerAttack).Clip);
 
                     var t_Tower = Tower.Get((Team + 1) % 2, Tower.Location.Bot);
@@ -313,7 +313,7 @@ public class TimelineEvent
                 }
             case EventType.MidTowerAttack:
                 {
-                    if (Game.GetSound(Type).Clip != null)
+                    if (Game.GetSound(EventType.BaseTowerAttack).Clip != null)
                         Sound.Play(Game.GetSound(EventType.BaseTowerAttack).Clip);
 
                     var t_Tower = Tower.Get((Team + 1) % 2, Tower.Location.Mid);
@@ -330,7 +330,7 @@ public class TimelineEvent
                 }
             case EventType.TopTowerAttack:
                 {
-                    if (Game.GetSound(Type).Clip != null)
+                    if (Game.GetSound(EventType.BaseTowerAttack).Clip != null)
                         Sound.Play(Game.GetSound(EventType.BaseTowerAttack).Clip);
 
                     var t_Tower = Tower.Get((Team + 1) % 2, Tower.Location.Top);
@@ -347,7 +347,7 @@ public class TimelineEvent
                 }
             case EventType.BaseTowerAttack:
                 {
-                    if (Game.GetSound(Type).Clip != null)
+                    if (Game.GetSound(EventType.BaseTowerAttack).Clip != null)
                         Sound.Play(Game.GetSound(EventType.BaseTowerAttack).Clip);
 
                     var t_Tower = Tower.Get((Team + 1) % 2, Tower.Location.Base);
@@ -364,7 +364,7 @@ public class TimelineEvent
                 }
             case EventType.BaseTowerDestroyed:
                 {
-                    if (Game.GetSound(Type).Clip != null)
+                    if (Game.GetSound((Team == 1) ? EventType.BaseTowerDestroyed : EventType.TopTowerDestroyed).Clip != null)
                         Sound.Play(Game.GetSound((Team == 1) ? EventType.BaseTowerDestroyed : EventType.TopTowerDestroyed).Clip);
 
                     var t_Tower = Tower.Get((Team + 1) % 2, Tower.Location.Base);
@@ -381,7 +381,7 @@ public class TimelineEvent
                 }
             case EventType.TopTowerDestroyed:
                 {
-                    if (Game.GetSound(Type).Clip != null)
+                    if (Game.GetSound((Team == 1) ? EventType.BaseTowerDestroyed : EventType.TopTowerDestroyed).Clip != null)
                         Sound.Play(Game.GetSound((Team == 1) ? EventType.BaseTowerDestroyed : EventType.TopTowerDestroyed).Clip);
 
                     var t_Tower = Tower.Get((Team + 1) % 2, Tower.Location.Top);
@@ -398,7 +398,7 @@ public class TimelineEvent
                 }
             case EventType.MidTowerDestroyed:
                 {
-                    if (Game.GetSound(Type).Clip != null)
+                    if (Game.GetSound((Team == 1) ? EventType.BaseTowerDestroyed : EventType.TopTowerDestroyed).Clip != null)
                         Sound.Play(Game.GetSound((Team == 1) ? EventType.BaseTowerDestroyed : EventType.TopTowerDestroyed).Clip);
 
                     var t_Tower = Tower.Get((Team + 1) % 2, Tower.Location.Mid);
@@ -414,7 +414,7 @@ public class TimelineEvent
                 }
             case EventType.BotTowerDestroyed:
                 {
-                    if (Game.GetSound(Type).Clip != null)
+                    if (Game.GetSound((Team == 1) ? EventType.BaseTowerDestroyed : EventType.TopTowerDestroyed).Clip != null)
                         Sound.Play(Game.GetSound((Team == 1) ? EventType.BaseTowerDestroyed : EventType.TopTowerDestroyed).Clip);
 
                     var t_Tower = Tower.Get((Team + 1) % 2, Tower.Location.Bot);
@@ -455,7 +455,6 @@ public class TimelineEvent
                     GameEventMessage.Spawn("Baron has been defeated.", (Team != 1) ? GameEventMessage.MessageType.Positive : GameEventMessage.MessageType.Negative);
                     break;
                 }
-                break;
         }
     }
     

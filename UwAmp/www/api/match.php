@@ -17,7 +17,7 @@ function SaveMatch($a_Game, $a_GameInfo, $a_MatchType)
 		throw new Exception("User is not logged in!");
 	
 	// You need to battle the next bot next time
-	if($a_MatchType == "bot" && $a_Game->Winner == 0)
+	if($a_MatchType == "bot" && $a_Game['Winner'] == 0)
 	{
 		$t_Player = DatabasePlayer::Load(SQLSearch::In(DatabasePlayer::Table)->Where("user")->Is($_SESSION["summoner"]["id"]));
 		$t_Player->BotsBeaten = $t_Player->BotsBeaten + 1;
@@ -37,7 +37,9 @@ function SaveMatch($a_Game, $a_GameInfo, $a_MatchType)
 		$t_Team = new DatabaseMatchStat();
 		
 		$t_Team->TeamId = $a_GameInfo['teams'][$i]['team']['Id'];
-		
+		$t_PlayerTeam = DatabaseTeam::Load(SQLSearch::In(DatabaseTeam::Table)->
+				Where("id")->Is($a_GameInfo['teams'][$i]['team']['Id']));
+				
 		$t_Roles = array("Mid", "Top", "Jungle", "Support", "Marksman");
 		foreach($t_Roles as $t_Role)
 		{
@@ -49,9 +51,10 @@ function SaveMatch($a_Game, $a_GameInfo, $a_MatchType)
 				
 			$t_Reference = GetChampionInGameTeamArray($a_Game, $i, $t_Role);
 			
+			$t_Champion->ChampionId = $a_GameInfo['teams'][$i]['champions'][strtolower($t_Role)]['id'];
 			$t_Champion->Kills = $t_Reference["Kills"];
 			$t_Champion->Deaths = $t_Reference["Deaths"];
-			$t_Champion->CreepScore = (float)($t_Reference["Efficiency"])/100.0;
+			$t_Champion->CreepScore = ((float)($t_Reference["Efficiency"])/100.0)*0.8;
 			
 			// If the champion wasn't loaded, it will be created with the default values. Adding upon that works.
 			$t_PlayerChampion->ChampionId = $a_GameInfo['teams'][$i]['champions'][strtolower($t_Role)]['id'];
@@ -59,9 +62,20 @@ function SaveMatch($a_Game, $a_GameInfo, $a_MatchType)
 			$t_PlayerChampion->Deaths += $t_Reference["Deaths"];
 			$t_PlayerChampion->CreepScore += $t_Champion->CreepScore;
 			
+			$t_PlayerTeam->Kills += $t_Reference["Kills"];
+			$t_PlayerTeam->Deaths += $t_Reference["Deaths"];
+			$t_PlayerTeam->CreepScore += $t_Champion->CreepScore;
+			
 			if($a_Game['Winner'] == $i)
+			{
 				$t_PlayerChampion->Wins = $t_PlayerChampion->Wins + 1;
-			else $t_PlayerChampion->Losses = $t_PlayerChampion->Losses + 1;
+				$t_PlayerTeam->Wins = $t_PlayerTeam->Wins + 1;
+			}	
+			else
+			{
+				$t_PlayerChampion->Losses = $t_PlayerChampion->Losses + 1;
+				$t_PlayerTeam->Wins = $t_PlayerTeam->Wins + 1;
+			}				
 			
 			$t_Champion->Save();
 			$t_PlayerChampion->Save();
@@ -70,6 +84,7 @@ function SaveMatch($a_Game, $a_GameInfo, $a_MatchType)
 		}
 		
 		$t_Team->Save();
+		$t_PlayerTeam->Save();
 		$t_Match->{'Team'.($i+1)} = $a_GameInfo['teams'][$i]['team']['Id'];
 		$t_Match->{'Team'.($i+1).'Stats'} = $t_Team->Id;
 		

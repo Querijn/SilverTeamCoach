@@ -163,7 +163,7 @@ public class Matchmaking : MonoBehaviour
 
             Game.Info = new Settings.PassThroughInfo();
             Game.Info.Request = a_Request;
-            Debug.Log("Match received. Waiting for Game to hold.");
+            // Debug.Log("Match received. Waiting for Game to hold.");
 
         }, true);
     }

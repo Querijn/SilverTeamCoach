@@ -284,7 +284,7 @@ public class Game : MonoBehaviour
                 Transform t_ChampContainer = t_TeamUI.transform.Find("Champs");
                 t_TeamUI.transform.Find("Name").GetComponent<Text>().text = t_Team["team"]["Name"].Value;
 
-                Debug.Log("Teamname: "+t_Team["team"]["Name"].Value);
+                // Debug.Log("Teamname: "+t_Team["team"]["Name"].Value);
                 foreach (string t_RoleString in t_Roles)
                 {
                     GameObject t_Prefab = Resources.Load("Prefabs/GameTeamUIChampion") as GameObject;

@@ -24,6 +24,26 @@ public class ChampionListContent : MonoBehaviour
     	
 	void Update () 
 	{
+        if(SpawnImages)
+        {
+            SpawnImages = false;
+            foreach(ChampionListElement t_Element in GetComponentsInChildren<ChampionListElement>())
+            {
+                Champion t_Champion = Champion.Get(t_Element.name);
+                if (t_Champion.Image != null)
+                {
+                    Transform t_ImageObject = t_Element.transform.Find("Image");
+                    if (t_ImageObject != null)
+                        t_ImageObject.GetComponent<Image>().sprite = t_Champion.Image;
+                }
+                else
+                {
+                    // Spawn them later
+                    SpawnImages = true;
+                }
+            }
+        }
+
 	    if(m_Setup == false && Champion.All.Length != 0)
         {
             GameObject t_Prefab = Resources.Load("Prefabs/ChampionListObject") as GameObject;
