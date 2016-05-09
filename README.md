@@ -59,6 +59,8 @@ You can contribute by testing and giving feedback using the [Issues tab of our G
     - Then there's another program already running. Go to your localhost (http://localhost/). If there is no error page, but it's blank, there's a good chance it's Skype. In the case of Teamviewer, it will say that Teamviewer is running. Close those applications and try again.
 - **How do I run this on a server?**
     - First of all, you will have to change your ```UWamp/www/settings.php``` file to fit your info. The url setting needs to point to your root folder of where you're putting it (wherever the settings.php will be located on your server). After that, go to ```Assets/Scripts/Settings.cs```, in which there will be a string for host, change that string to the exact same. And after that, you should be good to go!
+- **I am getting NOT_LOGGED_IN errors!**
+    - Did you delete index.html after building? Unity generated it, and it needs to go. Otherwise, if you're running it from Unity, you need to set it up with the testing settings. See the question 'Can I run the game in the Unity editor?' below.
 - **I am getting ACCESS_DENIED or SERVER_ERROR errors!**
     - This is probably on Riot Games' end. Either your key is incorrect, banned, disabled, or the servers are down. 
 - **I am getting an error that I am not logged in when I am running the game. 'Did you set up from source correctly?'**
