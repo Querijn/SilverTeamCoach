@@ -58,6 +58,8 @@ if(!defined("INCLUDED"))
 							}
 							?>
 						</select>
+						<br>
+						<input value="Log in" name="submit" type="submit">
 					</form>
 				</p>
 			</div>

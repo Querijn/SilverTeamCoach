@@ -24,8 +24,8 @@ $settings["regions"]		= array
 							);
 			
 // Testing settings
-$settings["testing"] = true;
-$settings["testing_account"] = 22929336;
+$settings["testing"] = false;
+$settings["testing_account"] = 0;
 $settings["testing_region"] = 'euw';
 
 // Balance settings

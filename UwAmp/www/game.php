@@ -2,38 +2,72 @@
 global $g_Error;
 if(!defined("INCLUDED")) 
 	die();
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Silver Team Coach</title>
+	<meta name="description" content="Manage a team created from your Champion Mastery.">
+	<meta name="author" content="Querijn Heijmans">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-?><!doctype html>
-<html lang="en-us">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Unity WebGL Player | SilverTeamCoach</title>
-    <link rel="stylesheet" href="TemplateData/style.css">
-    <link rel="shortcut icon" href="TemplateData/favicon.ico" />
-    <script src="TemplateData/UnityProgress.js"></script>
-  </head>
-  <body class="template">
-    <p class="header"><span>Unity WebGL Player | </span>SilverTeamCoach</p>
-    <div class="template-wrap clear">
-      <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" height="720px" width="1280px"></canvas>
-      <br>
-      <div class="logo"></div>
-      <div class="fullscreen"><img src="TemplateData/fullscreen.png" width="38" height="38" alt="Fullscreen" title="Fullscreen" onclick="SetFullscreen(1);" /></div>
-      <div class="title">SilverTeamCoach</div>
-    </div>
-    <p class="footer">&laquo; created with <a href="http://unity3d.com/" title="Go to unity3d.com">Unity</a> &raquo;</p>
-    <script type='text/javascript'>
-  var Module = {
-    TOTAL_MEMORY: 536870912,
-    errorhandler: null,			// arguments: err, url, line. This function must return 'true' if the error is handled, otherwise 'false'
-    compatibilitycheck: null,
-    dataUrl: "<?php echo $settings["build_path"]; ?>/www.data",
-    codeUrl: "<?php echo $settings["build_path"]; ?>/www.js",
-    memUrl: "<?php echo $settings["build_path"]; ?>/www.mem",
-  };
-</script>
-<script src="Release/UnityLoader.js"></script>
+	<link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
 
-  </body>
+	<link rel="stylesheet" href="css/normalize.css">
+	<link rel="stylesheet" href="css/skeleton.css">
+	<link rel="stylesheet" href="css/custom.css">
+	<link rel="icon" type="image/png" href="images/favicon.png">
+
+</head>
+<body>
+	<div class="container">
+		<?php if(isset($_SESSION['first_time']) == false)
+		{
+			$_SESSION['first_time'] = false;?>
+			<div class="row" style="background: #fff; position: absolute;" onclick="this.style.display = 'none';" >
+				<div class="twelve columns">
+					<h3>Thanks you for playing!</h3>
+					
+					<img src="images/thankyouforplaying.png"/>
+					
+					<p>Holy moly, we have spent a lot of time on this.</p>
+					
+					<p>
+						This might be the biggest project we have made (full-stop here for Liane) within 16 days. We have coded soooo many lines of code in both C# and PHP to make this work.
+						We seriously hope you enjoy this game, and feel free to report any issues. You can mail me personally at querijn at irule dot at, or message on Skype. You can find more ways to contact me on 
+						<a href="http://irule.at/">my portfolio</a>. If you're into coding, you can check out the source at <a href="https://github.com/Querijn/SilverTeamCoach">the Github repository</a>.
+					</p>
+					
+					<p>
+						Enjoy the game!
+					</p>
+					
+					<p>
+						With love,<br><br>Warm Up The Lube and Iets ronds ofzo
+					</p>
+				</div>
+			</div>
+		<?php }?>
+	</div>
+	
+	<p style="text-align: center; ">
+		<canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" width="1280px" height="720px" ></canvas>
+		<script type='text/javascript'>			
+			var Module = 
+			{
+				TOTAL_MEMORY: 536870912,
+				errorhandler: null,			// arguments: err, url, line. This function must return 'true' if the error is handled, otherwise 'false'
+				compatibilitycheck: null,// arguments: err, url, line. This function must return 'true' if the error is handled, otherwise 'false'
+				dataUrl: "<?php echo $settings["build_path"]; ?>/www.data",
+				codeUrl: "<?php echo $settings["build_path"]; ?>/www.js",
+				memUrl: "<?php echo $settings["build_path"]; ?>/www.mem",
+			};
+		</script>
+		<script src="<?php echo $settings["build_path"]; ?>/UnityLoader.js"></script><BR>
+		Be aware that it could take a while for the game to show up.<br>
+		<br>
+		If your browser alerts you of an incorrect header, or unknown compression method, reload the page with CTRL + F5.
+	</p>
+</body>
 </html>
