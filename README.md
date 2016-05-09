@@ -42,16 +42,41 @@ Despite everything we created at a fun game together which we hope a lot of peop
 
 ### External Libraries
 - [Kevin Ohashi's PHP Riot API][PHPRiotAPI]
-- Unity
+- Unity 5.3.4f1
 
 ### Development
 
 Unfortunately, due to the nature of the API Challenge, pull requests cannot be accepted until the 9th of May. You can contribute by testing and giving feedback using the [Issues tab of our Github page!][Issues]
 
-Special thanks to Abdullah Miraj
+### Support
 
+- **I try to run uWamp but it gives me an error that there's already running on port X.**
+    - Then there's another program already running. Go to your localhost (http://localhost/). If there is no error page, but it's blank, there's a good chance it's Skype. In the case of Teamviewer, it will say that Teamviewer is running. Close those applications and try again.
+- **Does uWamp have to run to play the game locally?**
+    - Unfortunately, yes. Due to the restrictions of the Riot API's agreement, which included that we can't put our API key in our compiled application, we couldn't call to the League of Legends stuff without a lot of backfire from the company! There are other options though, you can play at http://querijn.codes/silver/team/coach/ as well, or put the game on your own server, if you have one. Just drop everything from the uwamp/www folder onto your AMP setup and you're good to go!
+- **Can I run the game in the Unity editor?**
+    - Yes, you can! There are some limitations: it means you're the only one that could play on that server. That is because of the lack of cookies in Unity; thus disallowing us to remember with each time you contact the server who you are. Go to settings.php in the uwamp/www folder, there's a line that start with ```$settings['testing'] = false```, change that to ```settings['testing'] = true;```. One of the following lines should be  along the lines of ```$settings["testing_account"] = 0;```, change that zero to your account number, which you can find on lolking in the url. For instance, my lolking link is www.lolking.net/summoner/euw/22929336, so my account number is 22929336. For me, it should be ```$settings["testing_account"] = 22929336;```. Make sure all the lines end with ```;```! Save the file and run your game in the Unity editor.
+- **The tutorial asks me to build in WebGL but it's not in the list of build methods!**
+    - Go to the Unity website and download Unity again. Make sure it's a build that supports multiple scenes! We've made it in 5.3.4f1, so that version should be fine, just go with the latest! In the installer, make sure you select the WebGL option.
 
+### Questions
 
+- **Can I compile this for anything but WebGL?**
+    - Unfortunately due to the way WebGL makes its requests, you cannot (unless you can use a way to save/load cookies!). HTTP Requests are used a lot in the game, and running this in the browser using the WebGL build method translate those requests into XMLHttpRequests, with Javascript, which sends the cookie along, giving us the ability to work with Unity.
+- **Why Unity?**
+    - One of the developers, Silkspectred, is not a weathered hardcore coder, but she loves to help. One of the languages she currently can work with is C#, which is one of Unity's supported languages. Querijn, on the other hand, is very experienced with Unity, and can therefore manifest a lot of work, which made us able to do a lot of work.
+- **Why PHP?**
+    - It's the only server-sided scripting language Querijn knows. He has worked with Kevin Ohashi's PHP library for the Riot API before, and decided it was the way to go. The downside is the fact Liane does not know this language, and thus Querijn had to work on the server-side solo. In hindsight, I should've gone for an active connection with a C# server, but Querijn wanted something he could upload to his hosting.
+- **So why not Ruby or Python? It's a lo-**
+    - ![me irl][me_irl]
+
+### Special Thanks
+- James-Richard Eckert
+- David Chow
+- Kevin Ohashi
+- Abdullah Miraj
+
+   [me_irl]: <http://irule.at/images/me_irl.jpg>
    [PHPRiotAPI]: <https://github.com/kevinohashi/php-riot-api>
    [Issues]: <https://github.com/Querijn/SilverTeamCoach/issues>
    [GithubSilverTeamCoach]: <https://github.com/Querijn/SilverTeamCoach>
