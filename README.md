@@ -47,9 +47,10 @@ Despite everything we created at a fun game together which we hope a lot of peop
 ### Development
 
 You can contribute by testing and giving feedback using the [Issues tab of our Github page!][Issues]. Currently, I'm looking into doing the following:
-    - HTTP Requests on other platforms, and passing cookies through those requests, so people can run it on their phones.
-    - A rework of the server side. 
-    - More in-depth gameplay and strategy.
+- HTTP Requests on other platforms, and passing cookies through those requests, so people can run it on their phones.
+- A rework of the server side. 
+- More in-depth gameplay and strategy.
+- Alternative login methods.
 
 ### Support
 
