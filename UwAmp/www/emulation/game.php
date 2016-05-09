@@ -240,10 +240,10 @@ class Game
 			$t_AvailableObjectives[] = "tower";
 			
 			if($this->DragonUpAt <= $this->Time)
-				$t_AvailableObjectives[] = "dragon";
+				$t_AvailableObjectives[] = "start_dragon";
 			
 			if($this->BaronUpAt <= $this->Time)
-				$t_AvailableObjectives[] = "baron";
+				$t_AvailableObjectives[] = "start_baron";
 						
 			$t_Event = mt_rand(0, count($t_AvailableObjectives) - 1);
 			
@@ -259,9 +259,9 @@ class Game
 				}
 			}
 			
-			if($t_Event != "tower")
+			if($t_Event != "tower" && $this->HasActivePlayer($t_TeamfightWinner))
 			{
-				$this->AddEvent($g_Events[$t_AvailableObjectives[$t_Event]]);
+				$this->AddEvent($g_Events[$t_AvailableObjectives[$t_Event]], $this->GetRandomActivePlayer($t_TeamfightWinner));
 				// This event should take care of advancing time
 			}
 			else
@@ -369,6 +369,8 @@ class Game
 			"name" =>$a_Event->Name,
 			"state" =>array(),
 			"towers" => $this->Towers,
+			"baron" => $this->BaronUpAt < $this->Time ? 1 : 0,
+			"dragon" => $this->DragonUpAt < $this->Time ? 1 : 0,
 		);
 		
 		if(is_a($a_Player, "Player"))

@@ -56,7 +56,7 @@ public class Settings : MonoBehaviour
     [Header("Network")]
     // Where is our network?
     // This is the base root where the ajax, api and sql folder is.
-    private static string m_Host = /*"http://querijn.codes/silver/team/coach/";*/ "http://localhost/";
+    private static string m_Host = "http://querijn.codes/silver/team/coach/"; /*"http://localhost/";*/
     public static string Host { get { return m_Host; } }
 
     // API folder

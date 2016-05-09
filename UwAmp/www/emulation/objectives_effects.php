@@ -71,6 +71,7 @@ $g_DefeatedDragon = function(Player $a_Player)
 		$t_Player->Efficiency *= $g_Settings["baron_efficiency_modifier"];
 	}
 	
+	$g_Game->DragonUpAt = $g_Game->Time + TimeConv(6,0);
 };
 
 $g_DefeatedBaron = function(Player $a_Player)
@@ -84,6 +85,7 @@ $g_DefeatedBaron = function(Player $a_Player)
 		$t_Player->HasBaronUntil = $g_Game->Time + $g_Settings["baron_duration"];
 	}
 	
+	$g_Game->BaronUpAt = $g_Game->Time + TimeConv(7,0);
 };
 
 $g_Dragon = function(Player $a_Player)
@@ -92,8 +94,9 @@ $g_Dragon = function(Player $a_Player)
 	global $g_Settings;
 	global $g_Game;
 	global $g_CouldAFK;
+	global $g_CouldTiltEveryone;
 	
-	if($g_Game->Time < TimeConv(2,0) || $this->HasActivePlayer($a_Player->Team) == false)
+	if($g_Game->Time < TimeConv(2,0) || $g_Game->Time < $g_Game->DragonUpAt  || $g_Game->HasActivePlayer($a_Player->Team) == false)
 		return;
 	
 	$t_Dragon = (float)(6000 + 100 * (int)($g_Game->Time));
@@ -108,7 +111,7 @@ $g_Dragon = function(Player $a_Player)
 		$t_Kills = mt_rand(1,2);
 		for($i = 0; $i< $t_Kills; $i++)
 		{
-			if($this->HasActivePlayer($a_Player->Team) == false)
+			if($g_Game->HasActivePlayer($a_Player->Team) == false)
 				break;
 			$g_Game->Time += 6;
 			$g_Game->AddEvent($g_Events["executed"], $g_Game->GetRandomActivePlayer($a_Player->Team));
@@ -130,11 +133,9 @@ $g_Baron = function(Player $a_Player)
 	global $g_Settings;
 	global $g_Game;
 	global $g_CouldAFK;
+	global $g_CouldTiltEveryone;
 	
-	if($g_Game->Time < TimeConv(20,0))
-		return;
-	
-	if($g_Game->Time < TimeConv(2,0) || $this->HasActivePlayer($a_Player->Team) == false)
+	if($g_Game->Time < TimeConv(20,0) || $g_Game->Time < $g_Game->BaronUpAt || $g_Game->HasActivePlayer($a_Player->Team) == false)
 		return;
 	
 	$t_Baron = (float)(12000 + 50 * (int)($g_Game->Time));
@@ -149,7 +150,7 @@ $g_Baron = function(Player $a_Player)
 		$t_Kills = mt_rand(1,4);
 		for($i = 0; $i< $t_Kills; $i++)
 		{
-			if($this->HasActivePlayer($a_Player->Team) == false)
+			if($g_Game->HasActivePlayer($a_Player->Team) == false)
 				break;
 			
 			$g_Game->Time += 10;

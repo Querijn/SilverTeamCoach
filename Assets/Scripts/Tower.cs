@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Tower : MonoBehaviour 
 {
+    Vector3 SpawnPosition = Vector3.zero;
     Vector3 m_Position = Vector3.zero;
     float m_ShakingFor = 0.0f;
     public bool Destroyed = false;
@@ -11,6 +12,7 @@ public class Tower : MonoBehaviour
 
 	void Start ()
 	{
+        SpawnPosition = transform.position;
         m_Position = transform.position;
         m_Rotation = new Vector3(Random.Range(-1.0f, 1.0f), 0, Random.Range(-1.0f, 1.0f));
         m_Rotation.Normalize();
@@ -37,7 +39,25 @@ public class Tower : MonoBehaviour
             transform.localRotation = Quaternion.Euler(transform.localRotation.eulerAngles + m_Rotation);
         }
 
-	}
+
+        if (Game.CurrentTime < 60.0f * 20.0f || Baron.Destroyed)
+        {
+            Baron.transform.position = Baron.SpawnPosition + Vector3.up * 300.0f;
+        }
+        else 
+        {
+            Baron.transform.position = Baron.SpawnPosition;
+        }
+
+        if (Game.CurrentTime < 60.0f * 2.0f || Dragon.Destroyed)
+        {
+            Dragon.transform.position = Dragon.SpawnPosition + Vector3.up * 300.0f;
+        }
+        else 
+        {
+            Dragon.transform.position = Dragon.SpawnPosition;
+        }
+    }
     
     public enum Location { Base, Top, Mid, Bot };
     public static Tower Get(int a_Team, Location a_Lane, int a_Index = -1)

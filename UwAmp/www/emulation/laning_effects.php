@@ -24,6 +24,8 @@ $g_Executed = function($a_Player)
 {
 	global $g_Game;
 	global $g_Settings;
+	global $g_CouldTiltEveryone;
+	global $g_CouldTilt;
 
 	//$a_Player->Efficiency *= $g_Settings["death_efficiency_modifier"];
 	$a_Player->Deaths++;

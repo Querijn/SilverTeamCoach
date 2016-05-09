@@ -1,5 +1,4 @@
 - Better role compatibility
-- Stats in Team window needs to update
 - log in / log out
 - Liane's drawing needs to be inserted
 - improve messages for events ingame

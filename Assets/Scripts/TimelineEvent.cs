@@ -13,10 +13,18 @@ public class TimelineEvent
 
     public TeamState[] Teams = { new TeamState(0), new TeamState(1) };
 
+    public enum MonsterState { Down, Up };
+
+    public MonsterState Baron = MonsterState.Down;
+    public MonsterState Dragon = MonsterState.Down;
+
     public TimelineEvent(int a_Time, JSONNode a_JSONEvent)
     {
         Time = a_Time;
         Team = a_JSONEvent["team"].AsInt;
+
+        Baron = a_JSONEvent["baron"].AsInt == 1 ? MonsterState.Up : MonsterState.Down;
+        Dragon = a_JSONEvent["dragon"].AsInt == 1 ? MonsterState.Up : MonsterState.Down;
 
         if (a_JSONEvent["role"] != null && a_JSONEvent["role"].Value != "")
         {
@@ -123,9 +131,11 @@ public class TimelineEvent
                 break;
             case "get_dragon":
                 Type = EventType.GetDragon;
+                Debug.Log("yay we have a dragon game");
                 break;
             case "get_baron":
                 Type = EventType.GetBaron;
+                Debug.Log("yay we have a baron game");
                 break;
             case "dragon":
                 Type = EventType.Dragon;
@@ -153,7 +163,12 @@ public class TimelineEvent
     {
         //Debug.Log("Playing " + Type.ToString());
 
-        for(int i = 0; i < 2; i++)
+        if (Baron == MonsterState.Up)
+            Tower.Baron.Destroyed = false;
+        if (Baron == MonsterState.Up)
+            Tower.Dragon.Destroyed = false;
+
+        for (int i = 0; i < 2; i++)
         {
             //    Game.Teams[i].Top.Kills = Teams[i].Champions[Role.Top].Kills;
             //    Game.Teams[i].Mid.Kills = Teams[i].Champions[Role.Mid].Kills;
@@ -475,6 +490,8 @@ public class TimelineEvent
                     if (Game.GetSound(Type).Clip != null)
                         Sound.Play(Game.GetSound(Type).Clip);
 
+                    Tower.Dragon.Destroy();
+
                     GameEventMessage.Spawn("A dragon has been slain.", (Team != 1) ? GameEventMessage.MessageType.Positive : GameEventMessage.MessageType.Negative);
                     break;
                 }
@@ -482,6 +499,8 @@ public class TimelineEvent
                 {
                     if (Game.GetSound(Type).Clip != null)
                         Sound.Play(Game.GetSound(Type).Clip);
+
+                    Tower.Baron.Destroy();
 
                     GameEventMessage.Spawn("Baron has been defeated.", (Team != 1) ? GameEventMessage.MessageType.Positive : GameEventMessage.MessageType.Negative);
                     break;
