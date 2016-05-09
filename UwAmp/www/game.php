@@ -67,7 +67,8 @@ if(!defined("INCLUDED"))
 		<script src="<?php echo $settings["build_path"]; ?>/UnityLoader.js"></script><BR>
 		Be aware that it could take a while for the game to show up.<br>
 		<br>
-		If your browser alerts you of an incorrect header, or unknown compression method, reload the page with CTRL + F5.
+		If your browser alerts you of an incorrect header, or unknown compression method, reload the page.<BR><BR>
+		<button onclick="window.location.href = '?reset';">Log out</button>
 	</p>
 </body>
 </html>

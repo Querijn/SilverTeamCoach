@@ -10,7 +10,7 @@ require_once(BASE_FOLDER . "include.php");
 
 if(isset($_GET["reset"]) || isset($_POST["reset"]))
 {
-	echo "Resetting..";
+	//echo "Resetting..";
 	if(isset($_SESSION["region"])) unset($_SESSION["region"]);
 	if(isset($_SESSION["user"])) unset($_SESSION["user"]);
 	if(isset($_SESSION["summoner"])) unset($_SESSION["summoner"]);

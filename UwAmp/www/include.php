@@ -19,7 +19,7 @@ require_once(MYSQL_FOLDER . "mysql.php");
 $t_InsertBots = false;
 if(!class_exists("DatabaseChampion"))
 {
-	//echo "<!--";
+	echo "<!--";
 	print_r(RunSQL(BASE_FOLDER."sql/database.sql"));
 	unset($settings["mysql_connection"]);
 	include(MYSQL_FOLDER . "mysql.php");
@@ -57,6 +57,6 @@ if($t_InsertBots)
 	if(CreateBot("Bruv McMuscles",  "Do U Even Lift Bro", "Garen", "Jayce", "Olaf", "Braum", "Draven", 0, 0, 3, 0, 0))
 		echo "all bots added.";
 	// CreateBot("Username",  "TeamName", "a_Top", "a_Mid", "a_Jungle", "a_Support", "a_Marksman", 0, 0, 0, 0, 0);
-	//echo "!-->";
+	echo "!-->";
 }
 ?>
