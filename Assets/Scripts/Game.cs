@@ -32,8 +32,8 @@ public class Game : MonoBehaviour
     public float m_SkipSpeed = 3.0f;
     float m_Timer = 0.0f;
     Text m_TimerText;
-    public static AudioSource Audio = null;
-    public static Game Instance { get { return Audio.GetComponent<Game>(); } }
+    public static Game m_Instance = null;
+    public static Game Instance { get { return m_Instance; } }
     public AudioClip m_Music = null;
     public AudioClip m_Victory = null;
     public AudioClip m_Defeat = null;
@@ -55,6 +55,7 @@ public class Game : MonoBehaviour
 
     void Start ()
 	{
+        m_Instance = this;
         m_Winner = -1;
         m_WinnerRequested = false;
         m_HandledTime = -1;
@@ -72,10 +73,9 @@ public class Game : MonoBehaviour
         m_WaitAtLoading = 10.0f;
         m_ReadyToPlay = false;
         m_Timer = 0.0f;
-        Audio = null;
 
-        Audio = gameObject.AddComponent<AudioSource>();
-        if (m_Music != null) Sound.Play(m_Music, a_Looping: true);
+        if (m_Music != null)
+            Sound.Play(m_Music, a_Music: true, a_Looping: true);
         m_TimerText = GameObject.FindGameObjectWithTag("GameTimer").GetComponent<Text>();
 	}
 
@@ -129,7 +129,8 @@ public class Game : MonoBehaviour
                 {
                     Sound.Play(t_Sound, a_Wait: 1.0f);
                 }
-
+                Debug.Log("Winner = " + m_Winner);
+                m_TimerText.text = Teams[m_Winner].Name + " has won!";
                 StartCoroutine(BackToMenu());
             }, false);
         }

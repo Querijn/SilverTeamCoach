@@ -454,7 +454,7 @@ public class TimelineEvent
                     GameEventMessage.Spawn("A teamfight has started.", GameEventMessage.MessageType.Neutral);
                     break;
                 }
-            case EventType.Dragon:
+            case EventType.StartDragon:
                 {
                     if (Game.GetSound(Type).Clip != null)
                         Sound.Play(Game.GetSound(Type).Clip);
@@ -462,7 +462,7 @@ public class TimelineEvent
                     GameEventMessage.Spawn("Your team started attacking a dragon.", (Team != 1) ? GameEventMessage.MessageType.Positive : GameEventMessage.MessageType.Negative);
                     break;
                 }
-            case EventType.Baron:
+            case EventType.StartBaron:
                 {
                     if (Game.GetSound(Type).Clip != null)
                         Sound.Play(Game.GetSound(Type).Clip);

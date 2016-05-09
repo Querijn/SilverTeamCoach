@@ -43,7 +43,7 @@ public class Tower : MonoBehaviour
     public static Tower Get(int a_Team, Location a_Lane, int a_Index = -1)
     {
         int t_Start = 0;
-        int t_Count = a_Lane == Location.Base ? 2  : 3;
+        int t_Count = a_Lane == Location.Base ? 2 : 3;
         if (a_Index != -1)
         {
             t_Start = a_Index;
@@ -65,7 +65,23 @@ public class Tower : MonoBehaviour
 
         return null;
     }
-    
+
+    public static Tower Baron
+    {
+        get
+        {
+            return GameObject.Find("Baron").GetComponent<Tower>();
+        }
+    }
+
+    public static Tower Dragon
+    {
+        get
+        {
+            return GameObject.Find("Dragon").GetComponent<Tower>();
+        }
+    }
+
     public void Shake()
     {
         m_ShakingFor = 1.5f;

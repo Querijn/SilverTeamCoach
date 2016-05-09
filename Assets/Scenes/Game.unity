@@ -882,7 +882,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 730533304}
-  m_LocalRotation: {x: -0.33718467, y: -0.5463769, z: 0.25477976, w: -0.72309476}
+  m_LocalRotation: {x: -0.3371847, y: -0.54637694, z: 0.2547798, w: -0.7230948}
   m_LocalPosition: {x: -7.2505383, y: 10.61, z: 0.6359128}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -958,6 +958,22 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9998dbeecfaeada43999442a3f55b0e7, type: 3}
   m_IsPrefabParent: 0
+--- !u!1 &734414178 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 100152, guid: 9998dbeecfaeada43999442a3f55b0e7, type: 3}
+  m_PrefabInternal: {fileID: 734414177}
+--- !u!114 &734414179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 734414178}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c146ea18232ca8c47b66924ed33c48b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Destroyed: 0
 --- !u!1 &770562656
 GameObject:
   m_ObjectHideFlags: 0
@@ -2088,6 +2104,22 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 076e9e78eaa4769459a03ee2bfd553c5, type: 3}
   m_IsPrefabParent: 0
+--- !u!1 &1620076784 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 100202, guid: 076e9e78eaa4769459a03ee2bfd553c5, type: 3}
+  m_PrefabInternal: {fileID: 1620076783}
+--- !u!114 &1620076785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1620076784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c146ea18232ca8c47b66924ed33c48b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Destroyed: 0
 --- !u!1001 &1640121814
 Prefab:
   m_ObjectHideFlags: 0
@@ -2803,9 +2835,9 @@ MonoBehaviour:
     Clip: {fileID: 8300000, guid: 5f25878b9a8bf3844add3b08793d3993, type: 3}
   - Type: 22
     Clip: {fileID: 8300000, guid: 1779d2172a844664aaa0e6c535e70482, type: 3}
-  - Type: 25
+  - Type: 29
     Clip: {fileID: 8300000, guid: 57e2faaf0a30a0248aad72d875d15eb1, type: 3}
-  - Type: 26
+  - Type: 30
     Clip: {fileID: 8300000, guid: cb30f30ae72937f46a358acc04ae8051, type: 3}
 --- !u!114 &2073012496
 MonoBehaviour:
