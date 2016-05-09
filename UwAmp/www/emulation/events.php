@@ -35,7 +35,7 @@ CreateEvent("afk", $g_CouldTiltEveryone);
 CreateEvent("tilt");
 CreateEvent("invade");
 CreateEvent("empty_jungle");
-CreateEvent("executed");
+CreateEvent("executed", $g_Executed);
 CreateEvent("tower_destroyed");
 CreateEvent("useless_objective");
 CreateEvent("inhibitor_destroyed");
@@ -59,5 +59,12 @@ CreateEvent("top_tower");
 CreateEvent("base_tower");
 
 CreateEvent("teamfight", $g_TeamFight);
-CreateEvent("dragon", $g_Dragon);
-CreateEvent("baron", $g_Baron);
+
+CreateEvent("dragon", $g_StartDragon);
+CreateEvent("baron", $g_StartBaron);
+
+CreateEvent("start_dragon", $g_Dragon);
+CreateEvent("start_baron", $g_Baron);
+
+CreateEvent("get_dragon", $g_DefeatedDragon);
+CreateEvent("get_baron", $g_DefeatedBaron);

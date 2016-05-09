@@ -20,6 +20,15 @@ $g_Kill = function($a_Player)
 	$a_Player->Kills++;
 };
 
+$g_Executed = function($a_Player)
+{
+	global $g_Game;
+	global $g_Settings;
+
+	//$a_Player->Efficiency *= $g_Settings["death_efficiency_modifier"];
+	$a_Player->Deaths++;
+};
+
 $g_Death = function($a_Player)
 {
 	global $g_Game;

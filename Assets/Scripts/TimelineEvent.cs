@@ -115,11 +115,26 @@ public class TimelineEvent
             case "teamfight":
                 Type = EventType.Teamfight;
                 break;
+            case "start_dragon":
+                Type = EventType.StartDragon;
+                break;
+            case "start_baron":
+                Type = EventType.StartBaron;
+                break;
+            case "get_dragon":
+                Type = EventType.GetDragon;
+                break;
+            case "get_baron":
+                Type = EventType.GetBaron;
+                break;
             case "dragon":
                 Type = EventType.Dragon;
                 break;
             case "baron":
                 Type = EventType.Baron;
+                break;
+            default:
+                Debug.LogWarning("Event will occur that hasn't got a type: " + (a_JSONEvent["name"].Value));
                 break;
         }
 
@@ -444,7 +459,7 @@ public class TimelineEvent
                     if (Game.GetSound(Type).Clip != null)
                         Sound.Play(Game.GetSound(Type).Clip);
 
-                    GameEventMessage.Spawn("A dragon has been slain.", (Team != 1) ? GameEventMessage.MessageType.Positive : GameEventMessage.MessageType.Negative);
+                    GameEventMessage.Spawn("Your team started attacking a dragon.", (Team != 1) ? GameEventMessage.MessageType.Positive : GameEventMessage.MessageType.Negative);
                     break;
                 }
             case EventType.Baron:
@@ -452,9 +467,28 @@ public class TimelineEvent
                     if (Game.GetSound(Type).Clip != null)
                         Sound.Play(Game.GetSound(Type).Clip);
 
+                    GameEventMessage.Spawn("Your team started attacking Baron Nashor.", (Team != 1) ? GameEventMessage.MessageType.Positive : GameEventMessage.MessageType.Negative);
+                    break;
+                }
+            case EventType.GetDragon:
+                {
+                    if (Game.GetSound(Type).Clip != null)
+                        Sound.Play(Game.GetSound(Type).Clip);
+
+                    GameEventMessage.Spawn("A dragon has been slain.", (Team != 1) ? GameEventMessage.MessageType.Positive : GameEventMessage.MessageType.Negative);
+                    break;
+                }
+            case EventType.GetBaron:
+                {
+                    if (Game.GetSound(Type).Clip != null)
+                        Sound.Play(Game.GetSound(Type).Clip);
+
                     GameEventMessage.Spawn("Baron has been defeated.", (Team != 1) ? GameEventMessage.MessageType.Positive : GameEventMessage.MessageType.Negative);
                     break;
                 }
+            default:
+                Debug.Log("Unhandled event: " + Type);
+                break;
         }
     }
     
@@ -487,7 +521,10 @@ public class TimelineEvent
         Teamfight,
         Dragon,
         Baron,
-
+        StartDragon,
+        StartBaron,
+        GetDragon,
+        GetBaron
     };
 
     public class TeamState

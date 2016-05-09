@@ -32,7 +32,11 @@ function SaveMatch($a_Game, $a_GameInfo, $a_MatchType)
 	{
 		// Don't save settings for bots
 		if($a_MatchType == "bot" && $i == 1)
+		{
+			$t_Match->{'Team'.($i+1)} = 0;
+			$t_Match->{'Team'.($i+1).'Stats'} = 0;
 			continue;
+		}	
 		
 		$t_Team = new DatabaseMatchStat();
 		
@@ -85,6 +89,7 @@ function SaveMatch($a_Game, $a_GameInfo, $a_MatchType)
 		
 		$t_Team->Save();
 		$t_PlayerTeam->Save();
+		
 		$t_Match->{'Team'.($i+1)} = $a_GameInfo['teams'][$i]['team']['Id'];
 		$t_Match->{'Team'.($i+1).'Stats'} = $t_Team->Id;
 		

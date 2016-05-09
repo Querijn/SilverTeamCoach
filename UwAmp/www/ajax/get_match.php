@@ -28,6 +28,7 @@ function AsArray ($a_Object)
 try
 {
 	unset($_SESSION["game"]);
+	@unlink(AJAX_FOLDER. "data/game.json");
 	if($settings["testing"]==true && file_exists(AJAX_FOLDER. "data/game.json"))
 	{
 		$_SESSION["game"] = file_get_contents(AJAX_FOLDER. "data/game.json");

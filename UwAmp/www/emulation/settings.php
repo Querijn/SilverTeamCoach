@@ -17,6 +17,8 @@ $g_Settings["death_efficiency_modifier"] = 0.85;
 $g_Settings["baron_efficiency_modifier"] = 1.33;
 $g_Settings["dragon_efficiency_modifier"] = 1.05;
 
+$g_Settings["baron_duration"] = 3.5*60;
+
 $g_Settings["death_timer_increase_modifier"] = 0.01;
 
 $g_Settings["invade_chance"] = 0.1;

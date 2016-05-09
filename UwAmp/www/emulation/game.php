@@ -68,9 +68,12 @@ class Game
 		
 		$this->AddEvent($g_Events["laning_phase"]);
 		$this->LaningPhaseAction();
-
-		$this->AddEvent($g_Events["post_laning_phase"]);
-		$this->PostLaningPhaseAction();
+		
+		if($this->Winner != -1)
+		{
+			$this->AddEvent($g_Events["post_laning_phase"]);
+			$this->PostLaningPhaseAction();
+		}
 		
 		$this->Time = $this->HighestTime;
 		$this->AddEvent($g_Events["end_of_timeline"]);
@@ -137,6 +140,7 @@ class Game
 	{
 		global $g_Events;
 		global $g_Settings;
+		global $g_ShouldSurrender;
 		
 		$this->Time = TimeConv(1, 40);
 		// Jungle camps spawn
@@ -149,6 +153,17 @@ class Game
 		{			
 			if($t_TowersKilled[0] > 4 || $t_TowersKilled[1] > 4)
 				break;
+			
+			for($i = 0; $i < 2; $i++)
+			{
+				if($this->Towers[$i]["base"]["count"]==0)
+				{
+					$this->Winner = ($i + 1)%2;
+					$this->AddEvent($g_Events["game_over"], $this->GetPlayer($i, 'top'));
+					return;
+				}	
+				$g_ShouldSurrender($this->GetPlayer($i, 'top'));
+			}
 	
 			$t_HighestTime = 0;
 			for($t_Team1 = 0; $t_Team1 < 2; $t_Team1++)
@@ -227,11 +242,11 @@ class Game
 			// Baron, Teamfight or dragon
 			$t_AvailableObjectives[] = "tower";
 			
-			// if($this->DragonUpAt <= $this->Time)
-				// $t_AvailableObjectives[] = "dragon";
+			if($this->DragonUpAt <= $this->Time)
+				$t_AvailableObjectives[] = "dragon";
 			
-			// if($this->BaronUpAt <= $this->Time)
-				// $t_AvailableObjectives[] = "baron";
+			if($this->BaronUpAt <= $this->Time)
+				$t_AvailableObjectives[] = "baron";
 						
 			$t_Event = mt_rand(0, count($t_AvailableObjectives) - 1);
 			
