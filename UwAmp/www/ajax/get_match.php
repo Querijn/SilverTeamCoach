@@ -47,6 +47,7 @@ try
 				$_GET['match'] == "bot" || 
 				$_GET['match'] == "ranked" || 
 				$_GET['match'] == "challenger" || 
+				$_GET['match'] == "mirror" || 
 				$_GET['match'] == "lcs"
 			))
 			throw new Exception("Invalid match (".$_GET['match'].")!");

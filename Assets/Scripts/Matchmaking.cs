@@ -96,7 +96,8 @@ public class Matchmaking : MonoBehaviour
         Ranked,
         Bot,
         LCS,
-        Challenger
+        Challenger,
+        Mirror
     };
 
 
@@ -137,6 +138,9 @@ public class Matchmaking : MonoBehaviour
             case BattleType.LCS:
                 t_Commands.Add("match", "lcs");
                 break;
+            case BattleType.Mirror:
+                t_Commands.Add("match", "mirror");
+                break;
             case BattleType.Challenger:
                 t_Commands.Add("match", "challenger");
                 break;
@@ -155,7 +159,11 @@ public class Matchmaking : MonoBehaviour
             // Match gotten
             var t_JSON = JSON.Parse(a_Request.text);
             if (t_JSON["error"].Value != "")
+            {
+
                 Error.Show(t_JSON["error"].Value);
+                return;
+            }
 
             // Are we not in Game?
             if (SceneManager.GetActiveScene().name != "Game")

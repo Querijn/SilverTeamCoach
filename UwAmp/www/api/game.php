@@ -9,8 +9,10 @@ function GetOpponent($a_API, DatabasePlayer $a_Player, $a_MatchType)
 	case "bot":
 		return GetBot($a_API, $a_Player);
 	case "lcs":
-		throw new Exception("Challenger is not setup.");
+		throw new Exception("LCS is not setup.");
 		//return GetLCS($a_API, $a_Player);
+	case "mirror":
+		return GetMirror($a_API, $a_Player);
 	case "ranked":
 		return GetRanked($a_API, $a_Player);
 	case "challenger":
@@ -47,6 +49,16 @@ function GetRanked($a_API, DatabasePlayer $a_Player)
 	$t_Name = $t_API->GetSummoner($t_Player->User)[$t_Player->User]["name"];
 	
 	return SetupGamePlayerArray($t_Name, $t_Player);
+}
+
+function GetMirror($a_API, DatabasePlayer $a_Player)
+{
+	global $settings; 
+	
+	$t_API = new riotapi($settings["riot_key"], $a_Player->Region, new FileSystemCache(BASE_FOLDER . "cache"), 5);
+	$t_Name = $t_API->GetSummoner($a_Player->User)[$a_Player->User]["name"];
+	
+	return SetupGamePlayerArray($t_Name, $a_Player);
 }
 
 function GetBot($a_API, DatabasePlayer $a_Player)
