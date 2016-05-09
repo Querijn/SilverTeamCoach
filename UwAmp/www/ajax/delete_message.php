@@ -14,9 +14,10 @@ try
 		die("That Message ID is invalid.");
 	
 	$t_Message = DatabaseMessage::Load(SQLSearch::In(DatabaseMessage::Table)->Where("id")->Is($_GET["id"]));
+	$t_Player = DatabasePlayer::Load(SQLSearch::In(DatabasePlayer::Table)->Where("user")->Is($_SESSION["summoner"]["id"]));
 	if(is_object($t_Message) && $t_Message->LoadFailed == false)
 	{
-		if($t_Message->Player == $_SESSION["summoner"]["id"])
+		if($t_Message->PlayerId == $t_Player->Id)
 		{
 			$t_Message->Delete();
 			die("true");

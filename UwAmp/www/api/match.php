@@ -53,7 +53,8 @@ function SaveMatch($a_Game, $a_GameInfo, $a_MatchType)
 			$t_Champion->Deaths = $t_Reference["Deaths"];
 			$t_Champion->CreepScore = (float)($t_Reference["Efficiency"])/100.0;
 			
-			
+			// If the champion wasn't loaded, it will be created with the default values. Adding upon that works.
+			$t_PlayerChampion->ChampionId = $a_GameInfo['teams'][$i]['champions'][strtolower($t_Role)]['id'];
 			$t_PlayerChampion->Kills += $t_Reference["Kills"];
 			$t_PlayerChampion->Deaths += $t_Reference["Deaths"];
 			$t_PlayerChampion->CreepScore += $t_Champion->CreepScore;

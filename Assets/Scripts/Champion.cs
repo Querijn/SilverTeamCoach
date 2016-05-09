@@ -31,9 +31,19 @@ public class Champion
 
     public int Kills { get; private set; }
     public int Deaths { get; private set; }
-    public float Wins { get; private set; }
-    public float Losses { get; private set; }
+    public int Wins { get; private set; }
+    public int Losses { get; private set; }
     public int CreepScore { get; private set; }
+
+    public string WinrateString
+    {
+        get
+        {
+            if (Wins == 0 && Losses == 0)
+                return "No winrate";
+            else return Mathf.RoundToInt(((float)(Wins) / (float)(Wins + Losses)) * 100.0f).ToString() + "% winrate";
+        }
+    } 
 
     public ViabilityInfo Viability { get; private set; }
     public MasteryInfo Mastery { get; private set; }
@@ -65,7 +75,7 @@ public class Champion
         Marksman
     };
 
-    public Champion(int a_ID, string a_Key, string a_Name, string a_Title, double a_Price, bool a_Owned, MasteryInfo a_MasteryInfo, ViabilityInfo a_Viability)
+    public Champion(int a_ID, string a_Key, string a_Name, string a_Title, double a_Price, bool a_Owned, int a_Kills, int a_Deaths, int a_Wins, int a_Losses, int a_CreepScore, MasteryInfo a_MasteryInfo, ViabilityInfo a_Viability)
     {
         ID = a_ID;
         Name = a_Name;
@@ -75,6 +85,13 @@ public class Champion
         Owned = a_Owned;
         Mastery = a_MasteryInfo;
         Viability = a_Viability;
+
+        Kills = a_Kills;
+        Deaths = a_Deaths;
+        CreepScore = a_CreepScore;
+
+        Wins = a_Wins;
+        Losses = a_Losses;
 
         if (Champions.ContainsKey(a_ID) == false)
         {
@@ -353,6 +370,11 @@ public class Champion
                 a_Champion["title"].Value, // Title
                 a_Champion["price"].AsDouble, // Price
                 a_Champion["owned"].AsBool, // Owned
+                a_Champion["personal"]["kills"].AsInt, // int a_Kills, 
+                a_Champion["personal"]["deaths"].AsInt, // int a_Deaths, 
+                a_Champion["personal"]["wins"].AsInt, // int a_Wins, 
+                a_Champion["personal"]["losses"].AsInt, // int a_Losses, 
+                a_Champion["personal"]["creep_score"].AsInt, // int a_CreepScore,
                 t_Mastery,
                 ViabilityInfos[a_Champion["key"]]
             );

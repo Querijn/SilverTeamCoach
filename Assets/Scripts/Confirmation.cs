@@ -17,6 +17,9 @@ public class Confirmation : MonoBehaviour
 
     public static void Show(string a_Title, string a_Message, Callback a_Call, string a_YesButton = "Yes", string a_NoButton = "No")
     {
+        if (m_Confirmation == null)
+            return;
+
         m_Confirmation.transform.Find("Content/Title").GetComponent<Text>().text = a_Title;
         m_Confirmation.transform.Find("Content/Context").GetComponent<Text>().text = a_Message;
         m_Confirmation.transform.Find("Content/Yes").GetComponentInChildren<Text>().text = a_YesButton;

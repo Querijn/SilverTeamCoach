@@ -41,3 +41,4 @@ UwAmp/www/index.html
 UwAmp/www/ajax/data/test_match.json
 *.db
 UwAmp/www/key/production_key
+UwAmp/www/ajax/data/game.json

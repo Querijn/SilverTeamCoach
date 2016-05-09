@@ -3,14 +3,8 @@ using System.Collections;
 
 public class Sound  
 {
-    public static void Play(AudioClip a_Clip, bool a_Looping = false, bool a_AdjustPitch = false, float a_Wait = 0.0f)
+    public static AudioSource Play(AudioClip a_Clip, bool a_Music = false, bool a_Looping = false, bool a_AdjustPitch = false, float a_Wait = 0.0f)
     {
-        if (Game.Audio == null)
-        {
-            Debug.LogError("Cannot play sound! Game Audio missing!");
-            return;
-        }
-
         GameObject t_Object = new GameObject();
         t_Object.name = "SecretSoundObject";
         var t_Audio = t_Object.AddComponent<AudioSource>();
@@ -19,7 +13,7 @@ public class Sound
 
         
 
-        if(a_Looping == false)
+        if(a_Music == false)
             t_Audio.volume = Settings.SEVolume;
 
         else 
@@ -30,5 +24,7 @@ public class Sound
 
         t_Audio.PlayDelayed(a_Wait);
         UnityEngine.Object.Destroy(t_Object, a_Wait + a_Clip.length);
+
+        return t_Audio;
     }
 }
