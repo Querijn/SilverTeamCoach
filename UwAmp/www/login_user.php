@@ -17,7 +17,7 @@ if(!defined("INCLUDED"))
 	<link rel="stylesheet" href="css/normalize.css">
 	<link rel="stylesheet" href="css/skeleton.css">
 	<link rel="stylesheet" href="css/custom.css">
-	<link rel="icon" type="image/png" href="images/favicon.png">
+	<link rel="icon" type="image/png" href="images/stc.ico">
 
 </head>
 <body>

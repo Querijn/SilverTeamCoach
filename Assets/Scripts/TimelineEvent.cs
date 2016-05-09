@@ -235,14 +235,20 @@ public class TimelineEvent
                     if (Team == 1)
                         return;
                     
-                    //if(Game.GetSound(Type).Clip != null)
-                    //    Sound.Play(Game.GetSound(Type).Clip);
                     break;
                 }
 
             case EventType.Tilt:
                 {
-                    GameEventMessage.Spawn(InvolvedChampion.name + " is tilting!", (Team == 1) ? GameEventMessage.MessageType.Positive : GameEventMessage.MessageType.Negative, InvolvedChampion.Champion.Image);
+                    string[] t_Messages =
+                    {
+                        InvolvedChampion.name + " accidentally flashed! " + InvolvedChampion.name + " tilts!",
+                        InvolvedChampion.name + " breaks the E key! " + InvolvedChampion.name + " tilts!",
+                        InvolvedChampion.name + " has intense 'lag'! " + InvolvedChampion.name + " tilts!",
+                        InvolvedChampion.name + " tilts, spewing hatred into the chat!",
+                    };
+
+                    GameEventMessage.Spawn(t_Messages[UnityEngine.Random.Range(0, t_Messages.Length)], (Team == 1) ? GameEventMessage.MessageType.Positive : GameEventMessage.MessageType.Negative, InvolvedChampion.Champion.Image);
                     break;
                 }
 
@@ -251,18 +257,35 @@ public class TimelineEvent
                     if (Game.GetSound(Type).Clip != null)
                         Sound.Play(Game.GetSound(Type).Clip);
 
-                    if(Team == 0)
-                        GameEventMessage.Spawn("Your team decided to invade..", GameEventMessage.MessageType.Positive);
-                    else GameEventMessage.Spawn("Your team is getting invaded!", GameEventMessage.MessageType.Negative);
+                    string t_Your = (Team == 0) ? "Your" : "The enemy";
+                    string t_Their = (Team == 0) ? "your" : "their";
+                    string[] t_Messages =
+                    {
+                        t_Your + " team decided to have a tea party at the opposing Gromp.",
+                        t_Your + " team thinks the grass is greener on " + t_Their + " side of the river.",
+                        t_Your + " team invades " + t_Their + " jungle!",
+                        t_Your + " team is looking for friends in " + t_Their + " jungle!",
+                        t_Your + " team accidentally trips and rolls into " + t_Their + " jungle!",
+                        t_Your + " team likes " + t_Their + " jungle better!",
+                    };
+
+
+                    GameEventMessage.Spawn(t_Messages[UnityEngine.Random.Range(0, t_Messages.Length)], (Team == 0) ? GameEventMessage.MessageType.Positive : GameEventMessage.MessageType.Negative);
                     break;
                 }
             case EventType.EmptyJungle:
                 {                    
-                    GameEventMessage.Spawn("Both invades failed.", GameEventMessage.MessageType.Positive);
+                    GameEventMessage.Spawn("Both teams find an empty jungle.", GameEventMessage.MessageType.Positive);
                     break;
                 }
-            case EventType.Executed:
-            	break;
+            case EventType.Death:
+                {
+                    if (Game.GetSound(Type).Clip != null)
+                        Sound.Play(Game.GetSound(Type).Clip);
+
+                    InvolvedChampion.Deaths++;
+                    break;
+                }
             case EventType.TowerDestroyed:
             	break;
             case EventType.UselessObjective:
@@ -280,17 +303,38 @@ public class TimelineEvent
                         Sound.Play(Game.GetSound(Type).Clip);
 
                     InvolvedChampion.Kills++;
-                    if (Team == 1)
-                        GameEventMessage.Spawn(InvolvedChampion.Champion.Name + " has killed one of your teammembers!", GameEventMessage.MessageType.Negative, InvolvedChampion.Champion.Image);
-                    else GameEventMessage.Spawn(InvolvedChampion.Champion.Name + " scored a kill!", GameEventMessage.MessageType.Positive, InvolvedChampion.Champion.Image);
+
+                    string t_Your = (Team == 0) ? "Your" : "The enemy";
+                    string t_Someone = (Team == 0) ? "an opponent" : "one of your champions";
+                    string[] t_Messages =
+                    {
+                        t_Your + " " + InvolvedChampion.Champion.Name + " trips and sticks a Doran's Blade into " + t_Someone + "!",
+                        t_Your + " " + InvolvedChampion.Champion.Name + " kills " + t_Someone + "!",
+                        t_Your + " " + InvolvedChampion.Champion.Name + " kills " + t_Someone + "!",
+                        t_Your + " " + InvolvedChampion.Champion.Name + " kills " + t_Someone + "!",
+                        t_Your + " " + InvolvedChampion.Champion.Name + " last-hits " + t_Someone + "!",
+                        t_Your + " " + InvolvedChampion.Champion.Name + " trips " + t_Someone + "! Instantly dies!",
+                        t_Your + " " + InvolvedChampion.Champion.Name + " blew up " + t_Someone + "!",
+                    };
+
+                    GameEventMessage.Spawn(t_Messages[UnityEngine.Random.Range(0, t_Messages.Length)], (Team == 0) ? GameEventMessage.MessageType.Positive : GameEventMessage.MessageType.Negative, InvolvedChampion.Champion.Image);
                     break;
                 }
-            case EventType.Death:
+            case EventType.Executed:
                 {
                     if (Game.GetSound(Type).Clip != null)
                         Sound.Play(Game.GetSound(Type).Clip);
 
                     InvolvedChampion.Deaths++;
+                    
+                    string[] t_Messages =
+                    {
+                        InvolvedChampion.Champion.Name + " trips and dies.",
+                        InvolvedChampion.Champion.Name + " forgot not to die.",
+                        InvolvedChampion.Champion.Name + " actually survives the ordeal, only to die to the scuttlecrab."
+                    };
+
+                    GameEventMessage.Spawn(t_Messages[UnityEngine.Random.Range(0, t_Messages.Length)], (Team != 1) ? GameEventMessage.MessageType.Positive : GameEventMessage.MessageType.Negative);
                     break;
                 }
             case EventType.Surrender:
@@ -465,8 +509,15 @@ public class TimelineEvent
                         return;
                     if (Game.GetSound(Type).Clip != null)
                         Sound.Play(Game.GetSound(Type).Clip);
+                    
+                    string[] t_Messages =
+                    {
+                        "Champions are throwing skillshots at eachother and missing! It's a teamfight!",
+                        "A teamfight has started!",
+                        "People are fighting! Nobody is winning! It's a teamfight!",
+                    };
 
-                    GameEventMessage.Spawn("A teamfight has started.", GameEventMessage.MessageType.Neutral);
+                    GameEventMessage.Spawn(t_Messages[UnityEngine.Random.Range(0, t_Messages.Length)], GameEventMessage.MessageType.Neutral);
                     break;
                 }
             case EventType.StartDragon:
@@ -474,15 +525,32 @@ public class TimelineEvent
                     if (Game.GetSound(Type).Clip != null)
                         Sound.Play(Game.GetSound(Type).Clip);
 
-                    GameEventMessage.Spawn("Your team started attacking a dragon.", (Team != 1) ? GameEventMessage.MessageType.Positive : GameEventMessage.MessageType.Negative);
+                    string t_Your = (Team == 0) ? "Your" : "The enemy";
+                    string t_YourJungler = (Team == 0) ? "Your jungler" : "The enemy's jungler";
+                    string[] t_Messages =
+                    {
+                        t_YourJungler + " accidentally hit dragon! They start taking it.",
+                        t_YourJungler + " tries to fly dragon! Dragon is not happy!",
+                        t_Your + " team starts to attack dragon!."
+                    };
+
+                    GameEventMessage.Spawn(t_Messages[UnityEngine.Random.Range(0, t_Messages.Length)], (Team != 1) ? GameEventMessage.MessageType.Positive : GameEventMessage.MessageType.Negative);
                     break;
                 }
             case EventType.StartBaron:
                 {
                     if (Game.GetSound(Type).Clip != null)
                         Sound.Play(Game.GetSound(Type).Clip);
+                    
+                    string t_Your = (Team == 0) ? "Your" : "The enemy";
+                    string[] t_Messages =
+                    {
+                        t_Your + " team accidentally hit Baron Nashor! They start taking it.",
+                        t_Your + " team started baron!",
+                        t_Your + " tries to solo baron! Everyone quickly comes to help him."
+                    };
 
-                    GameEventMessage.Spawn("Your team started attacking Baron Nashor.", (Team != 1) ? GameEventMessage.MessageType.Positive : GameEventMessage.MessageType.Negative);
+                    GameEventMessage.Spawn(t_Messages[UnityEngine.Random.Range(0, t_Messages.Length)], (Team != 1) ? GameEventMessage.MessageType.Positive : GameEventMessage.MessageType.Negative);
                     break;
                 }
             case EventType.GetDragon:

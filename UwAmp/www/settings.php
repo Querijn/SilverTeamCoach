@@ -3,7 +3,7 @@ if(!defined("INCLUDED"))
 	die();
 
 // Site settings
-$settings["url"] = "http://localhost/"; //"http://querijn.codes/silver/team/coach/";
+$settings["url"] = "http://localhost/"; 
 $settings["build_path"] = "Release"; //"Development"; //  If "Development Build" was checked, please change this to "Development"
 
 // MySQL settings

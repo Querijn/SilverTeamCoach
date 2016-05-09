@@ -144,7 +144,7 @@ class Game
 		$this->AddEvent($g_Events["play"]);
 		$t_TowersKilled = array(0,0);
 		
-		$t_LaningPhaseLength = mt_rand(14, 22);
+		$t_LaningPhaseLength = mt_rand(14, 20);
 		
 		while($this->Time < TimeConv($t_LaningPhaseLength,0))
 		{			
@@ -270,12 +270,7 @@ class Game
 				
 				// Just take a tower then geez
 				// Or take wraiths, idk im not silver
-				if(mt_rand(0,4)==0)
-				{
-					$this->AddEvent($g_Events["useless_objective"], $t_TeamfightWinner);
-					$this->Time += 45;
-				}
-				else $this->AttackTower($t_TeamfightWinner, $t_Lanes[mt_rand(0, count($t_Lanes) - 1)], mt_rand(10, 20 + (int)($this->Time/60)));
+				$this->AttackTower($t_TeamfightWinner, $t_Lanes[mt_rand(0, count($t_Lanes) - 1)], mt_rand(10, 20 + (int)($this->Time/60)));
 			}
 		}
 	}

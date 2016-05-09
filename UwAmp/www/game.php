@@ -17,38 +17,40 @@ if(!defined("INCLUDED"))
 	<link rel="stylesheet" href="css/normalize.css">
 	<link rel="stylesheet" href="css/skeleton.css">
 	<link rel="stylesheet" href="css/custom.css">
-	<link rel="icon" type="image/png" href="images/favicon.png">
+	<link rel="icon" type="image/png" href="images/stc.ico">
 
 </head>
 <body>
-	<div class="container">
-		<?php if(isset($_SESSION['first_time']) == false)
-		{
-			$_SESSION['first_time'] = false;?>
-			<div class="row" style="background: #fff; position: absolute;" onclick="this.style.display = 'none';" >
-				<div class="twelve columns">
-					<h3>Thanks you for playing!</h3>
-					
-					<img src="images/thankyouforplaying.png"/>
-					
-					<p>Holy moly, we have spent a lot of time on this.</p>
-					
-					<p>
-						This might be the biggest project we have made (full-stop here for Liane) within 16 days. We have coded soooo many lines of code in both C# and PHP to make this work.
-						We seriously hope you enjoy this game, and feel free to report any issues. You can mail me personally at querijn at irule dot at, or message on Skype. You can find more ways to contact me on 
-						<a href="http://irule.at/">my portfolio</a>. If you're into coding, you can check out the source at <a href="https://github.com/Querijn/SilverTeamCoach">the Github repository</a>.
-					</p>
-					
-					<p>
-						Enjoy the game!
-					</p>
-					
-					<p>
-						With love,<br><br>Warm Up The Lube and Iets ronds ofzo
-					</p>
+	<div style="text-align: center; background: #fff; position: absolute; left:  0px; right:  0px; top:  0px; bottom: 0px;" onclick="this.style.display = 'none';" >
+		<div class="container">
+			<?php //if(isset($_SESSION['first_time']) == false)
+			{
+				$_SESSION['first_time'] = false;?>
+				<div class="row">
+					<div class="twelve columns">
+						<h3>Thank you for playing!</h3>
+						
+						<p>Holy moly, we have spent a lot of time on this.</p>
+						
+						<p>
+							This might be the biggest project we have made (full-stop here for Liane) within 16 days. We have coded soooo many lines of code in both C# and PHP to make this work.
+							We seriously hope you enjoy this game, and feel free to report any issues. You can mail me personally at querijn at irule dot at, or message on Skype. You can find more ways to contact me on 
+							<a href="http://irule.at/">my portfolio</a>. If you're into coding, you can check out the source at <a href="https://github.com/Querijn/SilverTeamCoach">the Github repository</a>.
+						</p>
+						
+						<p>
+							Enjoy the game! You can click anywhere to continue.
+						</p>
+						
+						<p>
+							With love,<br><br>Warm Up The Lube and Iets ronds ofzo.
+						</p>
+						
+						<img src="images/thankyouforplaying.png"/>
+					</div>
 				</div>
-			</div>
-		<?php }?>
+			<?php }?>
+		</div>
 	</div>
 	
 	<p style="text-align: center; ">
