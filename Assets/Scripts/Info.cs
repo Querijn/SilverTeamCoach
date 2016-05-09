@@ -62,7 +62,10 @@ public static class Info
             }
             
             Player = new PlayerInfo(t_JSON["game_id"].AsInt, t_JSON["name"].Value, t_JSON["cash"].AsDouble, t_JSON["main_team"]["name"].Value);
-            
+
+            Settings.MusicVolume = t_JSON["music_volume"].AsFloat;
+            Settings.SEVolume = t_JSON["sound_volume"].AsFloat;
+
             Champion.Reset(t_JSON["champions"].AsArray);
             Stats.Reset();
             ShopManager.Reset();
@@ -97,7 +100,11 @@ public static class Info
                 return;
             }
 
+            Settings.MusicVolume = t_JSON["music_volume"].AsFloat;
+            Settings.SEVolume = t_JSON["sound_volume"].AsFloat;
+
             Champion.Setup(t_JSON["champions"].AsArray);
+
 
             Player = new PlayerInfo(t_JSON["game_id"].AsInt, t_JSON["name"].Value, t_JSON["cash"].AsDouble, t_JSON["main_team"]["name"].Value);
             Messages.Insert(t_JSON["messages"].AsArray);

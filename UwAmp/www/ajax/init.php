@@ -41,6 +41,8 @@ try
 		
 	$t_Info["messages"] = GetMessages(30);
 	$t_Info["game_id"] = $t_Players->Id;
+	$t_Info["sound_volume"] = $t_Players->SoundVolume;
+	$t_Info["music_volume"] = $t_Players->MusicVolume;
 	$t_Info["cash"] = $t_Players->Cash;
 	$t_Info["champions"] = array();
 	

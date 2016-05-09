@@ -54,6 +54,7 @@ CREATE TABLE `PREFIXGOESHEREmessages` (
 CREATE TABLE `PREFIXGOESHEREplayers` (
   `id` int(11) NOT NULL,
   `user` int(11) NOT NULL,
+  `region` text NOT NULL,
   `alternative_name` text NOT NULL,
   `title` enum('Player','Challenger','Developer','Bot') NOT NULL,
   `main_team` int(11) NOT NULL,
@@ -61,6 +62,8 @@ CREATE TABLE `PREFIXGOESHEREplayers` (
   `starting_cash` double NOT NULL,
   `owned_champions` text NOT NULL,
   `bots_beaten` int(11) NOT NULL DEFAULT '0',
+  `music_volume` float NOT NULL DEFAULT '0.6',
+  `sound_volume` float DEFAULT '0.6',
   `admin` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
