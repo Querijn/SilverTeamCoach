@@ -52,6 +52,7 @@ You can contribute by testing and giving feedback using the [Issues tab of our G
 - A rework of the server side. 
 - More in-depth gameplay and strategy.
 - Alternative login methods.
+- Create bots based on challenger players and LCS teams.
 
 ### Support
 
