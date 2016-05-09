@@ -17,6 +17,8 @@ public class Team
 
     public int Kills = 0;
     public int Deaths = 0;
+    public double KillDeathRate { get { return ((double)Kills) / (double)Deaths; } }
+
     public int CreepScore = 0;
 
     private int TopID = 0;
