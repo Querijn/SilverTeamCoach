@@ -94,6 +94,7 @@ You can contribute by testing and giving feedback using the [Issues tab of our G
 
    [me_irl]: <http://irule.at/images/me_irl.jpg>
    [PHPRiotAPI]: <https://github.com/kevinohashi/php-riot-api>
+   [RitoDev]: <https://developer.riotgames.com>
    [Issues]: <https://github.com/Querijn/SilverTeamCoach/issues>
    [GithubSilverTeamCoach]: <https://github.com/Querijn/SilverTeamCoach>
    [UWamp]: <http://www.uwamp.com/en/>
