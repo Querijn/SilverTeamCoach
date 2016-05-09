@@ -12118,6 +12118,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: a49b14b72df49cc47b07b22b2a79390a, type: 3}
   - {fileID: 21300000, guid: e657792962d50c9478b4d522ed09b1a7, type: 3}
   - {fileID: 21300000, guid: e93cf0472340e8245b30fb265ab0b1ad, type: 3}
+  BuySound: {fileID: 8300000, guid: 070d68314c90f974ba0612bf02020ca8, type: 3}
 --- !u!114 &739723046
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22168,6 +22169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f60dce61ff654c74294bbb1fec88bc8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_MenuSwitchSound: {fileID: 8300000, guid: a39daf0c17062ec43a49ef3e648f5b72, type: 3}
 --- !u!4 &1472075806
 Transform:
   m_ObjectHideFlags: 0

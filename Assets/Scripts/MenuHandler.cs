@@ -9,6 +9,8 @@ public class MenuHandler : MonoBehaviour
     private static Dictionary<Menus, Menu> m_Menus = new Dictionary<Menus, Menu>();
     public static Menus CurrentlyOpenMenu = Menus.None;
 
+    public AudioClip m_MenuSwitchSound = null;
+
     public enum Menus
     {
         None,
@@ -57,6 +59,7 @@ public class MenuHandler : MonoBehaviour
 
     void Start()
     {
+        CurrentlyOpenMenu = Menus.None;
     }
 
     bool m_Setup = false;
@@ -107,6 +110,9 @@ public class MenuHandler : MonoBehaviour
     {
         if (a_MenuName == Menus.None)
             return;
+
+        if (CurrentlyOpenMenu != Menus.None && m_MenuSwitchSound != null)
+            Sound.Play(m_MenuSwitchSound);
 
         Settings.OpenRequiredScenes();
 

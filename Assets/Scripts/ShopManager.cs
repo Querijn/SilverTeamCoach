@@ -7,6 +7,7 @@ public class ShopManager : MonoBehaviour
     static bool Done = false;
     bool SpawnImages = false;
     public Sprite[] MasteryIcons;
+    public AudioClip BuySound;
 
     public static void Reset()
     {
@@ -115,6 +116,9 @@ public class ShopManager : MonoBehaviour
 
     public void OnBuy()
     {
+        if (BuySound != null)
+            Sound.Play(BuySound);
+
         GameObject BuyWindow = GameObject.FindGameObjectWithTag("BuyWindow");
 
         string ChampionName = BuyWindow.transform.Find("Content/ChampionName").GetComponent<Text>().text;
