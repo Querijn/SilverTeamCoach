@@ -1,8 +1,6 @@
 - Better role compatibility
+- log in / log out
 - Stats in Team window needs to update
-- Match stats needs to be saved
-- Optimisation
-- Messages on winning/losing
 - Liane's drawing needs to be inserted
 - improve messages for events ingame
-- log in / log out
+- Optimisation

@@ -31,7 +31,8 @@ function SetupGamePlayerArray($a_Name, DatabasePlayer $a_DB, $a_SummonerInfo = n
 
 function GetRanked($a_API, DatabasePlayer $a_Player)
 {
-	$t_Players = DatabasePlayer::Load(SQLSearch::In(DatabasePlayer::Table)->Where("title")->Is('Player')->Also('Developer')->Also('id')->IsNot($a_Player->Id));
+	global $settings; 
+	$t_Players = DatabasePlayer::Load(SQLSearch::In(DatabasePlayer::Table)->Where("title")->Is('Player')->Also('Developer')->Also('id')->IsNot($a_Player->Id)->Also("main_team")->IsNot(0));
 	if(is_object($t_Players))
 	{
 		if($t_Players->LoadFailed)
@@ -42,7 +43,10 @@ function GetRanked($a_API, DatabasePlayer $a_Player)
 	
 	$t_Player = $t_Players[mt_rand(0, count($t_Players)-1)];
 	
-	return SetupGamePlayerArray($a_API->GetSummoner($t_Player->User)[$t_Player->User]["name"], $t_Player);
+	$t_API = new riotapi($settings["riot_key"], $t_Player->Region, new FileSystemCache(BASE_FOLDER . "cache"), 5);
+	$t_Name = $t_API->GetSummoner($t_Player->User)[$t_Player->User]["name"];
+	
+	return SetupGamePlayerArray($t_Name, $t_Player);
 }
 
 function GetBot($a_API, DatabasePlayer $a_Player)

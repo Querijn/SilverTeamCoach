@@ -118,15 +118,20 @@ try
 			file_put_contents(AJAX_FOLDER. "data/game_info.json", $_SESSION["game_info"]);
 		}
 		
+		SaveMatch(json_decode($_SESSION["game"], true), json_decode($_SESSION["game_info"], true), $t_MatchType);
 	}
 	
 	$t_GameInfo = $_SESSION["game_info"];
 	if(isset($_GET["var_dump"]))
 		print_r(json_decode($t_GameInfo));
-	else echo $t_GameInfo;		
-	
+	else echo $t_GameInfo;
 }
 catch(Exception $e)
 {
-	die(json_encode(array("error"=>$e->getMessage())));
+	if(isset($_GET["var_dump"]))
+	{
+		echo "Exception occurred: ".$e->getMessage()." <br>";
+		die(preg_replace('/\s+/', "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", preg_replace('/\n+/', '<br>', $e->getTraceAsString())));
+	}	
+	else die(json_encode(array("call_stack"=>$e->getTraceAsString(), "error"=>$e->getMessage())));
 }

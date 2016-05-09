@@ -36,6 +36,7 @@ require_once(API_FOLDER . "bots.php");
 require_once(API_FOLDER . "messages.php");
 require_once(API_FOLDER . "ranked.php");
 require_once(API_FOLDER . "game.php");
+require_once(API_FOLDER . "match.php");
 
 if($settings['testing'] === true && !isset($_SESSION["summoner"]))
 {

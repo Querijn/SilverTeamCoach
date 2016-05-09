@@ -40,7 +40,10 @@ if(!isset($settings["mysql_connection"]))
 			foreach($t_Exp as $a) $t_Row[0] .= ucfirst($a);  // NameTypeStuffThings				
 			
 			$t_Table[] = new Table($t_Row[0], $t_Clean); // Create a new table class
-			if(substr($t_Row[0], -1)=="s" && substr($t_Row[0], -2)!="ss") $t_Row[0] = substr($t_Row[0], 0, -1); // Remove the last S
+			if(substr($t_Row[0], -4)=="ches" || substr($t_Row[0], -4)=="sses") 
+				$t_Row[0] = substr($t_Row[0], 0, -2); // Remove the last ES
+			else if(substr($t_Row[0], -1)=="s" && substr($t_Row[0], -2)!="ss") 
+				$t_Row[0] = substr($t_Row[0], 0, -1); // Remove the last S
 			$code[$i] = "Class ".ucfirst($t_Environment).ucfirst($t_Row[0])." extends SQLEntry\n{\n";
 			// add the row class definition (DatabaseTable)
 			
@@ -114,7 +117,7 @@ if(!isset($settings["mysql_connection"]))
 		}
 
 		//echo preg_replace('/\s+/', "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", preg_replace('/\n+/', '<br>', print_r($t_Table, true)));
-		// echo preg_replace('/\s+/', "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", preg_replace('/\n+/', '<br>', $codex));
+		// die(preg_replace('/\s+/', "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", preg_replace('/\n+/', '<br>', $codex)));
 		eval($codex); // Eval the code, making it run in
 
 		$g_EleTables = $t_Table;

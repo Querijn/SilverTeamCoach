@@ -41,6 +41,7 @@ function LogIn($a_User, $a_Region, $a_Verify = false)
 		$t_Player->OwnedChampions = array($settings["free_champion"]);
 		$t_Player->Cash = 0.0;
 		$t_Player->MainTeam = 0;
+		$t_Player->Region = $_SESSION["region"];
 		$t_Player->AlternativeName = "";
 		
 		$t_Info = $t_API->getChampionMastery($t_Player->User);

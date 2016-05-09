@@ -10,6 +10,19 @@ if(!IsLoggedIn())
 try
 {
 	$t_Players = DatabasePlayer::Load(SQLSearch::In(DatabasePlayer::Table)->Where("user")->Is($_SESSION["summoner"]["id"]));
+	$t_DBChampions = DatabaseChampion::Load(SQLSearch::In(DatabaseChampion::Table)->Where("player_id")->Is($t_Players->Id));
+	if(is_object($t_DBChampions))
+	{
+		if($t_DBChampions->LoadFailed)
+			$t_DBChampions = array();
+		else $t_DBChampions = array($t_DBChampions);
+	}
+	
+	$t_OwnedChampions = array();
+	foreach($t_DBChampions as $t_OwnedChampion)
+	{
+		$t_OwnedChampions[$t_OwnedChampion->ChampionId] = $t_OwnedChampion;
+	}
 		
 	$t_StaticAPI = new riotapi($settings["riot_key"], $_SESSION["region"], new FileSystemCache(BASE_FOLDER . "cache"), 3600);
 	$t_API = new riotapi($settings["riot_key"], $_SESSION["region"], new FileSystemCache(BASE_FOLDER . "cache"), 5);
@@ -72,10 +85,32 @@ try
 		
 		// Setup the owned boolean
 		if(!is_null($t_Players->OwnedChampions))
-		$t_Champion["owned"] = in_array($t_Champion["id"], $t_Players->OwnedChampions) ? "true" : "false";
+			$t_Champion["owned"] = in_array($t_Champion["id"], $t_Players->OwnedChampions) ? "true" : "false";
+		
+		
+		if(isset($t_OwnedChampions[$t_Champion["id"]]))
+		{
+			$t_Champion["personal"]["wins"] = $t_OwnedChampions[$t_Champion["id"]]->Wins;
+			$t_Champion["personal"]["losses"] = $t_OwnedChampions[$t_Champion["id"]]->Losses;
+			
+			$t_Champion["personal"]["kills"] = $t_OwnedChampions[$t_Champion["id"]]->Kills;
+			$t_Champion["personal"]["deaths"] = $t_OwnedChampions[$t_Champion["id"]]->Deaths;
+			$t_Champion["personal"]["creep_score"] = $t_OwnedChampions[$t_Champion["id"]]->CreepScore;
+		}
+		else
+		{
+			$t_Champion["personal"]["wins"] = 0;
+			$t_Champion["personal"]["losses"] = 0;
+			
+			$t_Champion["personal"]["kills"] = 0;
+			$t_Champion["personal"]["deaths"] = 0;
+			$t_Champion["personal"]["creep_score"] = 0;
+		}
 	}
 	
-	echo json_encode($t_Info);
+	if(isset($_GET['var_dump']))
+		print_r($t_Info);
+	else echo json_encode($t_Info);
 }
 catch(Exception $e)
 {

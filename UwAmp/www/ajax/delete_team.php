@@ -20,6 +20,12 @@ try
 		
 		if($t_Team->Player == $t_Player->Id)
 		{
+			if($t_Player->MainTeam == $t_Team->Id)
+			{
+				$t_Player->MainTeam = 0;
+				$t_Player->Save();
+			}
+			
 			$t_Team->Delete();
 			die("true");
 		}
